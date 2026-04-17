@@ -3,261 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FarmacuraPet | Solidariedade Animal</title>
+    <title>FarmacuraPet - Oficial</title>
     <style>
+        /* CSS - Estilo e Animações */
         :root {
-            --primaria: #00acc1;
-            --primaria-dark: #007c91;
-            --secundaria: #43a047;
-            --fundo: #f0f7f8;
-            --branco: #ffffff;
-            --texto: #37474f;
-            --sombra: 0 10px 30px rgba(0,0,0,0.08);
+            --primaria: #2D9CDB;
+            --secundaria: #27AE60;
+            --fundo: #f0f8ff;
         }
 
-        body { 
-            font-family: 'Poppins', 'Segoe UI', sans-serif; 
-            margin: 0; 
-            background-color: var(--fundo); 
-            color: var(--texto);
-            line-height: 1.6;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--fundo);
+            margin: 0;
+            overflow-x: hidden;
         }
 
-        header { 
-            background: var(--branco); 
-            padding: 15px 5%; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+        /* BANNER DE PROPAGANDA */
+        .propaganda {
+            background: #fff9c4;
+            color: #856404;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            border-bottom: 2px solid #ffeeba;
+            font-size: 14px;
         }
 
-        .logo {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--primaria);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .hero {
-            background: linear-gradient(135deg, var(--primaria), var(--primaria-dark));
+        header {
+            background-color: var(--primaria);
             color: white;
-            padding: 60px 5% 120px;
+            padding: 15px;
             text-align: center;
+            font-size: 24px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
-        .hero h1 { margin: 0; font-size: 2.2rem; }
-        .hero p { opacity: 0.9; font-size: 1.1rem; max-width: 600px; margin: 10px auto; }
-
-        .main-container { 
-            max-width: 500px; 
-            width: 90%;
-            margin: -80px auto 40px; 
-            background: var(--branco); 
-            padding: 40px; 
-            border-radius: 24px; 
-            box-shadow: var(--sombra);
-            position: relative;
+        .container {
+            max-width: 400px;
+            margin: 20px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease-in-out;
         }
 
-        .ad-banner {
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        input {
             width: 100%;
-            margin: 20px 0;
-            background: #f8f9fa;
-            border: 2px dashed #e0e0e0;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 90px;
-            color: #adb5bd;
-            font-size: 0.75rem;
-            text-align: center;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
         }
 
-        .tabs { 
-            display: flex; 
-            background: #f1f3f4; 
-            padding: 5px; 
-            border-radius: 15px; 
-            margin-bottom: 30px; 
-        }
-        .tab-btn { 
-            flex: 1; padding: 12px; border: none; border-radius: 12px; 
-            cursor: pointer; font-weight: 600; background: transparent; 
-            transition: 0.4s; color: #78909c;
-        }
-        .tab-btn.active { background: var(--branco); color: var(--primaria); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .tab-btn.active.doar { color: var(--secundaria); }
-
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.85rem; color: #546e7a; }
-        input { 
-            width: 100%; padding: 14px; border: 2px solid #eceff1; 
-            border-radius: 12px; box-sizing: border-box; font-size: 1rem;
-        }
-
-        .btn-submit { 
-            width: 100%; padding: 16px; border: none; border-radius: 15px; 
-            color: white; font-weight: bold; font-size: 1rem; cursor: pointer; 
-            background: linear-gradient(to bottom right, var(--primaria), var(--primaria-dark));
-            box-shadow: 0 5px 15px rgba(0, 172, 193, 0.3);
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
             transition: 0.3s;
+            color: white;
+            font-size: 16px;
         }
-        .btn-submit:hover { transform: translateY(-2px); }
-        .btn-verde { background: linear-gradient(to bottom right, var(--secundaria), #2e7d32); }
+
+        .btn-entrar { background-color: var(--primaria); }
+        .btn-cadastrar { background-color: var(--secundaria); }
+        .btn:hover { filter: brightness(1.1); transform: scale(1.02); }
+
+        .links-aux {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .links-aux a {
+            display: block;
+            color: var(--primaria);
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
 
         .hidden { display: none; }
-        
-        .link-alt { 
-            text-align: center; margin-top: 15px; font-size: 0.9rem; 
-            color: var(--primaria); cursor: pointer; font-weight: 500;
-        }
-        .link-esqueci {
-            display: block; text-align: center; margin-top: 15px;
-            font-size: 0.8rem; color: #90a4ae; text-decoration: none;
+
+        label {
+            font-weight: bold;
+            font-size: 13px;
+            color: #555;
+            display: block;
+            margin-top: 10px;
         }
 
-        footer { padding: 40px 5%; text-align: center; background: #fcfcfc; border-top: 1px solid #eee; }
+        /* Estilo Pet Animação */
+        .pet-icon {
+            text-align: center;
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo"><span>🐾</span> FarmacuraPet</div>
-    <div id="usuarioInfo" style="font-weight: 500; font-size: 0.85rem;"></div>
-</header>
+    <div class="propaganda">🐾 ANUNCIE AQUI: Espaço destinado ao administrador FarmacuraPet 🐾</div>
 
-<section class="hero">
-    <h1>Amor em forma de remédio</h1>
-    <p>Conectamos quem tem medicamentos sobrando com pets que precisam de cura.</p>
-</section>
+    <header>FarmacuraPet</header>
 
-<div class="main-container">
-    
-    <div id="secao-acesso">
-        <h2 style="text-align:center; margin-top: 0;">Bem-vindo</h2>
-        <div class="form-group">
-            <label>E-mail</label>
-            <input type="email" id="acessoEmail" placeholder="exemplo@email.com">
-        </div>
-        <div class="form-group">
-            <label>Senha</label>
-            <input type="password" id="acessoSenha" placeholder="Sua senha">
-        </div>
-        <button class="btn-submit" onclick="realizarLogin()">Entrar no Sistema</button>
-        <button class="btn-submit btn-verde hidden" id="btnCadastrar" onclick="realizarCadastroUsuario()">Criar minha Conta</button>
+    <div class="container">
         
-        <p class="link-alt" onclick="alternarTela()">Ainda não tem conta? Cadastre-se</p>
-        <a href="javascript:void(0)" class="link-esqueci" onclick="recuperarSenha()">Esqueci minha senha</a>
-    </div>
-
-    <div id="secao-app" class="hidden">
-        <div class="tabs">
-            <button id="btnTabDoar" class="tab-btn active doar" onclick="mudarTipo('DOADOR')">Vou Doar</button>
-            <button id="btnTabReceber" class="tab-btn" onclick="mudarTipo('Preciso')">Vou Pedir</button>
+        <div id="tela-login">
+            <div class="pet-icon">🐶</div>
+            <h2 style="text-align:center; color: var(--primaria);">Bem-vindo</h2>
+            <input type="email" id="l-email" placeholder="E-mail">
+            <input type="password" id="l-senha" placeholder="Senha">
+            <button class="btn btn-entrar" onclick="fazerLogin()">Entrar</button>
+            <div class="links-aux">
+                <a onclick="esqueciSenha()">Esqueci minha senha</a>
+                <a onclick="irParaCadastro()">Não tem conta? Cadastre-se</a>
+            </div>
         </div>
 
-        <form id="formUnico">
-            <div class="form-group">
-                <label>Seu Nome</label>
-                <input type="text" id="nome" placeholder="Como quer ser chamado?">
+        <div id="tela-cadastro" class="hidden">
+            <div class="pet-icon">🐱</div>
+            <h2 style="text-align:center; color: var(--secundaria);">Criar Conta</h2>
+            <input type="email" id="c-email" placeholder="Seu melhor e-mail">
+            <input type="password" id="c-senha" placeholder="Senha (mín. 6 caracteres)">
+            <button class="btn btn-cadastrar" onclick="fazerCadastro()">Cadastrar Usuário</button>
+            <div class="links-aux">
+                <a onclick="irParaLogin()">Já tenho conta. Voltar</a>
             </div>
+        </div>
+
+        <div id="tela-app" class="hidden">
+            <h2 style="text-align:center;">Nova Doação</h2>
+            <input type="text" id="f-remedio" placeholder="Nome do Medicamento">
+            <input type="tel" id="f-zap" placeholder="Seu WhatsApp">
             
-            <div class="ad-banner">
-                <span>ANÚNCIO PARCEIRO</span>
-            </div>
-
-            <div class="form-group">
-                <label>WhatsApp</label>
-                <input type="tel" id="contato" placeholder="(00) 00000-0000">
-            </div>
-            <div class="form-group">
-                <label>Nome do Medicamento</label>
-                <input type="text" id="medicamento" placeholder="Ex: Simparic, Apoquel...">
-            </div>
-            <div class="form-group">
-                <label id="labelData">Data de Validade</label>
-                <input type="date" id="data">
-            </div>
-
-            <button type="button" id="btnFinalizar" class="btn-submit btn-verde" onclick="processar()">Salvar Agora</button>
+            <label>Foto da Receita/Medicamento:</label>
+            <input type="file" id="f-foto" accept="image/*">
             
-            <p class="link-alt" style="color:#ff5252;" onclick="location.reload()">Sair da conta</p>
-        </form>
+            <label>Data de Validade:</label>
+            <input type="date" id="f-validade">
+            
+            <button class="btn btn-cadastrar" id="btn-salvar" onclick="salvarDados()">Salvar Registro</button>
+            <a class="links-aux" style="color:red; display:block; text-align:center; margin-top:15px;" onclick="location.reload()">Sair</a>
+        </div>
+
     </div>
-</div>
 
-<footer>
-    <div class="ad-banner" style="max-width: 500px; margin: 0 auto 30px; min-height: 100px;">
-        <span>PUBLICIDADE</span>
-    </div>
-    <p><strong>FarmacuraPet 🐾</strong></p>
-    <p style="font-size: 0.8rem; color: #90a4ae;">&copy; 2026 - Conectando corações e curas.</p>
-</footer>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-    const SB_URL = "https://tkupfowbgykjjdkwfiyr.supabase.co";
-    const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRrdXBmb3diZ3lrampka3dmaXlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNjY1OTgsImV4cCI6MjA5MTk0MjU5OH0.yXCbccFrPB9qyVamthjAUdyrK0bqWfbRCG3LR4VAjBY";
-    const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
+    <script>
+        // CONFIGURAÇÕES DO BANCO
+        const URL = "https://tkupfowbgykjjdkwfiyr.supabase.co";
+        const KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRrdXBmb3diZ3lrampka3dmaXlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNjY1OTgsImV4cCI6MjA5MTk0MjU5OH0.yXCbccFrPB9qyVamthjAUdyrK0bqWfbRCG3LR4VAjBY";
+        const supabase = window.supabase.createClient(URL, KEY);
 
-    let tipo = 'DOADOR';
-    let modoCadastro = false;
-
-    function alternarTela() {
-        modoCadastro = !modoCadastro;
-        const btnLogin = document.querySelector('#secao-acesso button:not(.btn-verde)');
-        const btnCad = document.getElementById('btnCadastrar');
-        const link = document.querySelector('.link-alt');
-        const esqueci = document.querySelector('.link-esqueci');
-        
-        if(modoCadastro) {
-            btnCad.classList.remove('hidden');
-            btnLogin.classList.add('hidden');
-            esqueci.classList.add('hidden');
-            link.innerText = "Já sou cadastrado";
-        } else {
-            btnCad.classList.add('hidden');
-            btnLogin.classList.remove('hidden');
-            esqueci.classList.remove('hidden');
-            link.innerText = "Ainda não tem conta? Cadastre-se";
+        // NAVEGAÇÃO
+        function irParaCadastro() {
+            document.getElementById('tela-login').classList.add('hidden');
+            document.getElementById('tela-cadastro').classList.remove('hidden');
         }
-    }
 
-    async function realizarLogin() {
-        const email = document.getElementById('acessoEmail').value;
-        const password = document.getElementById('acessoSenha').value;
-        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-        if (error) alert("Erro: E-mail ou senha inválidos.");
-        else {
-            document.getElementById('secao-acesso').classList.add('hidden');
-            document.getElementById('secao-app').classList.remove('hidden');
-            document.getElementById('usuarioInfo').innerText = "Olá, " + data.user.email.split('@')[0];
+        function irParaLogin() {
+            document.getElementById('tela-cadastro').classList.add('hidden');
+            document.getElementById('tela-login').classList.remove('hidden');
         }
-    }
 
-    async function realizarCadastroUsuario() {
-        const email = document.getElementById('acessoEmail').value;
-        const password = document.getElementById('acessoSenha').value;
-        const { error } = await supabaseClient.auth.signUp({ email, password });
-        if (error) alert("Erro ao cadastrar: " + error.message);
-        else alert("Cadastro realizado! Verifique sua caixa de entrada.");
-    }
+        // TRADUÇÃO DE ERROS
+        function traduzirErro(msg) {
+            if (msg.includes("Invalid login")) return "E-mail ou senha incorretos.";
+            if (msg.includes("already registered")) return "Este e-mail já está cadastrado.";
+            if (msg.includes("at least 6 characters")) return "A senha deve ter no mínimo 6 dígitos.";
+            return "Erro: " + msg;
+        }
 
-    async function recuperarSenha() {
-        const email = document.getElementById('acessoEmail').value;
-        if (!email) return alert("Por favor, digite seu e-mail acima para receber o link de recuperação.");
-        const { error } = await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo: window.location.href });
-        if (error) alert("Erro ao enviar e-mail.");
-        else alert("Link de recuperação enviado! Verifique seu e-mail.");
-    }
+        // FUNÇÕES DE AUTENTICAÇÃO
+        async function fazerLogin() {
+            const email = document.getElementById('l-email').value;
+            const senha = document.getElementById('l-senha').value;
+            if(!email || !senha) return alert("Preencha todos os campos.");
 
-    function mudarTipo(t) {
-        tipo = t;
-        const btnD = document.getElementById('btnTabDoar');
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password: senha });
+            if (error) alert(traduzirErro(error.message));
+            else {
+                alert("Login realizado com sucesso!");
+                document.getElementById('tela-login').classList.add('hidden');
+                document.getElementById('tela-app').classList.remove('hidden');
+            }
+        }
+
+        async function fazerCadastro() {
+            const email = document.getElementById('c-email').value;
+            const senha = document.getElementById('c-senha').value;
+            const { error } = await supabase.auth.signUp({ email, password: senha });
+            if (error) alert(traduzirErro(error.message));
+            else {
+                alert("Acredite! Cadastro realizado. Verifique seu e-mail.");
+                irParaLogin();
+            }
+        }
+
+        async function esqueciSenha() {
+            const email = document.getElementById('l-email').value;
+            if(!email) return alert("Digite seu e-mail no campo para recuperar a senha.");
+            const { error } = await supabase.auth.resetPasswordForEmail(email);
+            if (error) alert(traduzirErro(error.message));
+            else alert("Link de recuperação enviado para: " + email);
+        }
+
+        // FUNÇÃO DE SALVAMENTO
+        async function salvarDados() {
+            const med = document.getElementById('f-remedio').value;
+            const zap = document.getElementById('f-zap').value;
+            const val = document.getElementById('f-validade').value;
+            const foto = document.getElementById('f-foto').files[0];
+
+            if(!med || !zap || !foto) return alert("Medicamento, WhatsApp e Foto são obrigatórios!");
+
+            document.getElementById('btn-salvar').innerText = "Salvando...";
+            
+            const { error } = await supabase.from('registros').insert([{
+                medicamento: med,
+                whatsapp: zap,
+                validade_data: val
+            }]);
+
+            if (error) {
+                alert("Erro ao salvar: " + error.message);
+                document.getElementById('btn-salvar').innerText = "Tentar Novamente";
+            } else {
+                alert("✅ Registro concluído no FarmacuraPet!");
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
