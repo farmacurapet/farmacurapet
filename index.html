@@ -5,314 +5,325 @@
 <title>Farmácia Veterinária Solidária</title>
 
 <style>
-body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    margin: 0;
-    background: linear-gradient(135deg, #e8f5e9, #ffffff);
-    overflow-x: hidden;
-}
-
-.fundo {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-image: url('https://cdn-icons-png.flaticon.com/512/616/616408.png'),
-                      url('https://cdn-icons-png.flaticon.com/512/616/616430.png');
-    background-repeat: no-repeat, no-repeat;
-    background-position: left bottom, right bottom;
-    background-size: 180px, 180px;
-    opacity: 0.08;
-    z-index: 0;
-}
+body { font-family: Arial; margin: 0; background: #f4f4f4; }
 
 .header {
     background: #2e7d32;
     color: white;
     text-align: center;
     padding: 15px;
-    font-size: 22px;
-    font-weight: bold;
-    position: relative;
-    z-index: 1;
 }
 
 .container {
     width: 90%;
     max-width: 420px;
     margin: auto;
-    background: rgba(255,255,255,0.95);
-    padding: 25px;
-    margin-top: 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    position: relative;
-    z-index: 1;
+    background: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
 }
 
-h2, h3 {
-    text-align: center;
-    color: #2e7d32;
-}
-
-input, select, textarea {
+input, select {
     width: 100%;
-    margin: 8px 0;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-}
-
-input:focus, textarea:focus, select:focus {
-    border-color: #2e7d32;
-    outline: none;
-    box-shadow: 0 0 5px rgba(46,125,50,0.3);
+    padding: 10px;
+    margin: 5px 0;
 }
 
 button {
     width: 100%;
-    margin-top: 10px;
-    padding: 12px;
-    background: linear-gradient(135deg, #43a047, #2e7d32);
+    padding: 10px;
+    background: #2e7d32;
     color: white;
     border: none;
+}
+
+.item {
+    background: #eee;
+    margin: 5px 0;
+    padding: 10px;
     border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
 }
 
-button:hover {
-    background: linear-gradient(135deg, #2e7d32, #1b5e20);
-    transform: scale(1.03);
+.item img {
+    width: 100%;
+    margin-top: 5px;
 }
 
-a {
-    color: #2e7d32;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.erro {
-    color: red;
-    text-align: center;
-}
-
-#areaDoador, #areaReceptor {
-    background: #f9f9f9;
-    padding: 15px;
-    border-radius: 10px;
+.link {
+    display: block;
     margin-top: 10px;
+    text-align: center;
+    cursor: pointer;
+    color: green;
 }
 
-.banner {
-    background: linear-gradient(135deg, #66bb6a, #43a047);
-    color: white;
-    text-align: center;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    font-weight: bold;
+.input-group { position: relative; }
+.input-group span {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
 }
 
 .ads {
-    background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+    margin-top: 15px;
     text-align: center;
-    padding: 10px;
-    margin-top: 20px;
-    border-radius: 10px;
+    font-weight: bold;
 }
 </style>
-
 </head>
 
 <body>
 
-<div class="fundo"></div>
-
-<div class="header">
-Farmácia Veterinária Solidária 🐾
-</div>
+<div class="header">Farmácia Veterinária Solidária 🐾</div>
 
 <div class="container" id="loginDiv">
-<div class="banner">
-🐶 Campanha de Vacinação Gratuita este mês!
-</div>
-
 <h2>Login</h2>
-<input type="email" id="email" placeholder="Email">
-<input type="password" id="senha" placeholder="Senha">
+<input type="email" id="email">
+<div class="input-group">
+<input type="password" id="senha">
+<span onclick="toggleSenha('senha')">👁️</span>
+</div>
 <button onclick="login()">Entrar</button>
-<p class="erro" id="erroLogin"></p>
-<p><a href="#" onclick="mostrarCadastro()">Criar conta</a></p>
-<p><a href="#" onclick="esqueciSenha()">Esqueci a senha</a></p>
+<p id="erroLogin"></p>
+
+<span class="link" onclick="mostrarCadastro()">Criar conta</span>
+<span class="link" onclick="esqueciSenha()">Esqueci a senha</span>
 </div>
 
 <div class="container" id="cadastroDiv" style="display:none;">
-<div class="banner">
-🐱 Doe medicamentos e ajude vidas!
-</div>
-
 <h2>Cadastro</h2>
-<input type="email" id="novoEmail" placeholder="Email">
-<input type="password" id="novaSenha" placeholder="Senha">
+<input type="email" id="novoEmail">
+<div class="input-group">
+<input type="password" id="novaSenha">
+<span onclick="toggleSenha('novaSenha')">👁️</span>
+</div>
+<input type="text" id="whatsapp">
 <select id="tipoUsuario">
 <option value="doador">Doador</option>
 <option value="receptor">Receptor</option>
 </select>
 <button onclick="cadastrar()">Cadastrar</button>
-<p class="erro" id="erroCadastro"></p>
 <button onclick="voltarLogin()">Voltar</button>
 </div>
 
 <div class="container" id="sistemaDiv" style="display:none;">
-<div class="banner">
-💚 Ajude um pet hoje mesmo!
-</div>
 
-<h2>Sistema</h2>
+<h3>Medicamentos Disponíveis</h3>
+<div id="listaEstoque"></div>
+
+<h3>Solicitações Recebidas</h3>
+<div id="solicitacoes"></div>
 
 <div id="areaDoador" style="display:none;">
-<h3>Doar Medicamento</h3>
 <input type="text" id="nomeMed" placeholder="Nome do medicamento">
 <input type="date" id="dataValidade">
 <input type="file" id="fotoMed">
-<button onclick="doar()">Enviar Doação</button>
+<button onclick="doar()">Adicionar</button>
 </div>
 
 <div id="areaReceptor" style="display:none;">
-<h3>Solicitar Medicamento</h3>
-<textarea id="justificativa" placeholder="Justificativa"></textarea>
-<input type="file" id="fotoReceita">
-<button onclick="solicitar()">Enviar Solicitação</button>
+<input type="text" id="buscaMed" placeholder="Buscar medicamento">
+<button onclick="buscar()">Buscar</button>
+<div id="resultado"></div>
 </div>
 
 <button onclick="logout()">Sair</button>
 
-<div class="ads">
-<a id="linkAd" href="#" target="_blank">
-<img id="imgAd" src="" style="width:100%; border-radius:10px;">
-</a>
-</div>
+<div class="ads" id="painelInfo"></div>
 
 </div>
 
 <script>
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+let estoque = JSON.parse(localStorage.getItem("estoque")) || [];
+let solicitacoes = JSON.parse(localStorage.getItem("solicitacoes")) || [];
+let usuarioLogado = null;
 
-function mostrarCadastro() {
-    loginDiv.style.display = "none";
-    cadastroDiv.style.display = "block";
+function toggleSenha(id){
+    let c=document.getElementById(id);
+    c.type=c.type==="password"?"text":"password";
 }
 
-function voltarLogin() {
-    cadastroDiv.style.display = "none";
-    loginDiv.style.display = "block";
+function mostrarCadastro(){
+    loginDiv.style.display="none";
+    cadastroDiv.style.display="block";
 }
 
-function cadastrar() {
-    let email = novoEmail.value;
-    let senha = novaSenha.value;
-    let tipo = tipoUsuario.value;
+function voltarLogin(){
+    cadastroDiv.style.display="none";
+    loginDiv.style.display="block";
+}
 
-    if (!email || !senha) {
-        erroCadastro.innerText = "Preencha todos os campos!";
-        return;
-    }
+function cadastrar(){
+    let email=novoEmail.value;
+    let senha=novaSenha.value;
+    let tipo=tipoUsuario.value;
+    let zap=whatsapp.value;
 
-    usuarios.push({email, senha, tipo});
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    if(!email||!senha||!zap) return alert("Preencha tudo");
 
-    alert("Cadastro realizado com sucesso!");
+    if(usuarios.find(u=>u.email===email)) return alert("Já existe");
+
+    usuarios.push({email,senha,tipo,zap});
+    localStorage.setItem("usuarios",JSON.stringify(usuarios));
+    alert("Cadastrado!");
     voltarLogin();
 }
 
-function login() {
-    let email = document.getElementById("email").value;
-    let senha = document.getElementById("senha").value;
+function login(){
+    let email=document.getElementById("email").value;
+    let senha=document.getElementById("senha").value;
 
-    let user = usuarios.find(u => u.email === email && u.senha === senha);
+    let user=usuarios.find(u=>u.email===email && u.senha===senha);
+    if(!user) return erroLogin.innerText="Erro no login";
 
-    if (!user) {
-        erroLogin.innerText = "Email ou senha incorretos!";
-        return;
-    }
+    usuarioLogado=user;
 
-    loginDiv.style.display = "none";
-    sistemaDiv.style.display = "block";
+    loginDiv.style.display="none";
+    sistemaDiv.style.display="block";
 
-    if (user.tipo === "doador") {
-        areaDoador.style.display = "block";
-    } else {
-        areaReceptor.style.display = "block";
-    }
+    atualizarEstoque();
+    atualizarSolicitacoes();
+
+    if(user.tipo==="doador") areaDoador.style.display="block";
+    else areaReceptor.style.display="block";
 }
 
-function esqueciSenha() {
-    let email = prompt("Digite seu email:");
-    let user = usuarios.find(u => u.email === email);
-
-    if (!user) {
-        alert("Email não encontrado!");
-    } else {
-        alert("Sua senha é: " + user.senha);
-    }
+function esqueciSenha(){
+    let email=prompt("Digite seu email:");
+    let u=usuarios.find(x=>x.email===email);
+    if(u) alert("Sua senha é: "+u.senha);
+    else alert("Email não encontrado");
 }
 
-function doar() {
-    let nome = nomeMed.value;
-    let data = dataValidade.value;
-    let foto = fotoMed.files[0];
+function doar(){
+    let nome=nomeMed.value;
+    let data=dataValidade.value;
+    let file=fotoMed.files[0];
 
-    if (!nome || !data || !foto) {
-        alert("Preencha todos os campos da doação!");
-        return;
-    }
+    if(!nome||!data||!file) return alert("Preencha tudo");
 
-    alert("Doação enviada com sucesso!");
+    let reader=new FileReader();
+
+    reader.onload=function(e){
+        estoque.push({
+            id:Date.now(),
+            nome,
+            data,
+            foto:e.target.result,
+            doador:usuarioLogado.email
+        });
+
+        localStorage.setItem("estoque",JSON.stringify(estoque));
+        atualizarEstoque();
+    };
+
+    reader.readAsDataURL(file);
 }
 
-function solicitar() {
-    let just = justificativa.value;
-    let foto = fotoReceita.files[0];
+function atualizarEstoque(){
+    listaEstoque.innerHTML="";
 
-    if (!just || !foto) {
-        alert("Envie justificativa e foto da receita!");
-        return;
-    }
+    estoque.forEach(m=>{
+        listaEstoque.innerHTML+=`
+        <div class="item">
+            <b>${m.nome}</b><br>
+            Data de validade do medicamento: ${m.data}
+            <img src="${m.foto}">
+            <button onclick="interesse(${m.id})">Quero esse</button>
+        </div>`;
+    });
+}
 
+function interesse(id){
+    solicitacoes.push({
+        medId:id,
+        receptor:usuarioLogado.email,
+        status:"pendente"
+    });
+
+    localStorage.setItem("solicitacoes",JSON.stringify(solicitacoes));
     alert("Solicitação enviada!");
+    atualizarSolicitacoes();
 }
 
-function logout() {
+function atualizarSolicitacoes(){
+    solicitacoes.innerHTML="";
+    document.getElementById("solicitacoes").innerHTML="";
+
+    solicitacoes.forEach(s=>{
+        let med=estoque.find(m=>m.id===s.medId);
+
+        if(med && med.doador===usuarioLogado.email && s.status==="pendente"){
+            document.getElementById("solicitacoes").innerHTML+=`
+            <div class="item">
+                Pedido de ${s.receptor} para ${med.nome}
+                <button onclick="confirmar(${s.medId})">Confirmar doação</button>
+            </div>`;
+        }
+    });
+}
+
+function confirmar(id){
+    estoque = estoque.filter(m=>m.id!==id);
+    localStorage.setItem("estoque",JSON.stringify(estoque));
+
+    solicitacoes = solicitacoes.map(s=>{
+        if(s.medId===id) s.status="concluido";
+        return s;
+    });
+
+    localStorage.setItem("solicitacoes",JSON.stringify(solicitacoes));
+
+    atualizarEstoque();
+    atualizarSolicitacoes();
+    alert("Doação concluída!");
+}
+
+function buscar(){
+    let busca=buscaMed.value.toLowerCase();
+    resultado.innerHTML="";
+
+    estoque.filter(m=>m.nome.toLowerCase().includes(busca))
+    .forEach(m=>{
+        resultado.innerHTML+=`
+        <div class="item">
+            ${m.nome}
+            <button onclick="interesse(${m.id})">Solicitar</button>
+        </div>`;
+    });
+}
+
+function logout(){
     location.reload();
 }
 
-let anuncios = [
-    {
-        imagem: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Shopee_logo.svg",
-        link: "https://shopee.com.br"
-    },
-    {
-        imagem: "https://upload.wikimedia.org/wikipedia/commons/7/75/Netflix_icon.svg",
-        link: "https://netflix.com"
-    },
-    {
-        imagem: "https://upload.wikimedia.org/wikipedia/commons/5/5c/MercadoLibre.svg",
-        link: "https://mercadolivre.com.br"
-    }
+let infos = [
+    {texto:"🏥 Hospital Veterinário do Recife - Telefone: (8140423034)",cor:"#1b5e20"},
+    {texto:"🏥 Hospital Veterinário da UFRPE - Telefone: (8133206411)",cor:"#0d47a1"},
+    {texto:"💉 Campanha de vacinação antirrábica em andamento no Recife.",cor:"#2e7d32"},
+    {texto:"🐶 Atenção a doenças em pets.",cor:"#c62828"},
+    {texto:"🌧️ Possibilidade de chuvas hoje.",cor:"#6a1b9a"},
+    {texto:"🐱 Campanha de castração em breve.",cor:"#00897b"}
 ];
 
-let indexAd = 0;
+let i=0;
 
-function trocarAnuncio() {
-    document.getElementById("imgAd").src = anuncios[indexAd].imagem;
-    document.getElementById("linkAd").href = anuncios[indexAd].link;
+function trocarInfo(){
+    let box=document.getElementById("painelInfo");
+    box.innerHTML=infos[i].texto;
+    box.style.background=infos[i].cor;
+    box.style.color="white";
+    box.style.padding="15px";
+    box.style.borderRadius="10px";
 
-    indexAd = (indexAd + 1) % anuncios.length;
+    i=(i+1)%infos.length;
 }
 
-setInterval(trocarAnuncio, 3000);
-trocarAnuncio();
+setInterval(trocarInfo,4000);
+trocarInfo();
 </script>
 
 </body>
