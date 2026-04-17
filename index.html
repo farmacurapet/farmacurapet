@@ -94,12 +94,12 @@ button {
 
 <div class="container" id="cadastroDiv" style="display:none;">
 <h2>Cadastro</h2>
-<input type="email" id="novoEmail" placeholder="Email">
+<input type="email" id="novoEmail">
 <div class="input-group">
-<input type="password" id="novaSenha" placeholder="Senha">
+<input type="password" id="novaSenha">
 <span onclick="toggleSenha('novaSenha')">👁️</span>
 </div>
-<input type="text" id="whatsapp" placeholder="WhatsApp (ex: 81999999999)">
+<input type="text" id="whatsapp">
 <select id="tipoUsuario">
 <option value="doador">Doador</option>
 <option value="receptor">Receptor</option>
@@ -124,11 +124,12 @@ button {
 </div>
 
 <div id="areaReceptor" style="display:none;">
-<input type="text" id="buscaMed" placeholder="Buscar medicamento">
+<input type="text" id="buscaMed">
 <button onclick="buscar()">Buscar</button>
 <div id="resultado"></div>
 </div>
 
+<button onclick="editarCadastro()">Atualizar Cadastro</button>
 <button onclick="logout()">Sair</button>
 
 <div class="ads" id="painelInfo"></div>
@@ -162,13 +163,13 @@ function cadastrar(){
     let tipo=tipoUsuario.value;
     let zap=whatsapp.value;
 
-    if(!email||!senha||!zap) return alert("Preencha todos os campos!");
+    if(!email||!senha||!zap) return alert("Preencha tudo");
 
-    if(usuarios.find(u=>u.email===email)) return alert("Email já existe");
+    if(usuarios.find(u=>u.email===email)) return alert("Já existe");
 
     usuarios.push({email,senha,tipo,zap});
     localStorage.setItem("usuarios",JSON.stringify(usuarios));
-    alert("Cadastro realizado!");
+    alert("Cadastrado!");
     voltarLogin();
 }
 
@@ -177,25 +178,40 @@ function login(){
     let senha=document.getElementById("senha").value;
 
     let user=usuarios.find(u=>u.email===email && u.senha===senha);
-    if(!user) return erroLogin.innerText="Email ou senha incorretos";
+    if(!user) return erroLogin.innerText="Erro no login";
 
     usuarioLogado=user;
 
     loginDiv.style.display="none";
     sistemaDiv.style.display="block";
 
-    atualizarEstoque();
-    atualizarSolicitacoes();
-
     if(user.tipo==="doador") areaDoador.style.display="block";
     else areaReceptor.style.display="block";
+
+    atualizarEstoque();
+    atualizarSolicitacoes();
 }
 
 function esqueciSenha(){
-    let email=prompt("Digite seu email:");
+    let email=prompt("Email:");
     let u=usuarios.find(x=>x.email===email);
-    if(u) alert("Sua senha é: "+u.senha);
-    else alert("Email não encontrado");
+    if(u) alert("Senha: "+u.senha);
+    else alert("Não encontrado");
+}
+
+function editarCadastro(){
+    let novoZap = prompt("Digite novo WhatsApp:");
+    if(!novoZap) return;
+
+    usuarioLogado.zap = novoZap;
+
+    usuarios = usuarios.map(u=>{
+        if(u.email===usuarioLogado.email) return usuarioLogado;
+        return u;
+    });
+
+    localStorage.setItem("usuarios",JSON.stringify(usuarios));
+    alert("Atualizado com sucesso!");
 }
 
 function doar(){
@@ -225,15 +241,16 @@ function doar(){
 }
 
 function atualizarEstoque(){
-    listaEstoque.innerHTML="";
+    let lista = document.getElementById("listaEstoque");
+    lista.innerHTML="";
 
     estoque.forEach(m=>{
-        listaEstoque.innerHTML+=`
+        lista.innerHTML+=`
         <div class="item">
             <b>${m.nome}</b><br>
-            Data de validade do medicamento: ${m.data}
+            Validade: ${m.data}
             <img src="${m.foto}">
-            <a href="https://wa.me/55${m.zap}" target="_blank">📲 Falar no WhatsApp</a><br>
+            <a href="https://wa.me/55${m.zap}" target="_blank">WhatsApp</a><br>
             <button onclick="interesse(${m.id})">Quero esse</button>
         </div>`;
     });
@@ -247,21 +264,21 @@ function interesse(id){
     });
 
     localStorage.setItem("solicitacoes",JSON.stringify(solicitacoes));
-    alert("Solicitação enviada!");
     atualizarSolicitacoes();
 }
 
 function atualizarSolicitacoes(){
-    document.getElementById("solicitacoes").innerHTML="";
+    let div = document.getElementById("solicitacoes");
+    div.innerHTML="";
 
     solicitacoes.forEach(s=>{
         let med=estoque.find(m=>m.id===s.medId);
 
         if(med && med.doador===usuarioLogado.email && s.status==="pendente"){
-            document.getElementById("solicitacoes").innerHTML+=`
+            div.innerHTML+=`
             <div class="item">
                 Pedido de ${s.receptor} para ${med.nome}
-                <button onclick="confirmar(${s.medId})">Confirmar doação</button>
+                <button onclick="confirmar(${s.medId})">Confirmar</button>
             </div>`;
         }
     });
@@ -280,7 +297,6 @@ function confirmar(id){
 
     atualizarEstoque();
     atualizarSolicitacoes();
-    alert("Doação concluída!");
 }
 
 function buscar(){
@@ -302,10 +318,9 @@ function logout(){
 }
 
 let infos = [
-    {texto:'📞 Hospital Veterinário do Recife - <a href="tel:8140423034" style="color:white;">(81) 4042-3034</a>',cor:"#1b5e20"},
-    {texto:'📞 Hospital Veterinário UFRPE - <a href="tel:8133206411" style="color:white;">(81) 3320-6411</a>',cor:"#0d47a1"},
-    {texto:"💉 Campanha de vacinação da Prefeitura do Recife em andamento.",cor:"#2e7d32"},
-    {texto:"🐶 Atenção a doenças em pets.",cor:"#c62828"}
+    {texto:'📞 Hospital Vet Recife - (81) 4042-3034',cor:"#1b5e20"},
+    {texto:'📞 Hospital Vet UFRPE - (81) 3320-6411',cor:"#0d47a1"},
+    {texto:"💉 Vacinação em andamento",cor:"#2e7d32"}
 ];
 
 let i=0;
@@ -316,7 +331,6 @@ function trocarInfo(){
     box.style.background=infos[i].cor;
     box.style.color="white";
     box.style.padding="15px";
-    box.style.borderRadius="10px";
 
     i=(i+1)%infos.length;
 }
