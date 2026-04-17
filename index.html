@@ -3,114 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FarmacuraPet - Acesso Integrado</title>
+    <title>FarmacuraPet | Solidariedade Animal</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; color: #333; background-color: #f4f9ff; }
-        header { background-color: #2D9CDB; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .container { max-width: 550px; margin: 20px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
-        
-        /* ESTILO DO ANÚNCIO / BANNER */
-        .area-anuncio { 
-            max-width: 550px; 
-            margin: 20px auto; 
-            background: #FFF9C4; /* Amarelo claro para destaque */
-            border: 2px dashed #FBC02D; 
-            border-radius: 10px; 
-            padding: 15px; 
+        :root {
+            --primaria: #00acc1;
+            --primaria-dark: #007c91;
+            --secundaria: #43a047;
+            --fundo: #f0f7f8;
+            --branco: #ffffff;
+            --texto: #37474f;
+            --sombra: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        body { 
+            font-family: 'Poppins', 'Segoe UI', sans-serif; 
+            margin: 0; 
+            background-color: var(--fundo); 
+            color: var(--texto);
+            line-height: 1.6;
+        }
+
+        header { 
+            background: var(--branco); 
+            padding: 15px 5%; 
             display: flex; 
-            align-items: center; 
-            gap: 15px;
-            cursor: pointer;
+            justify-content: space-between; 
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primaria);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primaria), var(--primaria-dark));
+            color: white;
+            padding: 60px 5% 120px;
+            text-align: center;
+        }
+
+        .hero h1 { margin: 0; font-size: 2.2rem; }
+        .hero p { opacity: 0.9; font-size: 1.1rem; max-width: 600px; margin: 10px auto; }
+
+        .main-container { 
+            max-width: 500px; 
+            width: 90%;
+            margin: -80px auto 40px; 
+            background: var(--branco); 
+            padding: 40px; 
+            border-radius: 24px; 
+            box-shadow: var(--sombra);
+            position: relative;
+        }
+
+        .ad-banner {
+            width: 100%;
+            margin: 20px 0;
+            background: #f8f9fa;
+            border: 2px dashed #e0e0e0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 90px;
+            color: #adb5bd;
+            font-size: 0.75rem;
+            text-align: center;
+        }
+
+        .tabs { 
+            display: flex; 
+            background: #f1f3f4; 
+            padding: 5px; 
+            border-radius: 15px; 
+            margin-bottom: 30px; 
+        }
+        .tab-btn { 
+            flex: 1; padding: 12px; border: none; border-radius: 12px; 
+            cursor: pointer; font-weight: 600; background: transparent; 
+            transition: 0.4s; color: #78909c;
+        }
+        .tab-btn.active { background: var(--branco); color: var(--primaria); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .tab-btn.active.doar { color: var(--secundaria); }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.85rem; color: #546e7a; }
+        input { 
+            width: 100%; padding: 14px; border: 2px solid #eceff1; 
+            border-radius: 12px; box-sizing: border-box; font-size: 1rem;
+        }
+
+        .btn-submit { 
+            width: 100%; padding: 16px; border: none; border-radius: 15px; 
+            color: white; font-weight: bold; font-size: 1rem; cursor: pointer; 
+            background: linear-gradient(to bottom right, var(--primaria), var(--primaria-dark));
+            box-shadow: 0 5px 15px rgba(0, 172, 193, 0.3);
             transition: 0.3s;
         }
-        .area-anuncio:hover { transform: scale(1.02); background: #FFF59D; }
-        .anuncio-texto h4 { margin: 0; color: #f57f17; font-size: 0.9rem; }
-        .anuncio-texto p { margin: 5px 0 0; font-size: 0.8rem; color: #555; }
-        .anuncio-icone { font-size: 24px; }
+        .btn-submit:hover { transform: translateY(-2px); }
+        .btn-verde { background: linear-gradient(to bottom right, var(--secundaria), #2e7d32); }
 
-        .tabs { display: flex; margin-bottom: 25px; background: #eee; border-radius: 30px; padding: 5px; }
-        .tab-btn { flex: 1; border: none; padding: 12px; cursor: pointer; border-radius: 25px; font-weight: bold; background: none; color: #666; transition: 0.3s; }
-        .tab-btn.active { background: #2D9CDB; color: white; }
-        .tab-btn.active.doar { background: #27AE60; }
-        h2 { text-align: center; color: #2D9CDB; margin-top: 0; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; font-size: 0.9rem; }
-        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
-        input:focus { border-color: #2D9CDB; outline: none; }
-        .btn-submit { width: 100%; padding: 15px; border: none; border-radius: 25px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: 0.3s; margin-top: 15px; color: white; }
-        .bg-azul { background-color: #2D9CDB; }
-        .bg-verde { background-color: #27AE60; }
         .hidden { display: none; }
-        .perfil-usuario { font-size: 0.9rem; }
-        .link-alternar { text-align: center; margin-top: 15px; font-size: 0.9rem; cursor: pointer; color: #2D9CDB; text-decoration: underline; }
+        
+        .link-alt { 
+            text-align: center; margin-top: 15px; font-size: 0.9rem; 
+            color: var(--primaria); cursor: pointer; font-weight: 500;
+        }
+        .link-esqueci {
+            display: block; text-align: center; margin-top: 15px;
+            font-size: 0.8rem; color: #90a4ae; text-decoration: none;
+        }
+
+        footer { padding: 40px 5%; text-align: center; background: #fcfcfc; border-top: 1px solid #eee; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo"><strong>FarmacuraPet</strong></div>
-    <div id="usuarioLogado" class="perfil-usuario"></div>
+    <div class="logo"><span>🐾</span> FarmacuraPet</div>
+    <div id="usuarioInfo" style="font-weight: 500; font-size: 0.85rem;"></div>
 </header>
 
-<div class="container">
+<section class="hero">
+    <h1>Amor em forma de remédio</h1>
+    <p>Conectamos quem tem medicamentos sobrando com pets que precisam de cura.</p>
+</section>
+
+<div class="main-container">
+    
     <div id="secao-acesso">
-        <h2 id="tituloAcesso">Acesse sua Conta</h2>
+        <h2 style="text-align:center; margin-top: 0;">Bem-vindo</h2>
         <div class="form-group">
             <label>E-mail</label>
-            <input type="email" id="acessoEmail" placeholder="seu@email.com">
+            <input type="email" id="acessoEmail" placeholder="exemplo@email.com">
         </div>
         <div class="form-group">
             <label>Senha</label>
-            <input type="password" id="acessoSenha" placeholder="mínimo 6 caracteres">
+            <input type="password" id="acessoSenha" placeholder="Sua senha">
         </div>
-        <button id="btnEntrar" class="btn-submit bg-azul" onclick="realizarLogin()">Entrar</button>
-        <button id="btnCadastrar" class="btn-submit bg-verde hidden" onclick="realizarCadastroUsuario()">Criar Minha Conta</button>
-        <div id="alternarAcesso" class="link-alternar" onclick="alternarTelaAcesso()">Não tem conta? Cadastre-se aqui</div>
+        <button class="btn-submit" onclick="realizarLogin()">Entrar no Sistema</button>
+        <button class="btn-submit btn-verde hidden" id="btnCadastrar" onclick="realizarCadastroUsuario()">Criar minha Conta</button>
+        
+        <p class="link-alt" onclick="alternarTela()">Ainda não tem conta? Cadastre-se</p>
+        <a href="javascript:void(0)" class="link-esqueci" onclick="recuperarSenha()">Esqueci minha senha</a>
     </div>
 
     <div id="secao-app" class="hidden">
-        
-        <div class="area-anuncio" onclick="window.open('https://www.google.com', '_blank')">
-            <div class="anuncio-icone">📢</div>
-            <div class="anuncio-texto">
-                <h4>Espaço para Parceiros / Avisos</h4>
-                <p>Anuncie aqui sua clínica ou pet shop parceiro da Farmacura!</p>
-            </div>
-        </div>
-
         <div class="tabs">
-            <button id="btnTabDoar" class="tab-btn active doar" onclick="mudarTipo('DOADOR')">Quero Doar</button>
-            <button id="btnTabReceber" class="tab-btn" onclick="mudarTipo('RECEBEDOR')">Preciso de Ajuda</button>
+            <button id="btnTabDoar" class="tab-btn active doar" onclick="mudarTipo('DOADOR')">Vou Doar</button>
+            <button id="btnTabReceber" class="tab-btn" onclick="mudarTipo('Preciso')">Vou Pedir</button>
         </div>
-
-        <h2 id="titulo">Cadastro de Doação</h2>
 
         <form id="formUnico">
             <div class="form-group">
-                <label for="nome">Nome Completo</label>
-                <input type="text" id="nome" placeholder="Seu nome" required>
+                <label>Seu Nome</label>
+                <input type="text" id="nome" placeholder="Como quer ser chamado?">
+            </div>
+            
+            <div class="ad-banner">
+                <span>ANÚNCIO PARCEIRO</span>
+            </div>
+
+            <div class="form-group">
+                <label>WhatsApp</label>
+                <input type="tel" id="contato" placeholder="(00) 00000-0000">
             </div>
             <div class="form-group">
-                <label for="contato">Telefone / WhatsApp</label>
-                <input type="tel" id="contato" placeholder="(81) 90000-0000" required>
+                <label>Nome do Medicamento</label>
+                <input type="text" id="medicamento" placeholder="Ex: Simparic, Apoquel...">
             </div>
             <div class="form-group">
-                <label for="medicamento">Medicamento</label>
-                <input type="text" id="medicamento" placeholder="Nome do remédio" required>
+                <label id="labelData">Data de Validade</label>
+                <input type="date" id="data">
             </div>
-            <div class="form-group">
-                <label for="quantidade">Quantidade (Unidades)</label>
-                <input type="number" id="quantidade" placeholder="Ex: 20" required>
-            </div>
-            <div class="form-group" id="areaDinamica">
-                <label id="labelDinamico" for="dataDinamica">Validade do Medicamento</label>
-                <input type="date" id="dataDinamica" required>
-            </div>
-            <button type="button" id="btnAcao" class="btn-submit bg-verde" onclick="processarCadastro()">Finalizar Cadastro</button>
-            <button type="button" style="background:none; border:none; color:red; cursor:pointer; width:100%; margin-top:10px;" onclick="logout()">Sair da conta</button>
+
+            <button type="button" id="btnFinalizar" class="btn-submit btn-verde" onclick="processar()">Salvar Agora</button>
+            
+            <p class="link-alt" style="color:#ff5252;" onclick="location.reload()">Sair da conta</p>
         </form>
     </div>
 </div>
+
+<footer>
+    <div class="ad-banner" style="max-width: 500px; margin: 0 auto 30px; min-height: 100px;">
+        <span>PUBLICIDADE</span>
+    </div>
+    <p><strong>FarmacuraPet 🐾</strong></p>
+    <p style="font-size: 0.8rem; color: #90a4ae;">&copy; 2026 - Conectando corações e curas.</p>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -118,96 +207,57 @@
     const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRrdXBmb3diZ3lrampka3dmaXlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNjY1OTgsImV4cCI6MjA5MTk0MjU5OH0.yXCbccFrPB9qyVamthjAUdyrK0bqWfbRCG3LR4VAjBY";
     const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
 
-    let tipoAtual = 'DOADOR';
+    let tipo = 'DOADOR';
     let modoCadastro = false;
 
-    function alternarTelaAcesso() {
+    function alternarTela() {
         modoCadastro = !modoCadastro;
-        const titulo = document.getElementById('tituloAcesso');
-        const btnE = document.getElementById('btnEntrar');
-        const btnC = document.getElementById('btnCadastrar');
-        const link = document.getElementById('alternarAcesso');
-        if (modoCadastro) {
-            titulo.innerText = "Crie sua Conta";
-            btnE.classList.add('hidden');
-            btnC.classList.remove('hidden');
-            link.innerText = "Já tem conta? Faça Login";
+        const btnLogin = document.querySelector('#secao-acesso button:not(.btn-verde)');
+        const btnCad = document.getElementById('btnCadastrar');
+        const link = document.querySelector('.link-alt');
+        const esqueci = document.querySelector('.link-esqueci');
+        
+        if(modoCadastro) {
+            btnCad.classList.remove('hidden');
+            btnLogin.classList.add('hidden');
+            esqueci.classList.add('hidden');
+            link.innerText = "Já sou cadastrado";
         } else {
-            titulo.innerText = "Acesse sua Conta";
-            btnE.classList.remove('hidden');
-            btnC.classList.add('hidden');
-            link.innerText = "Não tem conta? Cadastre-se aqui";
+            btnCad.classList.add('hidden');
+            btnLogin.classList.remove('hidden');
+            esqueci.classList.remove('hidden');
+            link.innerText = "Ainda não tem conta? Cadastre-se";
         }
-    }
-
-    async function realizarCadastroUsuario() {
-        const email = document.getElementById('acessoEmail').value;
-        const password = document.getElementById('acessoSenha').value;
-        const { data, error } = await supabaseClient.auth.signUp({ email, password });
-        if (error) alert("Erro ao cadastrar: " + error.message);
-        else { alert("Conta criada! Já pode entrar."); alternarTelaAcesso(); }
     }
 
     async function realizarLogin() {
         const email = document.getElementById('acessoEmail').value;
         const password = document.getElementById('acessoSenha').value;
         const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-        if (error) alert("Erro no login: " + error.message);
-        else mostrarApp(data.user.email);
-    }
-
-    function mostrarApp(email) {
-        document.getElementById('secao-acesso').classList.add('hidden');
-        document.getElementById('secao-app').classList.remove('hidden');
-        document.getElementById('usuarioLogado').innerText = "Olá, " + email;
-    }
-
-    function logout() { supabaseClient.auth.signOut(); location.reload(); }
-
-    function mudarTipo(tipo) {
-        tipoAtual = tipo;
-        const btnD = document.getElementById('btnTabDoar');
-        const btnR = document.getElementById('btnTabReceber');
-        const titulo = document.getElementById('titulo');
-        const label = document.getElementById('labelDinamico');
-        const btnAcao = document.getElementById('btnAcao');
-        btnD.classList.remove('active', 'doar');
-        btnR.classList.remove('active', 'doar');
-        if (tipo === 'DOADOR') {
-            btnD.classList.add('active', 'doar');
-            titulo.innerText = "Cadastro de Doação";
-            label.innerText = "Validade do Medicamento";
-            btnAcao.className = "btn-submit bg-verde";
-            titulo.style.color = "#27AE60";
-        } else {
-            btnR.classList.add('active');
-            titulo.innerText = "Solicitar Medicamento";
-            label.innerText = "Validade da Receita";
-            btnAcao.className = "btn-submit bg-azul";
-            titulo.style.color = "#2D9CDB";
+        if (error) alert("Erro: E-mail ou senha inválidos.");
+        else {
+            document.getElementById('secao-acesso').classList.add('hidden');
+            document.getElementById('secao-app').classList.remove('hidden');
+            document.getElementById('usuarioInfo').innerText = "Olá, " + data.user.email.split('@')[0];
         }
     }
 
-    async function processarCadastro() {
-        const nomeUsuario = document.getElementById('nome').value;
-        const zap = document.getElementById('contato').value;
-        const remedio = document.getElementById('medicamento').value;
-        const qtd = document.getElementById('quantidade').value;
-        const dataVal = document.getElementById('dataDinamica').value;
-        if (!nomeUsuario || !remedio || !dataVal) { alert("Preencha tudo!"); return; }
-        const btnAcao = document.getElementById('btnAcao');
-        btnAcao.innerText = "Enviando...";
-        btnAcao.disabled = true;
-        try {
-            const { error } = await supabaseClient.from('registros').insert([{
-                perfil: tipoAtual, nome: nomeUsuario, whatsapp: zap, medicamento: remedio, quantidade: parseInt(qtd), validade_data: dataVal
-            }]);
-            if (error) throw error;
-            alert("✅ Registro salvo!");
-            document.getElementById('formUnico').reset();
-        } catch (error) { alert("Erro: " + error.message); }
-        finally { btnAcao.innerText = "Finalizar Cadastro"; btnAcao.disabled = false; }
+    async function realizarCadastroUsuario() {
+        const email = document.getElementById('acessoEmail').value;
+        const password = document.getElementById('acessoSenha').value;
+        const { error } = await supabaseClient.auth.signUp({ email, password });
+        if (error) alert("Erro ao cadastrar: " + error.message);
+        else alert("Cadastro realizado! Verifique sua caixa de entrada.");
     }
-</script>
-</body>
-</html>
+
+    async function recuperarSenha() {
+        const email = document.getElementById('acessoEmail').value;
+        if (!email) return alert("Por favor, digite seu e-mail acima para receber o link de recuperação.");
+        const { error } = await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo: window.location.href });
+        if (error) alert("Erro ao enviar e-mail.");
+        else alert("Link de recuperação enviado! Verifique seu e-mail.");
+    }
+
+    function mudarTipo(t) {
+        tipo = t;
+        const btnD = document.getElementById('btnTabDoar');
