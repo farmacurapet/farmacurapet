@@ -5,7 +5,11 @@
 <title>Farmácia Veterinária Solidária</title>
 
 <style>
-body { font-family: Arial; margin: 0; background: #f4f4f4; }
+body {
+    font-family: Arial;
+    margin: 0;
+    background: linear-gradient(#e8f5e9, #ffffff);
+}
 
 .header {
     background: #2e7d32;
@@ -24,23 +28,39 @@ body { font-family: Arial; margin: 0; background: #f4f4f4; }
     border-radius: 10px;
 }
 
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
 input, select {
     width: 100%;
     padding: 10px;
-    margin: 5px 0;
+    margin-top: 5px;
 }
 
 button {
     width: 100%;
     padding: 10px;
+    margin-top: 10px;
     background: #2e7d32;
     color: white;
     border: none;
+    cursor: pointer;
+}
+
+button:active {
+    background: #1b5e20;
+}
+
+.loading {
+    background: gray !important;
 }
 
 .item {
     background: #eee;
-    margin: 5px 0;
+    margin: 10px 0;
     padding: 10px;
     border-radius: 8px;
 }
@@ -50,26 +70,12 @@ button {
     margin-top: 5px;
 }
 
-.link {
-    display: block;
-    margin-top: 10px;
-    text-align: center;
-    cursor: pointer;
-    color: green;
-}
-
-.input-group { position: relative; }
-.input-group span {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    cursor: pointer;
-}
-
-.ads {
+.banner {
     margin-top: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
     text-align: center;
-    font-weight: bold;
 }
 </style>
 </head>
@@ -80,31 +86,38 @@ button {
 
 <div class="container" id="loginDiv">
 <h2>Login</h2>
+
+<label>Email</label>
 <input type="email" id="email">
-<div class="input-group">
+
+<label>Senha</label>
 <input type="password" id="senha">
-<span onclick="toggleSenha('senha')">👁️</span>
-</div>
-<button onclick="login()">Entrar</button>
+
+<button id="btnLogin" onclick="login()">Entrar</button>
 <p id="erroLogin"></p>
 
-<span class="link" onclick="mostrarCadastro()">Criar conta</span>
-<span class="link" onclick="esqueciSenha()">Esqueci a senha</span>
+<button onclick="mostrarCadastro()">Criar conta</button>
 </div>
 
 <div class="container" id="cadastroDiv" style="display:none;">
 <h2>Cadastro</h2>
+
+<label>Email</label>
 <input type="email" id="novoEmail">
-<div class="input-group">
+
+<label>Senha</label>
 <input type="password" id="novaSenha">
-<span onclick="toggleSenha('novaSenha')">👁️</span>
-</div>
-<input type="text" id="whatsapp">
+
+<label>WhatsApp</label>
+<input type="text" id="whatsapp" placeholder="Ex: 81999999999">
+
+<label>Tipo de usuário</label>
 <select id="tipoUsuario">
 <option value="doador">Doador</option>
 <option value="receptor">Receptor</option>
 </select>
-<button onclick="cadastrar()">Cadastrar</button>
+
+<button id="btnCadastro" onclick="cadastrar()">Cadastrar</button>
 <button onclick="voltarLogin()">Voltar</button>
 </div>
 
@@ -113,39 +126,150 @@ button {
 <h3>Medicamentos Disponíveis</h3>
 <div id="listaEstoque"></div>
 
-<h3>Solicitações Recebidas</h3>
-<div id="solicitacoes"></div>
-
 <div id="areaDoador" style="display:none;">
-<input type="text" id="nomeMed" placeholder="Nome do medicamento">
+<h3>Adicionar Medicamento</h3>
+
+<label>Nome do medicamento</label>
+<input type="text" id="nomeMed">
+
+<label>Data de validade do medicamento</label>
 <input type="date" id="dataValidade">
+
+<label>Foto do medicamento</label>
 <input type="file" id="fotoMed">
-<button onclick="doar()">Adicionar</button>
+
+<button onclick="doar()">Salvar</button>
 </div>
 
-<div id="areaReceptor" style="display:none;">
-<input type="text" id="buscaMed">
-<button onclick="buscar()">Buscar</button>
-<div id="resultado"></div>
-</div>
-
-<button onclick="editarCadastro()">Atualizar Cadastro</button>
 <button onclick="logout()">Sair</button>
 
-<div class="ads" id="painelInfo"></div>
+<div id="banner" class="banner"></div>
 
 </div>
 
 <script>
 let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 let estoque = JSON.parse(localStorage.getItem("estoque")) || [];
-let solicitacoes = JSON.parse(localStorage.getItem("solicitacoes")) || [];
-let usuarioLogado = null;
+let usuarioLogado = JSON.parse(localStorage.getItem("sessao")) || null;
 
-function toggleSenha(id){
-    let c=document.getElementById(id);
-    c.type=c.type==="password"?"text":"password";
+/* manter login */
+if(usuarioLogado){
+    loginDiv.style.display="none";
+    sistemaDiv.style.display="block";
+    carregarSistema();
 }
+
+function login(){
+    let btn = document.getElementById("btnLogin");
+    btn.classList.add("loading");
+    btn.innerText="Entrando...";
+
+    setTimeout(()=>{
+        let user=usuarios.find(u=>u.email===email.value && u.senha===senha.value);
+
+        if(!user){
+            erroLogin.innerText="Email ou senha incorretos";
+            btn.classList.remove("loading");
+            btn.innerText="Entrar";
+            return;
+        }
+
+        usuarioLogado=user;
+        localStorage.setItem("sessao",JSON.stringify(user));
+
+        loginDiv.style.display="none";
+        sistemaDiv.style.display="block";
+        carregarSistema();
+    },800);
+}
+
+function cadastrar(){
+    let btn = document.getElementById("btnCadastro");
+    btn.classList.add("loading");
+    btn.innerText="Salvando...";
+
+    setTimeout(()=>{
+        let emailVal=novoEmail.value;
+        let senhaVal=novaSenha.value;
+        let zap=whatsapp.value;
+        let tipo=tipoUsuario.value;
+
+        if(!emailVal || !senhaVal || !zap){
+            alert("Preencha todos os campos");
+            btn.classList.remove("loading");
+            btn.innerText="Cadastrar";
+            return;
+        }
+
+        usuarios.push({email:emailVal, senha:senhaVal, zap, tipo});
+        localStorage.setItem("usuarios",JSON.stringify(usuarios));
+
+        alert("Cadastro realizado!");
+        btn.classList.remove("loading");
+        btn.innerText="Cadastrar";
+        voltarLogin();
+    },800);
+}
+
+function carregarSistema(){
+    atualizarEstoque();
+    if(usuarioLogado.tipo==="doador") areaDoador.style.display="block";
+    atualizarBanner();
+}
+
+function doar(){
+    let reader=new FileReader();
+
+    reader.onload=function(e){
+        estoque.push({
+            nome:nomeMed.value,
+            data:dataValidade.value,
+            foto:e.target.result,
+            zap:usuarioLogado.zap
+        });
+
+        localStorage.setItem("estoque",JSON.stringify(estoque));
+        atualizarEstoque();
+    };
+
+    reader.readAsDataURL(fotoMed.files[0]);
+}
+
+function atualizarEstoque(){
+    listaEstoque.innerHTML="";
+    estoque.forEach(m=>{
+        listaEstoque.innerHTML+=`
+        <div class="item">
+            <b>${m.nome}</b><br>
+            Validade: ${m.data}
+            <img src="${m.foto}">
+            <a href="https://wa.me/55${m.zap}" target="_blank">📲 Contato WhatsApp</a>
+        </div>`;
+    });
+}
+
+function logout(){
+    localStorage.removeItem("sessao");
+    location.reload();
+}
+
+/* banner */
+let banners = [
+    {texto:"💉 Vacinação gratuita disponível", cor:"#2e7d32"},
+    {texto:"📞 Hospital Vet Recife: (81) 4042-3034", cor:"#1565c0"},
+    {texto:"📞 Hospital Vet UFRPE: (81) 3320-6411", cor:"#6a1b9a"}
+];
+
+let i=0;
+
+function atualizarBanner(){
+    let b=document.getElementById("banner");
+    b.innerHTML = banners[i].texto;
+    b.style.background = banners[i].cor;
+    i=(i+1)%banners.length;
+}
+
+setInterval(atualizarBanner,4000);
 
 function mostrarCadastro(){
     loginDiv.style.display="none";
@@ -156,187 +280,6 @@ function voltarLogin(){
     cadastroDiv.style.display="none";
     loginDiv.style.display="block";
 }
-
-function cadastrar(){
-    let email=novoEmail.value;
-    let senha=novaSenha.value;
-    let tipo=tipoUsuario.value;
-    let zap=whatsapp.value;
-
-    if(!email||!senha||!zap) return alert("Preencha tudo");
-
-    if(usuarios.find(u=>u.email===email)) return alert("Já existe");
-
-    usuarios.push({email,senha,tipo,zap});
-    localStorage.setItem("usuarios",JSON.stringify(usuarios));
-    alert("Cadastrado!");
-    voltarLogin();
-}
-
-function login(){
-    let email=document.getElementById("email").value;
-    let senha=document.getElementById("senha").value;
-
-    let user=usuarios.find(u=>u.email===email && u.senha===senha);
-    if(!user) return erroLogin.innerText="Erro no login";
-
-    usuarioLogado=user;
-
-    loginDiv.style.display="none";
-    sistemaDiv.style.display="block";
-
-    if(user.tipo==="doador") areaDoador.style.display="block";
-    else areaReceptor.style.display="block";
-
-    atualizarEstoque();
-    atualizarSolicitacoes();
-}
-
-function esqueciSenha(){
-    let email=prompt("Email:");
-    let u=usuarios.find(x=>x.email===email);
-    if(u) alert("Senha: "+u.senha);
-    else alert("Não encontrado");
-}
-
-function editarCadastro(){
-    let novoZap = prompt("Digite novo WhatsApp:");
-    if(!novoZap) return;
-
-    usuarioLogado.zap = novoZap;
-
-    usuarios = usuarios.map(u=>{
-        if(u.email===usuarioLogado.email) return usuarioLogado;
-        return u;
-    });
-
-    localStorage.setItem("usuarios",JSON.stringify(usuarios));
-    alert("Atualizado com sucesso!");
-}
-
-function doar(){
-    let nome=nomeMed.value;
-    let data=dataValidade.value;
-    let file=fotoMed.files[0];
-
-    if(!nome||!data||!file) return alert("Preencha tudo");
-
-    let reader=new FileReader();
-
-    reader.onload=function(e){
-        estoque.push({
-            id:Date.now(),
-            nome,
-            data,
-            foto:e.target.result,
-            doador:usuarioLogado.email,
-            zap:usuarioLogado.zap
-        });
-
-        localStorage.setItem("estoque",JSON.stringify(estoque));
-        atualizarEstoque();
-    };
-
-    reader.readAsDataURL(file);
-}
-
-function atualizarEstoque(){
-    let lista = document.getElementById("listaEstoque");
-    lista.innerHTML="";
-
-    estoque.forEach(m=>{
-        lista.innerHTML+=`
-        <div class="item">
-            <b>${m.nome}</b><br>
-            Validade: ${m.data}
-            <img src="${m.foto}">
-            <a href="https://wa.me/55${m.zap}" target="_blank">WhatsApp</a><br>
-            <button onclick="interesse(${m.id})">Quero esse</button>
-        </div>`;
-    });
-}
-
-function interesse(id){
-    solicitacoes.push({
-        medId:id,
-        receptor:usuarioLogado.email,
-        status:"pendente"
-    });
-
-    localStorage.setItem("solicitacoes",JSON.stringify(solicitacoes));
-    atualizarSolicitacoes();
-}
-
-function atualizarSolicitacoes(){
-    let div = document.getElementById("solicitacoes");
-    div.innerHTML="";
-
-    solicitacoes.forEach(s=>{
-        let med=estoque.find(m=>m.id===s.medId);
-
-        if(med && med.doador===usuarioLogado.email && s.status==="pendente"){
-            div.innerHTML+=`
-            <div class="item">
-                Pedido de ${s.receptor} para ${med.nome}
-                <button onclick="confirmar(${s.medId})">Confirmar</button>
-            </div>`;
-        }
-    });
-}
-
-function confirmar(id){
-    estoque = estoque.filter(m=>m.id!==id);
-    localStorage.setItem("estoque",JSON.stringify(estoque));
-
-    solicitacoes = solicitacoes.map(s=>{
-        if(s.medId===id) s.status="concluido";
-        return s;
-    });
-
-    localStorage.setItem("solicitacoes",JSON.stringify(solicitacoes));
-
-    atualizarEstoque();
-    atualizarSolicitacoes();
-}
-
-function buscar(){
-    let busca=buscaMed.value.toLowerCase();
-    resultado.innerHTML="";
-
-    estoque.filter(m=>m.nome.toLowerCase().includes(busca))
-    .forEach(m=>{
-        resultado.innerHTML+=`
-        <div class="item">
-            ${m.nome}
-            <button onclick="interesse(${m.id})">Solicitar</button>
-        </div>`;
-    });
-}
-
-function logout(){
-    location.reload();
-}
-
-let infos = [
-    {texto:'📞 Hospital Vet Recife - (81) 4042-3034',cor:"#1b5e20"},
-    {texto:'📞 Hospital Vet UFRPE - (81) 3320-6411',cor:"#0d47a1"},
-    {texto:"💉 Vacinação em andamento",cor:"#2e7d32"}
-];
-
-let i=0;
-
-function trocarInfo(){
-    let box=document.getElementById("painelInfo");
-    box.innerHTML=infos[i].texto;
-    box.style.background=infos[i].cor;
-    box.style.color="white";
-    box.style.padding="15px";
-
-    i=(i+1)%infos.length;
-}
-
-setInterval(trocarInfo,4000);
-trocarInfo();
 </script>
 
 </body>
