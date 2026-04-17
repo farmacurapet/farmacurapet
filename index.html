@@ -1,167 +1,319 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FarmacuraPet Oficial</title>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #f0f4f7; margin: 0; padding: 0; }
-        .barra-admin { background: #fff9c4; color: #856404; text-align: center; padding: 10px; font-weight: bold; border-bottom: 1px solid #ffeeba; }
-        header { background: #2D9CDB; color: white; padding: 20px; text-align: center; font-size: 24px; font-weight: bold; }
-        .container { max-width: 400px; margin: 30px auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h2 { color: #2D9CDB; text-align: center; margin-top: 0; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; }
-        .btn-azul { background-color: #2D9CDB; }
-        .btn-verde { background-color: #27AE60; }
-        .link-acao { display: block; text-align: center; margin-top: 15px; color: #2D9CDB; text-decoration: none; cursor: pointer; font-size: 14px; }
-        .hidden { display: none !important; }
-    </style>
+<meta charset="UTF-8">
+<title>Farmácia Veterinária Solidária</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #e8f5e9, #ffffff);
+    overflow-x: hidden;
+}
+
+.fundo {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://cdn-icons-png.flaticon.com/512/616/616408.png'),
+                      url('https://cdn-icons-png.flaticon.com/512/616/616430.png');
+    background-repeat: no-repeat, no-repeat;
+    background-position: left bottom, right bottom;
+    background-size: 180px, 180px;
+    opacity: 0.08;
+    z-index: 0;
+}
+
+.header {
+    background: #2e7d32;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 22px;
+    font-weight: bold;
+    position: relative;
+    z-index: 1;
+}
+
+.container {
+    width: 90%;
+    max-width: 420px;
+    margin: auto;
+    background: rgba(255,255,255,0.95);
+    padding: 25px;
+    margin-top: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 1;
+}
+
+h2, h3 {
+    text-align: center;
+    color: #2e7d32;
+}
+
+input, select, textarea {
+    width: 100%;
+    margin: 8px 0;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #2e7d32;
+    outline: none;
+    box-shadow: 0 0 5px rgba(46,125,50,0.3);
+}
+
+button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+    background: linear-gradient(135deg, #43a047, #2e7d32);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #2e7d32, #1b5e20);
+    transform: scale(1.03);
+}
+
+a {
+    color: #2e7d32;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.erro {
+    color: red;
+    text-align: center;
+}
+
+#areaDoador, #areaReceptor {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.banner {
+    background: linear-gradient(135deg, #66bb6a, #43a047);
+    color: white;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.ads {
+    background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+</style>
+
 </head>
+
 <body>
 
-<div class="barra-admin">📢 ESPAÇO PUBLICITÁRIO: ANUNCIE AQUI SEU PET SHOP!</div>
+<div class="fundo"></div>
 
-<header>🐾 FarmacuraPet</header>
+<div class="header">
+Farmácia Veterinária Solidária 🐾
+</div>
 
-<div class="container">
-    
-    <div id="telaLogin">
-        <h2>Entrar</h2>
-        <input type="email" id="emailLogin" placeholder="Seu e-mail">
-        <input type="password" id="senhaLogin" placeholder="Sua senha">
-        
-        <button class="btn btn-azul" onclick="entrarSistema()">ACESSAR</button>
-        
-        <a class="link-acao" onclick="recuperarSenha()">Esqueci minha senha</a>
-        <a class="link-acao" onclick="mostrarCadastro()">Não tenho conta? Cadastre-se</a>
-    </div>
+<div class="container" id="loginDiv">
+<div class="banner">
+🐶 Campanha de Vacinação Gratuita este mês!
+</div>
 
-    <div id="telaCadastro" class="hidden">
-        <h2>Nova Conta</h2>
-        <input type="email" id="emailNovo" placeholder="E-mail para cadastro">
-        <input type="password" id="senhaNova" placeholder="Senha (mín. 6 dígitos)">
-        
-        <button class="btn btn-verde" onclick="cadastrarUsuario()">CRIAR CONTA</button>
-        
-        <a class="link-acao" onclick="mostrarLogin()">Já tenho conta. Voltar</a>
-    </div>
+<h2>Login</h2>
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="senha" placeholder="Senha">
+<button onclick="login()">Entrar</button>
+<p class="erro" id="erroLogin"></p>
+<p><a href="#" onclick="mostrarCadastro()">Criar conta</a></p>
+<p><a href="#" onclick="esqueciSenha()">Esqueci a senha</a></p>
+</div>
 
-    <div id="telaApp" class="hidden">
-        <h2 id="tituloApp">Enviar Doação</h2>
-        
-        <input type="text" id="nomeMed" placeholder="Nome do Medicamento">
-        <input type="tel" id="whatsZap" placeholder="Seu WhatsApp">
-        
-        <label style="font-size: 12px; font-weight: bold;">Foto da Receita/Remédio:</label>
-        <input type="file" id="fotoArquivo" accept="image/*">
-        
-        <label style="font-size: 12px; font-weight: bold;">Data de Validade:</label>
-        <input type="date" id="dataVal">
-        
-        <button class="btn btn-verde" onclick="salvarDadosNoBanco()">SALVAR REGISTRO</button>
-        
-        <a class="link-acao" style="color: red;" onclick="location.reload()">Sair com segurança</a>
-    </div>
+<div class="container" id="cadastroDiv" style="display:none;">
+<div class="banner">
+🐱 Doe medicamentos e ajude vidas!
+</div>
+
+<h2>Cadastro</h2>
+<input type="email" id="novoEmail" placeholder="Email">
+<input type="password" id="novaSenha" placeholder="Senha">
+<select id="tipoUsuario">
+<option value="doador">Doador</option>
+<option value="receptor">Receptor</option>
+</select>
+<button onclick="cadastrar()">Cadastrar</button>
+<p class="erro" id="erroCadastro"></p>
+<button onclick="voltarLogin()">Voltar</button>
+</div>
+
+<div class="container" id="sistemaDiv" style="display:none;">
+<div class="banner">
+💚 Ajude um pet hoje mesmo!
+</div>
+
+<h2>Sistema</h2>
+
+<div id="areaDoador" style="display:none;">
+<h3>Doar Medicamento</h3>
+<input type="text" id="nomeMed" placeholder="Nome do medicamento">
+<input type="date" id="dataValidade">
+<input type="file" id="fotoMed">
+<button onclick="doar()">Enviar Doação</button>
+</div>
+
+<div id="areaReceptor" style="display:none;">
+<h3>Solicitar Medicamento</h3>
+<textarea id="justificativa" placeholder="Justificativa"></textarea>
+<input type="file" id="fotoReceita">
+<button onclick="solicitar()">Enviar Solicitação</button>
+</div>
+
+<button onclick="logout()">Sair</button>
+
+<div class="ads">
+<a id="linkAd" href="#" target="_blank">
+<img id="imgAd" src="" style="width:100%; border-radius:10px;">
+</a>
+</div>
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-    // Configurações do Supabase
-    const URL_SUPA = "https://tkupfowbgykjjdkwfiyr.supabase.co";
-    const KEY_SUPA = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRrdXBmb3diZ3lrampka3dmaXlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNjY1OTgsImV4cCI6MjA5MTk0MjU5OH0.yXCbccFrPB9qyVamthjAUdyrK0bqWfbRCG3LR4VAjBY";
-    
-    // Inicializa o cliente
-    const supabase = window.supabase.createClient(URL_SUPA, KEY_SUPA);
+let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-    // Funções de Troca de Tela
-    function mostrarCadastro() {
-        document.getElementById('telaLogin').classList.add('hidden');
-        document.getElementById('telaCadastro').classList.remove('hidden');
+function mostrarCadastro() {
+    loginDiv.style.display = "none";
+    cadastroDiv.style.display = "block";
+}
+
+function voltarLogin() {
+    cadastroDiv.style.display = "none";
+    loginDiv.style.display = "block";
+}
+
+function cadastrar() {
+    let email = novoEmail.value;
+    let senha = novaSenha.value;
+    let tipo = tipoUsuario.value;
+
+    if (!email || !senha) {
+        erroCadastro.innerText = "Preencha todos os campos!";
+        return;
     }
 
-    function mostrarLogin() {
-        document.getElementById('telaCadastro').classList.add('hidden');
-        document.getElementById('telaLogin').classList.remove('hidden');
+    usuarios.push({email, senha, tipo});
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+    alert("Cadastro realizado com sucesso!");
+    voltarLogin();
+}
+
+function login() {
+    let email = document.getElementById("email").value;
+    let senha = document.getElementById("senha").value;
+
+    let user = usuarios.find(u => u.email === email && u.senha === senha);
+
+    if (!user) {
+        erroLogin.innerText = "Email ou senha incorretos!";
+        return;
     }
 
-    // --- AÇÕES DO SISTEMA ---
+    loginDiv.style.display = "none";
+    sistemaDiv.style.display = "block";
 
-    async function entrarSistema() {
-        const email = document.getElementById('emailLogin').value;
-        const password = document.getElementById('senhaLogin').value;
+    if (user.tipo === "doador") {
+        areaDoador.style.display = "block";
+    } else {
+        areaReceptor.style.display = "block";
+    }
+}
 
-        if(!email || !password) {
-            alert("Preencha e-mail e senha!");
-            return;
-        }
+function esqueciSenha() {
+    let email = prompt("Digite seu email:");
+    let user = usuarios.find(u => u.email === email);
 
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (!user) {
+        alert("Email não encontrado!");
+    } else {
+        alert("Sua senha é: " + user.senha);
+    }
+}
 
-        if (error) {
-            alert("Erro no Login: " + error.message);
-        } else {
-            alert("Bem-vindo ao FarmacuraPet!");
-            document.getElementById('telaLogin').classList.add('hidden');
-            document.getElementById('telaApp').classList.remove('hidden');
-        }
+function doar() {
+    let nome = nomeMed.value;
+    let data = dataValidade.value;
+    let foto = fotoMed.files[0];
+
+    if (!nome || !data || !foto) {
+        alert("Preencha todos os campos da doação!");
+        return;
     }
 
-    async function cadastrarUsuario() {
-        const email = document.getElementById('emailNovo').value;
-        const password = document.getElementById('senhaNova').value;
+    alert("Doação enviada com sucesso!");
+}
 
-        const { error } = await supabase.auth.signUp({ email, password });
+function solicitar() {
+    let just = justificativa.value;
+    let foto = fotoReceita.files[0];
 
-        if (error) {
-            alert("Erro no Cadastro: " + error.message);
-        } else {
-            alert("Conta criada! Verifique seu e-mail para confirmar.");
-            mostrarLogin();
-        }
+    if (!just || !foto) {
+        alert("Envie justificativa e foto da receita!");
+        return;
     }
 
-    async function recuperarSenha() {
-        const email = document.getElementById('emailLogin').value;
-        if (!email) {
-            alert("Digite seu e-mail no campo para recuperar a senha.");
-            return;
-        }
+    alert("Solicitação enviada!");
+}
 
-        const { error } = await supabase.auth.resetPasswordForEmail(email);
+function logout() {
+    location.reload();
+}
 
-        if (error) {
-            alert("Erro: " + error.message);
-        } else {
-            alert("Link de recuperação enviado para seu e-mail!");
-        }
+let anuncios = [
+    {
+        imagem: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Shopee_logo.svg",
+        link: "https://shopee.com.br"
+    },
+    {
+        imagem: "https://upload.wikimedia.org/wikipedia/commons/7/75/Netflix_icon.svg",
+        link: "https://netflix.com"
+    },
+    {
+        imagem: "https://upload.wikimedia.org/wikipedia/commons/5/5c/MercadoLibre.svg",
+        link: "https://mercadolivre.com.br"
     }
+];
 
-    async function salvarDadosNoBanco() {
-        const med = document.getElementById('nomeMed').value;
-        const zap = document.getElementById('whatsZap').value;
-        const validade = document.getElementById('dataVal').value;
+let indexAd = 0;
 
-        if (!med || !zap) {
-            alert("Preencha o nome do remédio e seu contato!");
-            return;
-        }
+function trocarAnuncio() {
+    document.getElementById("imgAd").src = anuncios[indexAd].imagem;
+    document.getElementById("linkAd").href = anuncios[indexAd].link;
 
-        const { error } = await supabase.from('registros').insert([{
-            medicamento: med,
-            whatsapp: zap,
-            validade_data: validade
-        }]);
+    indexAd = (indexAd + 1) % anuncios.length;
+}
 
-        if (error) {
-            alert("Erro ao salvar no banco: " + error.message);
-        } else {
-            alert("✅ Sucesso! Medicamento registrado.");
-            location.reload();
-        }
-    }
+setInterval(trocarAnuncio, 3000);
+trocarAnuncio();
 </script>
+
 </body>
 </html>
