@@ -94,12 +94,12 @@ button {
 
 <div class="container" id="cadastroDiv" style="display:none;">
 <h2>Cadastro</h2>
-<input type="email" id="novoEmail">
+<input type="email" id="novoEmail" placeholder="Email">
 <div class="input-group">
-<input type="password" id="novaSenha">
+<input type="password" id="novaSenha" placeholder="Senha">
 <span onclick="toggleSenha('novaSenha')">👁️</span>
 </div>
-<input type="text" id="whatsapp">
+<input type="text" id="whatsapp" placeholder="WhatsApp (ex: 81999999999)">
 <select id="tipoUsuario">
 <option value="doador">Doador</option>
 <option value="receptor">Receptor</option>
@@ -162,13 +162,13 @@ function cadastrar(){
     let tipo=tipoUsuario.value;
     let zap=whatsapp.value;
 
-    if(!email||!senha||!zap) return alert("Preencha tudo");
+    if(!email||!senha||!zap) return alert("Preencha todos os campos!");
 
-    if(usuarios.find(u=>u.email===email)) return alert("Já existe");
+    if(usuarios.find(u=>u.email===email)) return alert("Email já existe");
 
     usuarios.push({email,senha,tipo,zap});
     localStorage.setItem("usuarios",JSON.stringify(usuarios));
-    alert("Cadastrado!");
+    alert("Cadastro realizado!");
     voltarLogin();
 }
 
@@ -177,7 +177,7 @@ function login(){
     let senha=document.getElementById("senha").value;
 
     let user=usuarios.find(u=>u.email===email && u.senha===senha);
-    if(!user) return erroLogin.innerText="Erro no login";
+    if(!user) return erroLogin.innerText="Email ou senha incorretos";
 
     usuarioLogado=user;
 
@@ -213,7 +213,8 @@ function doar(){
             nome,
             data,
             foto:e.target.result,
-            doador:usuarioLogado.email
+            doador:usuarioLogado.email,
+            zap:usuarioLogado.zap
         });
 
         localStorage.setItem("estoque",JSON.stringify(estoque));
@@ -232,6 +233,7 @@ function atualizarEstoque(){
             <b>${m.nome}</b><br>
             Data de validade do medicamento: ${m.data}
             <img src="${m.foto}">
+            <a href="https://wa.me/55${m.zap}" target="_blank">📲 Falar no WhatsApp</a><br>
             <button onclick="interesse(${m.id})">Quero esse</button>
         </div>`;
     });
@@ -250,7 +252,6 @@ function interesse(id){
 }
 
 function atualizarSolicitacoes(){
-    solicitacoes.innerHTML="";
     document.getElementById("solicitacoes").innerHTML="";
 
     solicitacoes.forEach(s=>{
@@ -301,12 +302,10 @@ function logout(){
 }
 
 let infos = [
-    {texto:"🏥 Hospital Veterinário do Recife - Telefone: (8140423034)",cor:"#1b5e20"},
-    {texto:"🏥 Hospital Veterinário da UFRPE - Telefone: (8133206411)",cor:"#0d47a1"},
-    {texto:"💉 Campanha de vacinação antirrábica em andamento no Recife.",cor:"#2e7d32"},
-    {texto:"🐶 Atenção a doenças em pets.",cor:"#c62828"},
-    {texto:"🌧️ Possibilidade de chuvas hoje.",cor:"#6a1b9a"},
-    {texto:"🐱 Campanha de castração em breve.",cor:"#00897b"}
+    {texto:'📞 Hospital Veterinário do Recife - <a href="tel:8140423034" style="color:white;">(81) 4042-3034</a>',cor:"#1b5e20"},
+    {texto:'📞 Hospital Veterinário UFRPE - <a href="tel:8133206411" style="color:white;">(81) 3320-6411</a>',cor:"#0d47a1"},
+    {texto:"💉 Campanha de vacinação da Prefeitura do Recife em andamento.",cor:"#2e7d32"},
+    {texto:"🐶 Atenção a doenças em pets.",cor:"#c62828"}
 ];
 
 let i=0;
