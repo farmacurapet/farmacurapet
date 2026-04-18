@@ -1,362 +1,291 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Farmácia Veterinária Solidária</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmacura Pet - Oficial</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body, html { height: 100%; width: 100%; overflow: hidden; background-color: #f0f2f5; }
 
-<style>
-body {
-    margin: 0;
-    font-family: Arial;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
+        .bg-wallpaper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('WhatsApp Image 2026-04-17 at 23.54.44.jpeg');
+            background-size: cover; background-position: center; z-index: -1;
+        }
 
-/* Fundo leve */
-body::after {
-    content: "🐾";
-    position: fixed;
-    font-size: 80px;
-    opacity: 0.05;
-    bottom: 10%;
-    right: 10%;
-}
+        .main-container { display: flex; height: 100vh; width: 100vw; }
 
-/* Card */
-.card {
-    background: white;
-    width: 90%;
-    max-width: 380px;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0px 5px 20px rgba(0,0,0,0.3);
-}
+        /* BARRA LATERAL */
+        .sidebar {
+            width: 300px; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px); border-right: 1px solid #ddd;
+            display: flex; flex-direction: column; padding: 25px 15px; z-index: 10;
+        }
+        .logo-title { font-size: 24px; font-weight: 800; color: #1e3c72; text-align: center; margin-bottom: 25px; }
+        
+        .btn-nav {
+            display: flex; align-items: center; padding: 12px 15px; margin-bottom: 8px;
+            border-radius: 10px; text-decoration: none; color: #444; font-weight: 600;
+            font-size: 14px; transition: 0.2s; border: none; background: #f8f9fa; cursor: pointer;
+            width: 100%; text-align: left;
+        }
+        .btn-nav i { width: 25px; font-size: 16px; text-align: center; }
+        .btn-nav:hover { background: #e8f0fe; color: #1e3c72; transform: translateX(5px); }
 
-/* Títulos */
-h2 {
-    text-align: center;
-}
+        /* ÁREA CENTRAL */
+        .content-area { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .app-card {
+            background: white; padding: 30px; border-radius: 25px; width: 100%;
+            max-width: 550px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); display: none;
+            max-height: 85vh; overflow-y: auto;
+        }
+        .active-card { display: block; animation: fadeIn 0.3s ease; }
 
-/* Inputs */
-label {
-    font-weight: bold;
-    display: block;
-    margin-top: 10px;
-}
+        /* FORMULÁRIOS */
+        .input-group { margin-bottom: 12px; position: relative; }
+        label { display: block; font-size: 11px; font-weight: bold; margin-bottom: 4px; color: #666; }
+        input, select, textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; background: #fafafa; }
+        .btn-primary {
+            background: #1e3c72; color: white; width: 100%; padding: 14px;
+            border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px;
+        }
 
-input, select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
+        /* HOSPITAIS E ESTOQUE */
+        .hospital-card { background: #e3f2fd; border-left: 5px solid #2196f3; padding: 10px; border-radius: 8px; margin-bottom: 8px; font-size: 13px; }
+        .item-estoque {
+            background: #f1f8e9; padding: 12px; border-radius: 10px; margin-bottom: 10px;
+            display: flex; align-items: center; border-left: 4px solid #4caf50; gap: 12px;
+        }
+        .img-preview-mini { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; background: #ddd; }
+        
+        .badge { padding: 4px 8px; border-radius: 5px; font-size: 10px; text-transform: uppercase; font-weight: bold; }
+        .badge-doador { background: #e3f2fd; color: #1e3c72; }
+        .badge-receptor { background: #fce4ec; color: #c2185b; }
 
-/* Senha */
-.input-group {
-    position: relative;
-}
+        #container-foto { width: 100%; height: 100px; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center; margin: 10px 0; border-radius: 10px; overflow: hidden; }
+        #img-placeholder { max-width: 100%; max-height: 100%; display: none; }
 
-.input-group span {
-    position: absolute;
-    right: 10px;
-    top: 35px;
-    cursor: pointer;
-}
-
-/* Botões */
-button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 8px;
-    background: #2a5298;
-    color: white;
-    font-weight: bold;
-}
-
-/* Sistema */
-#sistemaDiv {
-    width: 100%;
-    max-width: 500px;
-    padding: 10px;
-}
-
-.item {
-    background: white;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 10px;
-    text-align: center;
-}
-
-.item img {
-    width: 120px;
-    margin-top: 10px;
-    border-radius: 8px;
-}
-
-/* Preview */
-#preview {
-    width: 120px;
-    margin-top: 10px;
-    display: none;
-}
-
-/* Responsivo */
-@media (max-width:500px){
-    .card { max-width: 95%; }
-    .item img, #preview { width: 100px; }
-}
-</style>
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
-
 <body>
 
-<!-- LOGIN -->
-<div id="loginDiv" class="card">
-<h2>Login 🐾</h2>
+    <div class="bg-wallpaper"></div>
 
-<label>Email</label>
-<input type="email" id="email">
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="logo-title">Farmacura Pet🐾</div>
+            <nav class="nav-menu">
+                <button class="btn-nav" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair / Trocar Conta</button>
+                <button class="btn-nav" onclick="showTab('dashboardTab')"><i class="fas fa-box-open"></i> Estoque & Clínicas</button>
+                <button class="btn-nav" onclick="showTab('perfilTab')"><i class="fas fa-user-edit"></i> Editar Cadastro</button>
+                
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
+                
+                <a href="https://instagram.com" target="_blank" class="btn-nav"><i class="fab fa-instagram" style="color:#E1306C"></i> Instagram</a>
+                <a href="https://facebook.com" target="_blank" class="btn-nav"><i class="fab fa-facebook" style="color:#4267B2"></i> Facebook</a>
+                <a href="https://youtube.com" target="_blank" class="btn-nav"><i class="fab fa-youtube" style="color:#FF0000"></i> YouTube</a>
+                <a href="https://www.ojogos.com.br/jogos/360" target="_blank" class="btn-nav"><i class="fas fa-gamepad" style="color:#6c5ce7"></i> Jogos 360</a>
+                
+                <button class="btn-nav" onclick="enviarFeedback()"><i class="fab fa-whatsapp" style="color:#25D366"></i> Suporte Direto</button>
+            </nav>
+        </aside>
 
-<label>Senha</label>
-<div class="input-group">
-<input type="password" id="senha">
-<span onclick="toggleSenha('senha')">👁️</span>
-</div>
+        <main class="content-area">
+            <div id="loginTab" class="app-card active-card">
+                <h3>Acesso Restrito</h3>
+                <div class="input-group" style="margin-top:20px">
+                    <label>E-MAIL</label>
+                    <input type="email" id="loginEmail" placeholder="seu@email.com">
+                </div>
+                <div class="input-group">
+                    <label>SENHA</label>
+                    <input type="password" id="loginPass" placeholder="••••••••">
+                </div>
+                <button class="btn-primary" onclick="realizarLogin()">ENTRAR</button>
+                <p style="text-align: center; margin-top: 10px; font-size: 12px;">
+                    <a href="#" onclick="alert('Recuperação enviada para o e-mail.')" style="color:#1e3c72; text-decoration:none; font-weight:bold;">Esqueci a senha</a>
+                </p>
+                <button class="btn-primary" style="background:#6c757d; margin-top: 20px;" onclick="showTab('cadastroTab')">NÃO TENHO CONTA (CADASTRAR)</button>
+            </div>
 
-<button onclick="login()">Entrar</button>
-<button onclick="mostrarCadastro()">Criar conta</button>
-</div>
+            <div id="cadastroTab" class="app-card">
+                <h3>Criar Cadastro</h3>
+                <div class="input-group"><label>NOME COMPLETO</label><input type="text" id="cadNome"></div>
+                <div class="input-group"><label>E-MAIL</label><input type="email" id="cadEmail"></div>
+                <div class="input-group"><label>WHATSAPP (DDD)</label><input type="text" id="cadTel" placeholder="(81) 9..."></div>
+                <div class="input-group"><label>CRIE UMA SENHA</label><input type="password" id="cadPass"></div>
+                <div class="input-group">
+                    <label>PERFIL</label>
+                    <select id="cadTipo">
+                        <option value="doador">Doador</option>
+                        <option value="receptor">Receptor</option>
+                    </select>
+                </div>
+                <button class="btn-primary" onclick="salvarNovoUsuario()">CADASTRAR E LOGAR</button>
+            </div>
 
-<!-- CADASTRO -->
-<div id="cadastroDiv" class="card" style="display:none;">
-<h2>Cadastro</h2>
+            <div id="dashboardTab" class="app-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 id="boasVindas">Olá!</h3>
+                    <span id="userBadge" class="badge">---</span>
+                </div>
 
-<label>Email</label>
-<input type="email" id="novoEmail">
+                <div class="hospital-card">
+                    <b>🏥 Clínica Veterinária do Recife (HVR)</b><br>
+                    <span>📞 (81) 3224-2361 | (81) 3441-5506</span>
+                </div>
+                <div class="hospital-card">
+                    <b>🏫 Clínica Vet. da Rural (UFRPE)</b><br>
+                    <span>📞 (81) 3320-6410 | (81) 3320-6411</span>
+                </div>
 
-<label>Senha</label>
-<div class="input-group">
-<input type="password" id="novaSenha">
-<span onclick="toggleSenha('novaSenha')">👁️</span>
-</div>
+                <div style="background: #f1f8e9; padding: 15px; border-radius: 12px; border: 1px solid #c8e6c9; margin-top: 15px;">
+                    <p style="font-weight: bold; margin-bottom: 8px; color: #2e7d32; font-size: 14px;">Anunciar Medicamento</p>
+                    <input type="text" id="nomeMed" placeholder="Nome do remédio" style="margin-bottom: 8px;">
+                    <input type="date" id="dataVal" style="margin-bottom: 8px;">
+                    
+                    <label>FOTO DO MEDICAMENTO</label>
+                    <input type="file" id="fotoInput" accept="image/*" onchange="previewFoto(event)">
+                    <div id="container-foto">
+                        <span id="text-foto" style="font-size:10px; color:#999;">Sem foto selecionada</span>
+                        <img id="img-placeholder" src="" alt="Foto">
+                    </div>
 
-<label>WhatsApp</label>
-<input type="text" id="whatsapp">
+                    <button class="btn-primary" style="background:#2e7d32;" onclick="adicionarAoEstoque()">PUBLICAR AGORA</button>
+                </div>
 
-<select id="tipoUsuario">
-<option value="doador">Doador</option>
-<option value="receptor">Receptor</option>
-</select>
+                <div style="margin-top: 25px;">
+                    <p style="font-weight: bold; font-size: 14px; margin-bottom: 10px;">Itens na Rede:</p>
+                    <div id="listaItens"></div>
+                </div>
+            </div>
 
-<button onclick="cadastrar()">Cadastrar</button>
-<button onclick="voltarLogin()">Voltar</button>
-</div>
+            <div id="perfilTab" class="app-card">
+                <h3>Editar Meus Dados</h3>
+                <div class="input-group"><label>NOME</label><input type="text" id="editNome"></div>
+                <div class="input-group"><label>TELEFONE</label><input type="text" id="editTel"></div>
+                <button class="btn-primary" style="background:#28a745" onclick="atualizarCadastro()">SALVAR ALTERAÇÕES</button>
+            </div>
+        </main>
+    </div>
 
-<!-- SISTEMA -->
-<div id="sistemaDiv" style="display:none;">
+    <script>
+        let estoque = JSON.parse(localStorage.getItem('f_estoque')) || [];
+        let sessao = JSON.parse(localStorage.getItem('f_sessao')) || null;
+        let fotoTemp = "";
 
-<h2 style="color:white; text-align:center;">Medicamentos Disponíveis</h2>
-<div id="listaEstoque"></div>
-
-<h2 style="color:white; text-align:center;">Solicitações</h2>
-<div id="listaSolicitacoes"></div>
-
-<div id="areaDoador" style="display:none;">
-<div class="card">
-
-<h3>Adicionar Medicamento</h3>
-
-<label>Nome</label>
-<input type="text" id="nomeMed">
-
-<label>Validade</label>
-<input type="date" id="dataValidade">
-
-<label>Foto do medicamento</label>
-<input type="file" id="fotoMed" accept="image/*" capture="environment" onchange="previewImagem(event)">
-
-<img id="preview">
-
-<button onclick="doar()">Salvar</button>
-
-</div>
-</div>
-
-<button onclick="logout()">Sair</button>
-
-</div>
-
-<script>
-let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-let estoque = JSON.parse(localStorage.getItem("estoque")) || [];
-let solicitacoes = JSON.parse(localStorage.getItem("solicitacoes")) || [];
-
-let usuarioLogado = null;
-
-/* Mostrar senha */
-function toggleSenha(id){
-    let c=document.getElementById(id);
-    c.type = c.type==="password" ? "text" : "password";
-}
-
-/* Preview imagem */
-function previewImagem(event){
-    let img = document.getElementById("preview");
-    img.src = URL.createObjectURL(event.target.files[0]);
-    img.style.display = "block";
-}
-
-/* Login */
-function login(){
-    let user = usuarios.find(u => u.email===email.value && u.senha===senha.value);
-
-    if(!user){
-        alert("Erro no login");
-        return;
-    }
-
-    usuarioLogado = user;
-
-    loginDiv.style.display="none";
-    sistemaDiv.style.display="block";
-
-    carregarSistema();
-}
-
-/* Cadastro */
-function cadastrar(){
-    usuarios.push({
-        email:novoEmail.value,
-        senha:novaSenha.value,
-        zap:whatsapp.value,
-        tipo:tipoUsuario.value
-    });
-
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
-    alert("Cadastrado!");
-    voltarLogin();
-}
-
-/* Sistema */
-function carregarSistema(){
-    atualizarEstoque();
-    atualizarSolicitacoes();
-
-    if(usuarioLogado.tipo==="doador"){
-        areaDoador.style.display="block";
-    }
-}
-
-/* Doar */
-function doar(){
-    let file = fotoMed.files[0];
-    if(!file) return alert("Envie uma foto");
-
-    let reader = new FileReader();
-
-    reader.onload = function(e){
-        estoque.push({
-            id: Date.now(),
-            nome: nomeMed.value,
-            data: dataValidade.value,
-            foto: e.target.result,
-            doador: usuarioLogado.email
-        });
-
-        localStorage.setItem("estoque", JSON.stringify(estoque));
-        atualizarEstoque();
-    };
-
-    reader.readAsDataURL(file);
-}
-
-/* Atualizar estoque */
-function atualizarEstoque(){
-    listaEstoque.innerHTML="";
-
-    estoque.forEach(m=>{
-        listaEstoque.innerHTML+=`
-        <div class="item">
-            <b>${m.nome}</b><br>
-            Validade: ${m.data}
-            <img src="${m.foto}">
-            <button onclick="interesse(${m.id})">Quero esse</button>
-        </div>`;
-    });
-}
-
-/* Interesse */
-function interesse(id){
-    solicitacoes.push({
-        medId:id,
-        receptor:usuarioLogado.email,
-        status:"pendente"
-    });
-
-    localStorage.setItem("solicitacoes", JSON.stringify(solicitacoes));
-    atualizarSolicitacoes();
-}
-
-/* Solicitações */
-function atualizarSolicitacoes(){
-    listaSolicitacoes.innerHTML="";
-
-    solicitacoes.forEach(s=>{
-        let med = estoque.find(m=>m.id===s.medId);
-
-        if(med && med.doador===usuarioLogado.email && s.status==="pendente"){
-            listaSolicitacoes.innerHTML+=`
-            <div class="item">
-                ${s.receptor} quer ${med.nome}
-                <button onclick="confirmar(${s.medId})">Confirmar</button>
-            </div>`;
+        function showTab(tabId) {
+            if((tabId === 'dashboardTab' || tabId === 'perfilTab') && !sessao) {
+                alert("Acesse sua conta primeiro!");
+                tabId = 'loginTab';
+            }
+            document.querySelectorAll('.app-card').forEach(c => c.classList.remove('active-card'));
+            document.getElementById(tabId).classList.add('active-card');
+            
+            if(tabId === 'perfilTab') {
+                document.getElementById('editNome').value = sessao.nome;
+                document.getElementById('editTel').value = sessao.tel;
+            }
+            atualizarTela();
         }
-    });
-}
 
-/* Confirmar doação */
-function confirmar(id){
-    estoque = estoque.filter(m=>m.id!==id);
+        function realizarLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPass').value;
+            if(email && pass) {
+                sessao = { nome: email.split('@')[0], tel: "Pendente", tipo: "doador" };
+                localStorage.setItem('f_sessao', JSON.stringify(sessao));
+                showTab('dashboardTab');
+            } else { alert("Preencha login e senha!"); }
+        }
 
-    solicitacoes = solicitacoes.map(s=>{
-        if(s.medId===id) s.status="concluido";
-        return s;
-    });
+        function salvarNovoUsuario() {
+            const nome = document.getElementById('cadNome').value;
+            const email = document.getElementById('cadEmail').value;
+            const tel = document.getElementById('cadTel').value;
+            const pass = document.getElementById('cadPass').value;
+            const tipo = document.getElementById('cadTipo').value;
 
-    localStorage.setItem("estoque", JSON.stringify(estoque));
-    localStorage.setItem("solicitacoes", JSON.stringify(solicitacoes));
+            if(!nome || !email || !pass) return alert("Preencha os campos obrigatórios!");
 
-    atualizarEstoque();
-    atualizarSolicitacoes();
+            sessao = { nome, email, tel, tipo };
+            localStorage.setItem('f_sessao', JSON.stringify(sessao));
+            showTab('dashboardTab');
+        }
 
-    alert("Medicamento doado!");
-}
+        function previewFoto(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                fotoTemp = reader.result;
+                const img = document.getElementById('img-placeholder');
+                img.src = fotoTemp;
+                img.style.display = 'block';
+                document.getElementById('text-foto').style.display = 'none';
+            }
+            if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
+        }
 
-/* Logout */
-function logout(){
-    location.reload();
-}
+        function adicionarAoEstoque() {
+            const nome = document.getElementById('nomeMed').value;
+            const data = document.getElementById('dataVal').value;
+            if(!nome || !data) return alert("Preencha nome e validade!");
 
-/* Navegação */
-function mostrarCadastro(){
-    loginDiv.style.display="none";
-    cadastroDiv.style.display="block";
-}
+            estoque.push({ id: Date.now(), nome, validade: data, foto: fotoTemp, dono: sessao.nome });
+            localStorage.setItem('f_estoque', JSON.stringify(estoque));
+            
+            // Reset
+            document.getElementById('nomeMed').value = "";
+            document.getElementById('img-placeholder').style.display = 'none';
+            document.getElementById('text-foto').style.display = 'block';
+            fotoTemp = "";
+            atualizarTela();
+            alert("Medicamento postado!");
+        }
 
-function voltarLogin(){
-    cadastroDiv.style.display="none";
-    loginDiv.style.display="block";
-}
-</script>
+        function removerDoEstoque(id) {
+            if(confirm("Confirmar recebimento?")) {
+                estoque = estoque.filter(i => i.id !== id);
+                localStorage.setItem('f_estoque', JSON.stringify(estoque));
+                atualizarTela();
+            }
+        }
 
+        function atualizarTela() {
+            if(sessao) {
+                document.getElementById('boasVindas').innerText = "Olá, " + sessao.nome;
+                const badge = document.getElementById('userBadge');
+                badge.innerText = sessao.tipo;
+                badge.className = "badge badge-" + sessao.tipo;
+            }
+            const lista = document.getElementById('listaItens');
+            lista.innerHTML = estoque.length === 0 ? "<p style='font-size:12px; color:#999;'>Vazio.</p>" : 
+                estoque.map(i => `
+                    <div class="item-estoque">
+                        <img src="${i.foto || 'https://via.placeholder.com/50'}" class="img-preview-mini">
+                        <div style="flex-grow:1">
+                            <b>${i.nome}</b><br><small>Venc: ${i.validade}</small>
+                        </div>
+                        <button class="btn-primary" style="width:auto; padding:6px 10px; font-size:10px; margin:0;" onclick="removerDoEstoque(${i.id})">RECEBI</button>
+                    </div>
+                `).join('');
+        }
+
+        function logout() { localStorage.removeItem('f_sessao'); sessao = null; showTab('loginTab'); }
+        function atualizarCadastro() {
+            sessao.nome = document.getElementById('editNome').value;
+            sessao.tel = document.getElementById('editTel').value;
+            localStorage.setItem('f_sessao', JSON.stringify(sessao));
+            alert("Dados salvos!");
+            showTab('dashboardTab');
+        }
+        function enviarFeedback() { window.open('https://api.whatsapp.org/send?phone=5581983510292&text=Olá!', '_blank'); }
+
+        window.onload = () => { sessao ? showTab('dashboardTab') : showTab('loginTab'); };
+    </script>
 </body>
 </html>
