@@ -3,73 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farmacura Pet - Oficial</title>
+    <title>Farmacura Pet - Emergência Visível</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body, html { height: 100%; width: 100%; overflow: hidden; background-color: #f0f2f5; }
+        body, html { height: 100%; width: 100%; background-color: #0d1b2a; overflow: hidden; }
 
         .bg-wallpaper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
                         url('WhatsApp Image 2026-04-17 at 23.54.44.jpeg');
             background-size: cover; background-position: center; z-index: -1;
         }
 
         .main-container { display: flex; height: 100vh; width: 100vw; }
 
-        /* BARRA LATERAL */
+        /* SIDEBAR */
         .sidebar {
-            width: 300px; background: rgba(255, 255, 255, 0.95);
+            width: 280px; background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(15px); border-right: 1px solid #ddd;
-            display: flex; flex-direction: column; padding: 25px 15px; z-index: 10;
+            display: flex; flex-direction: column; padding: 25px 15px; z-index: 100;
         }
-        .logo-title { font-size: 24px; font-weight: 800; color: #1e3c72; text-align: center; margin-bottom: 25px; }
+        .logo-title { font-size: 24px; font-weight: 800; color: #1e3c72; text-align: center; margin-bottom: 20px; }
         
         .btn-nav {
             display: flex; align-items: center; padding: 12px 15px; margin-bottom: 8px;
-            border-radius: 10px; text-decoration: none; color: #444; font-weight: 600;
-            font-size: 14px; transition: 0.2s; border: none; background: #f8f9fa; cursor: pointer;
-            width: 100%; text-align: left;
+            border-radius: 10px; color: #444; font-weight: 600; font-size: 13px;
+            border: none; background: #f8f9fa; cursor: pointer; transition: 0.2s; text-align: left;
         }
-        .btn-nav i { width: 25px; font-size: 16px; text-align: center; }
-        .btn-nav:hover { background: #e8f0fe; color: #1e3c72; transform: translateX(5px); }
+        .btn-nav i { width: 25px; font-size: 18px; margin-right: 10px; color: #1e3c72; }
+        .btn-nav:hover { background: #e8f0fe; transform: translateX(5px); }
+        .hidden { display: none !important; }
 
-        /* ÁREA CENTRAL */
-        .content-area { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        /* REDES SOCIAIS */
+        .social-area { margin-top: auto; padding-top: 15px; border-top: 1px solid #eee; }
+        .btn-social {
+            display: flex; align-items: center; padding: 10px; margin-bottom: 5px;
+            border-radius: 8px; color: white; text-decoration: none; font-size: 12px; font-weight: bold;
+        }
+        .face { background: #1877F2; } .insta { background: #E1306C; } .ytube { background: #FF0000; } .feed { background: #6c757d; }
+
+        /* CARDS */
+        .content-area { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 15px; }
         .app-card {
-            background: white; padding: 30px; border-radius: 25px; width: 100%;
-            max-width: 550px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); display: none;
-            max-height: 85vh; overflow-y: auto;
+            background: white; padding: 30px; border-radius: 20px; width: 100%;
+            max-width: 450px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            display: none; max-height: 90vh; overflow-y: auto;
         }
         .active-card { display: block; animation: fadeIn 0.3s ease; }
 
-        /* FORMULÁRIOS */
-        .input-group { margin-bottom: 12px; position: relative; }
-        label { display: block; font-size: 11px; font-weight: bold; margin-bottom: 4px; color: #666; }
-        input, select, textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; background: #fafafa; }
-        .btn-primary {
-            background: #1e3c72; color: white; width: 100%; padding: 14px;
-            border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px;
+        /* ESTILO DOS HOSPITAIS (FOCO TOTAL NA VISIBILIDADE) */
+        .hospital-card {
+            background: #fff; border: 2px solid #f0f0f0; border-radius: 15px;
+            padding: 15px; margin-bottom: 15px; text-align: center;
         }
+        .hosp-nome { color: #1e3c72; font-size: 16px; font-weight: 800; margin-bottom: 5px; }
+        .hosp-tel { color: #d32f2f; font-size: 24px; font-weight: 900; display: block; margin: 5px 0; text-decoration: none; }
+        .hosp-info { font-size: 11px; color: #666; }
 
-        /* HOSPITAIS E ESTOQUE */
-        .hospital-card { background: #e3f2fd; border-left: 5px solid #2196f3; padding: 10px; border-radius: 8px; margin-bottom: 8px; font-size: 13px; }
-        .item-estoque {
-            background: #f1f8e9; padding: 12px; border-radius: 10px; margin-bottom: 10px;
-            display: flex; align-items: center; border-left: 4px solid #4caf50; gap: 12px;
-        }
-        .img-preview-mini { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; background: #ddd; }
+        input, select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 12px; outline: none; }
+        .btn-primary { background: #1e3c72; color: white; width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
         
-        .badge { padding: 4px 8px; border-radius: 5px; font-size: 10px; text-transform: uppercase; font-weight: bold; }
-        .badge-doador { background: #e3f2fd; color: #1e3c72; }
-        .badge-receptor { background: #fce4ec; color: #c2185b; }
+        .item-card { background: #fff; padding: 12px; border-radius: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 15px; border: 1px solid #eee; }
+        .med-img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; }
 
-        #container-foto { width: 100%; height: 100px; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center; margin: 10px 0; border-radius: 10px; overflow: hidden; }
-        #img-placeholder { max-width: 100%; max-height: 100%; display: none; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -78,214 +77,223 @@
 
     <div class="main-container">
         <aside class="sidebar">
-            <div class="logo-title">Farmacura Pet🐾</div>
-            <nav class="nav-menu">
-                <button class="btn-nav" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair / Trocar Conta</button>
-                <button class="btn-nav" onclick="showTab('dashboardTab')"><i class="fas fa-box-open"></i> Estoque & Clínicas</button>
-                <button class="btn-nav" onclick="showTab('perfilTab')"><i class="fas fa-user-edit"></i> Editar Cadastro</button>
-                
-                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
-                
-                <a href="https://instagram.com" target="_blank" class="btn-nav"><i class="fab fa-instagram" style="color:#E1306C"></i> Instagram</a>
-                <a href="https://facebook.com" target="_blank" class="btn-nav"><i class="fab fa-facebook" style="color:#4267B2"></i> Facebook</a>
-                <a href="https://youtube.com" target="_blank" class="btn-nav"><i class="fab fa-youtube" style="color:#FF0000"></i> YouTube</a>
-                <a href="https://www.ojogos.com.br/jogos/360" target="_blank" class="btn-nav"><i class="fas fa-gamepad" style="color:#6c5ce7"></i> Jogos 360</a>
-                
-                <button class="btn-nav" onclick="enviarFeedback()"><i class="fab fa-whatsapp" style="color:#25D366"></i> Suporte Direto</button>
+            <div class="logo-title">Farmacura🐾</div>
+            <nav id="mainNav" style="flex-grow: 1;">
+                <button class="btn-nav" onclick="showTab('loginTab')"><i class="fas fa-home"></i> Início</button>
+                <button id="navEstoque" class="btn-nav hidden" onclick="protecaoAcesso('estoqueTab')"><i class="fas fa-search"></i> Estoque</button>
+                <button id="navAnunciar" class="btn-nav hidden" onclick="protecaoAcesso('anunciarTab')"><i class="fas fa-plus-circle"></i> Anunciar</button>
+                <button id="navHospital" class="btn-nav hidden" onclick="protecaoAcesso('hospitalTab')"><i class="fas fa-hospital"></i> Urgência</button>
+                <button id="navPerfil" class="btn-nav hidden" onclick="showTab('perfilTab')"><i class="fas fa-user"></i> Perfil</button>
+                <button id="navSair" class="btn-nav hidden" onclick="logout()" style="color:red;"><i class="fas fa-sign-out-alt"></i> Sair</button>
             </nav>
+
+            <div class="social-area">
+                <a href="https://facebook.com" class="btn-social face"><i class="fab fa-facebook-f"></i>  Facebook</a>
+                <a href="https://instagram.com" class="btn-social insta"><i class="fab fa-instagram"></i>  Instagram</a>
+                <a href="https://youtube.com" class="btn-social ytube"><i class="fab fa-youtube"></i>  YouTube</a>
+                <a href="mailto:contato@farmacura.com" class="btn-social feed"><i class="fas fa-envelope"></i>  Feedback</a>
+            </div>
         </aside>
 
         <main class="content-area">
             <div id="loginTab" class="app-card active-card">
-                <h3>Acesso Restrito</h3>
-                <div class="input-group" style="margin-top:20px">
-                    <label>E-MAIL</label>
-                    <input type="email" id="loginEmail" placeholder="seu@email.com">
+                <h2 style="text-align: center; color: #1e3c72; margin-bottom: 20px;">Acesso</h2>
+                <input type="email" id="lEmail" placeholder="E-mail">
+                <input type="password" id="lPass" placeholder="Senha">
+                <button class="btn-primary" onclick="fazerLogin()">ENTRAR</button>
+                
+                <div style="text-align:center; margin-top:15px;">
+                    <a href="#" onclick="esqueciSenha()" style="font-size:12px; color:#666; text-decoration: none;">Esqueci minha senha</a><br><br>
+                    <span>Novo? <a href="#" onclick="showTab('regTab')" style="color:#1e3c72; font-weight:bold; text-decoration: none;">Cadastre-se</a></span>
+                    <br><br>
+                    <button onclick="repararSistema()" style="background:none; border:none; color: #ff9800; font-size: 11px; cursor:pointer; font-weight:bold;">⚠️ REPARAR SISTEMA</button>
                 </div>
-                <div class="input-group">
-                    <label>SENHA</label>
-                    <input type="password" id="loginPass" placeholder="••••••••">
-                </div>
-                <button class="btn-primary" onclick="realizarLogin()">ENTRAR</button>
-                <p style="text-align: center; margin-top: 10px; font-size: 12px;">
-                    <a href="#" onclick="alert('Recuperação enviada para o e-mail.')" style="color:#1e3c72; text-decoration:none; font-weight:bold;">Esqueci a senha</a>
-                </p>
-                <button class="btn-primary" style="background:#6c757d; margin-top: 20px;" onclick="showTab('cadastroTab')">NÃO TENHO CONTA (CADASTRAR)</button>
             </div>
 
-            <div id="cadastroTab" class="app-card">
-                <h3>Criar Cadastro</h3>
-                <div class="input-group"><label>NOME COMPLETO</label><input type="text" id="cadNome"></div>
-                <div class="input-group"><label>E-MAIL</label><input type="email" id="cadEmail"></div>
-                <div class="input-group"><label>WHATSAPP (DDD)</label><input type="text" id="cadTel" placeholder="(81) 9..."></div>
-                <div class="input-group"><label>CRIE UMA SENHA</label><input type="password" id="cadPass"></div>
-                <div class="input-group">
-                    <label>PERFIL</label>
-                    <select id="cadTipo">
-                        <option value="doador">Doador</option>
-                        <option value="receptor">Receptor</option>
-                    </select>
-                </div>
-                <button class="btn-primary" onclick="salvarNovoUsuario()">CADASTRAR E LOGAR</button>
+            <div id="regTab" class="app-card">
+                <h3>Criar Conta</h3>
+                <input type="text" id="rNome" placeholder="Nome Completo">
+                <input type="text" id="rTel" placeholder="WhatsApp">
+                <input type="email" id="rEmail" placeholder="E-mail">
+                <input type="password" id="rPass" placeholder="Senha">
+                <select id="rTipo">
+                    <option value="Doador">Doador (Tenho remédios)</option>
+                    <option value="Receptor">Receptor (Preciso de doação)</option>
+                </select>
+                <button class="btn-primary" style="background:#28a745" onclick="registrar()">CADASTRAR</button>
+                <button onclick="showTab('loginTab')" style="background:none; border:none; width:100%; margin-top:10px; color:#666; cursor:pointer;">Voltar</button>
             </div>
 
-            <div id="dashboardTab" class="app-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <h3 id="boasVindas">Olá!</h3>
-                    <span id="userBadge" class="badge">---</span>
-                </div>
+            <div id="estoqueTab" class="app-card">
+                <h3>Estoque Virtual</h3>
+                <input type="text" id="inputBusca" onkeyup="renderEstoque()" placeholder="🔍 Procurar...">
+                <div id="listaMed"></div>
+            </div>
 
-                <div class="hospital-card">
-                    <b>🏥 Clínica Veterinária do Recife (HVR)</b><br>
-                    <span>📞 (81) 3224-2361 | (81) 3441-5506</span>
+            <div id="anunciarTab" class="app-card">
+                <h3>Anunciar Doação</h3>
+                <div id="formDoador">
+                    <input type="text" id="mNome" placeholder="Nome do Medicamento">
+                    <input type="date" id="mData">
+                    <input type="file" id="mFoto" accept="image/*">
+                    <button class="btn-primary" id="btnPublicar" onclick="addMed()" style="background:#28a745; margin-top:10px;">PUBLICAR</button>
                 </div>
-                <div class="hospital-card">
-                    <b>🏫 Clínica Vet. da Rural (UFRPE)</b><br>
-                    <span>📞 (81) 3320-6410 | (81) 3320-6411</span>
-                </div>
-
-                <div style="background: #f1f8e9; padding: 15px; border-radius: 12px; border: 1px solid #c8e6c9; margin-top: 15px;">
-                    <p style="font-weight: bold; margin-bottom: 8px; color: #2e7d32; font-size: 14px;">Anunciar Medicamento</p>
-                    <input type="text" id="nomeMed" placeholder="Nome do remédio" style="margin-bottom: 8px;">
-                    <input type="date" id="dataVal" style="margin-bottom: 8px;">
-                    
-                    <label>FOTO DO MEDICAMENTO</label>
-                    <input type="file" id="fotoInput" accept="image/*" onchange="previewFoto(event)">
-                    <div id="container-foto">
-                        <span id="text-foto" style="font-size:10px; color:#999;">Sem foto selecionada</span>
-                        <img id="img-placeholder" src="" alt="Foto">
-                    </div>
-
-                    <button class="btn-primary" style="background:#2e7d32;" onclick="adicionarAoEstoque()">PUBLICAR AGORA</button>
-                </div>
-
-                <div style="margin-top: 25px;">
-                    <p style="font-weight: bold; font-size: 14px; margin-bottom: 10px;">Itens na Rede:</p>
-                    <div id="listaItens"></div>
-                </div>
+                <div id="msgAcessoNegado" style="display:none; color:red; text-align:center; padding:20px;">Receptores não anunciam.</div>
             </div>
 
             <div id="perfilTab" class="app-card">
-                <h3>Editar Meus Dados</h3>
-                <div class="input-group"><label>NOME</label><input type="text" id="editNome"></div>
-                <div class="input-group"><label>TELEFONE</label><input type="text" id="editTel"></div>
-                <button class="btn-primary" style="background:#28a745" onclick="atualizarCadastro()">SALVAR ALTERAÇÕES</button>
+                <h3>Meus Dados</h3>
+                <input type="text" id="upNome"><input type="text" id="upTel"><input type="password" id="upPass">
+                <button class="btn-primary" onclick="atualizarCadastro()">SALVAR</button>
+            </div>
+
+            <div id="hospitalTab" class="app-card">
+                <h3 style="text-align:center; color:#1e3c72; margin-bottom:20px;">Contatos de Urgência (Recife)</h3>
+                
+                <div class="hospital-card">
+                    <div class="hosp-nome">Hospital Veterinário do Recife (HVR)</div>
+                    <a href="tel:8132242361" class="hosp-tel"><i class="fas fa-phone-alt"></i> (81) 3224-2361</a>
+                    <div class="hosp-info">Av. Prof. Estevão F. da Costa, S/N - Cordeiro<br>Seg a Sex: 07h às 18h</div>
+                </div>
+
+                <div class="hospital-card" style="border-color: #e3f2fd;">
+                    <div class="hosp-nome" style="color:#1976d2">Hospital Vet. da UFRPE</div>
+                    <a href="tel:8133206410" class="hosp-tel" style="color:#1976d2"><i class="fas fa-phone-alt"></i> (81) 3320-6410</a>
+                    <div class="hosp-info">Rua Dom Manoel de Medeiros, S/N - Dois Irmãos<br>Atendimento Clínico e Cirúrgico</div>
+                </div>
+
+                <p style="text-align:center; font-size:11px; color:#999; margin-top:10px;">Toque no número para ligar agora.</p>
             </div>
         </main>
     </div>
 
     <script>
-        let estoque = JSON.parse(localStorage.getItem('f_estoque')) || [];
-        let sessao = JSON.parse(localStorage.getItem('f_sessao')) || null;
-        let fotoTemp = "";
+        const K_U = "farmacura_final_users";
+        const K_M = "farmacura_final_meds";
 
-        function showTab(tabId) {
-            if((tabId === 'dashboardTab' || tabId === 'perfilTab') && !sessao) {
-                alert("Acesse sua conta primeiro!");
-                tabId = 'loginTab';
-            }
+        let usuarios = JSON.parse(localStorage.getItem(K_U)) || [];
+        let estoque = JSON.parse(localStorage.getItem(K_M)) || [];
+        let logado = null;
+
+        if(usuarios.length === 0) {
+            usuarios.push({nome: "Admin", email: "adm@farmacura.com", pass: "123", tel: "81900000000", tipo: "Doador"});
+            localStorage.setItem(K_U, JSON.stringify(usuarios));
+        }
+
+        function showTab(id) {
             document.querySelectorAll('.app-card').forEach(c => c.classList.remove('active-card'));
-            document.getElementById(tabId).classList.add('active-card');
-            
-            if(tabId === 'perfilTab') {
-                document.getElementById('editNome').value = sessao.nome;
-                document.getElementById('editTel').value = sessao.tel;
+            document.getElementById(id).classList.add('active-card');
+        }
+
+        function fazerLogin() {
+            const e = document.getElementById('lEmail').value.trim().toLowerCase();
+            const p = document.getElementById('lPass').value.trim();
+            const u = usuarios.find(x => x.email.toLowerCase() === e && x.pass === p);
+
+            if(u) {
+                logado = u;
+                document.querySelectorAll('.btn-nav.hidden').forEach(b => b.classList.remove('hidden'));
+                document.getElementById('formDoador').style.display = (u.tipo === 'Doador') ? 'block' : 'none';
+                document.getElementById('msgAcessoNegado').style.display = (u.tipo === 'Receptor') ? 'block' : 'none';
+                document.getElementById('upNome').value = u.nome;
+                document.getElementById('upTel').value = u.tel;
+                document.getElementById('upPass').value = u.pass;
+                protecaoAcesso('estoqueTab');
+            } else {
+                alert("E-mail ou senha incorretos!");
             }
-            atualizarTela();
         }
 
-        function realizarLogin() {
-            const email = document.getElementById('loginEmail').value;
-            const pass = document.getElementById('loginPass').value;
-            if(email && pass) {
-                sessao = { nome: email.split('@')[0], tel: "Pendente", tipo: "doador" };
-                localStorage.setItem('f_sessao', JSON.stringify(sessao));
-                showTab('dashboardTab');
-            } else { alert("Preencha login e senha!"); }
+        function registrar() {
+            const n = document.getElementById('rNome').value;
+            const e = document.getElementById('rEmail').value.trim().toLowerCase();
+            const p = document.getElementById('rPass').value;
+            const t = document.getElementById('rTel').value;
+            const tipo = document.getElementById('rTipo').value;
+            if(!e || !p) return alert("Preencha e-mail e senha!");
+            usuarios.push({nome:n, email:e, pass:p, tel:t, tipo:tipo});
+            localStorage.setItem(K_U, JSON.stringify(usuarios));
+            alert("Cadastro realizado!");
+            showTab('loginTab');
         }
 
-        function salvarNovoUsuario() {
-            const nome = document.getElementById('cadNome').value;
-            const email = document.getElementById('cadEmail').value;
-            const tel = document.getElementById('cadTel').value;
-            const pass = document.getElementById('cadPass').value;
-            const tipo = document.getElementById('cadTipo').value;
-
-            if(!nome || !email || !pass) return alert("Preencha os campos obrigatórios!");
-
-            sessao = { nome, email, tel, tipo };
-            localStorage.setItem('f_sessao', JSON.stringify(sessao));
-            showTab('dashboardTab');
+        function addMed() {
+            const n = document.getElementById('mNome').value.trim();
+            const d = document.getElementById('mData').value;
+            const f = document.getElementById('mFoto').files[0];
+            if(!n || !d) return alert("Preencha nome e validade!");
+            if(f) {
+                const r = new FileReader();
+                r.onload = (e) => salvarM(n, d, e.target.result);
+                r.readAsDataURL(f);
+            } else { salvarM(n, d, ""); }
         }
 
-        function previewFoto(event) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                fotoTemp = reader.result;
-                const img = document.getElementById('img-placeholder');
-                img.src = fotoTemp;
-                img.style.display = 'block';
-                document.getElementById('text-foto').style.display = 'none';
-            }
-            if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
+        function salvarM(nome, data, foto) {
+            estoque.unshift({id: Date.now(), nome, data, foto, donoEmail: logado.email, donoNome: logado.nome, donoTel: logado.tel});
+            localStorage.setItem(K_M, JSON.stringify(estoque));
+            alert("Doação adicionada com sucesso!");
+            document.getElementById('mNome').value = "";
+            protecaoAcesso('estoqueTab');
         }
 
-        function adicionarAoEstoque() {
-            const nome = document.getElementById('nomeMed').value;
-            const data = document.getElementById('dataVal').value;
-            if(!nome || !data) return alert("Preencha nome e validade!");
-
-            estoque.push({ id: Date.now(), nome, validade: data, foto: fotoTemp, dono: sessao.nome });
-            localStorage.setItem('f_estoque', JSON.stringify(estoque));
+        function renderEstoque() {
+            const lista = document.getElementById('listaMed');
+            const busca = document.getElementById('inputBusca').value.toLowerCase();
+            let data = (logado.tipo === 'Doador' && logado.email !== 'adm@farmacura.com') ? estoque.filter(i => i.donoEmail === logado.email) : estoque;
+            if(busca) data = data.filter(i => i.nome.toLowerCase().includes(busca));
             
-            // Reset
-            document.getElementById('nomeMed').value = "";
-            document.getElementById('img-placeholder').style.display = 'none';
-            document.getElementById('text-foto').style.display = 'block';
-            fotoTemp = "";
-            atualizarTela();
-            alert("Medicamento postado!");
+            if(data.length === 0) {
+                lista.innerHTML = "<p style='text-align:center; color:#999; margin-top:20px;'>Nenhum remédio disponível.</p>";
+                return;
+            }
+
+            lista.innerHTML = data.map(i => `
+                <div class="item-card">
+                    <img src="${i.foto || 'https://via.placeholder.com/60?text=PET'}" class="med-img">
+                    <div style="flex-grow:1"><b>${i.nome}</b><br><small>Vence: ${i.data}</small></div>
+                    ${logado.tipo === 'Receptor' ? 
+                        `<button onclick="window.open('https://wa.me/55${i.donoTel.replace(/\D/g,'')}')" style="background:#25D366; color:white; border:none; padding:10px; border-radius:10px; cursor:pointer;"><i class="fab fa-whatsapp"></i></button>` : 
+                        `<button onclick="removerMed(${i.id})" style="background:#ffcdd2; color:red; border:none; padding:10px; border-radius:10px; cursor:pointer;"><i class="fas fa-trash"></i></button>`}
+                </div>
+            `).join('');
         }
 
-        function removerDoEstoque(id) {
-            if(confirm("Confirmar recebimento?")) {
+        function removerMed(id) {
+            if(confirm("Deseja apagar este anúncio?")) {
                 estoque = estoque.filter(i => i.id !== id);
-                localStorage.setItem('f_estoque', JSON.stringify(estoque));
-                atualizarTela();
+                localStorage.setItem(K_M, JSON.stringify(estoque));
+                renderEstoque();
             }
         }
 
-        function atualizarTela() {
-            if(sessao) {
-                document.getElementById('boasVindas').innerText = "Olá, " + sessao.nome;
-                const badge = document.getElementById('userBadge');
-                badge.innerText = sessao.tipo;
-                badge.className = "badge badge-" + sessao.tipo;
-            }
-            const lista = document.getElementById('listaItens');
-            lista.innerHTML = estoque.length === 0 ? "<p style='font-size:12px; color:#999;'>Vazio.</p>" : 
-                estoque.map(i => `
-                    <div class="item-estoque">
-                        <img src="${i.foto || 'https://via.placeholder.com/50'}" class="img-preview-mini">
-                        <div style="flex-grow:1">
-                            <b>${i.nome}</b><br><small>Venc: ${i.validade}</small>
-                        </div>
-                        <button class="btn-primary" style="width:auto; padding:6px 10px; font-size:10px; margin:0;" onclick="removerDoEstoque(${i.id})">RECEBI</button>
-                    </div>
-                `).join('');
+        function protecaoAcesso(id) {
+            if(!logado) showTab('loginTab');
+            else { showTab(id); renderEstoque(); }
         }
 
-        function logout() { localStorage.removeItem('f_sessao'); sessao = null; showTab('loginTab'); }
         function atualizarCadastro() {
-            sessao.nome = document.getElementById('editNome').value;
-            sessao.tel = document.getElementById('editTel').value;
-            localStorage.setItem('f_sessao', JSON.stringify(sessao));
-            alert("Dados salvos!");
-            showTab('dashboardTab');
+            const idx = usuarios.findIndex(u => u.email === logado.email);
+            logado.nome = document.getElementById('upNome').value;
+            logado.tel = document.getElementById('upTel').value;
+            logado.pass = document.getElementById('upPass').value;
+            usuarios[idx] = logado;
+            localStorage.setItem(K_U, JSON.stringify(usuarios));
+            alert("Perfil atualizado!");
         }
-        function enviarFeedback() { window.open('https://api.whatsapp.org/send?phone=5581983510292&text=Olá!', '_blank'); }
 
-        window.onload = () => { sessao ? showTab('dashboardTab') : showTab('loginTab'); };
+        function esqueciSenha() {
+            const e = prompt("Digite seu e-mail:");
+            const u = usuarios.find(x => x.email.toLowerCase() === e.trim().toLowerCase());
+            if(u) alert("Sua senha é: " + u.pass);
+            else alert("E-mail não encontrado.");
+        }
+
+        function repararSistema() {
+            if(confirm("Isso limpará tudo. Continuar?")) { localStorage.clear(); location.reload(); }
+        }
+
+        function logout() { location.reload(); }
     </script>
 </body>
 </html>
