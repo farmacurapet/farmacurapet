@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* Reset de Estilo para parecer Aplicativo */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         body, html { height: 100%; width: 100%; background-color: #0d1b2a; overflow: hidden; }
 
         .bg-wallpaper {
@@ -29,16 +28,24 @@
         .logo-title { font-size: 26px; font-weight: 800; color: #1e3c72; text-align: center; margin-bottom: 30px; }
         
         .btn-nav {
-            display: flex; align-items: center; padding: 14px 18px; margin-bottom: 10px;
+            display: flex; align-items: center; padding: 14px 18px; margin-bottom: 8px;
             border-radius: 12px; color: #444; font-weight: 600; font-size: 14px;
-            border: none; background: #f8f9fa; cursor: pointer; transition: 0.3s; text-align: left;
+            border: none; background: #f8f9fa; cursor: pointer; transition: 0.3s;
         }
         .btn-nav i { width: 30px; font-size: 18px; margin-right: 10px; color: #1e3c72; }
         .btn-nav:hover { background: #e8f0fe; transform: translateX(8px); }
         .hidden { display: none !important; }
 
+        /* REDES SOCIAIS NO RODAPÉ DA SIDEBAR */
+        .sidebar-footer { margin-top: auto; padding-top: 15px; border-top: 1px solid #eee; text-align: center; }
+        .social-icons { display: flex; justify-content: center; gap: 15px; margin-top: 10px; }
+        .social-icons a { color: #1e3c72; font-size: 20px; transition: 0.3s; }
+        .social-icons .fa-instagram:hover { color: #e1306c; }
+        .social-icons .fa-facebook:hover { color: #4267B2; }
+        .social-icons .fa-youtube:hover { color: #FF0000; }
+
         /* AREA DE CONTEUDO */
-        .content-area { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; position: relative; }
+        .content-area { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
         
         .app-card {
             background: white; padding: 35px; border-radius: 25px; width: 100%;
@@ -47,31 +54,17 @@
         }
         .active-card { display: block; animation: slideUp 0.4s ease-out; }
 
-        /* FORMULARIOS */
-        input, select { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 15px; font-size: 16px; outline: none; }
-        .btn-primary { background: #1e3c72; color: white; width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; }
-        .btn-primary:hover { background: #2a5298; transform: scale(1.02); }
-
-        /* HOSPITAIS EM DESTAQUE */
-        .hosp-box {
-            background: #fff; border: 2px solid #f0f4f8; border-radius: 18px;
-            padding: 20px; margin-bottom: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        .hosp-nome { color: #1e3c72; font-size: 17px; font-weight: 800; }
-        .hosp-tel { color: #d32f2f; font-size: 26px; font-weight: 900; display: block; margin: 10px 0; text-decoration: none; }
-        .hosp-info { font-size: 12px; color: #666; line-height: 1.5; }
-
-        /* ESTILO LISTA DE REMEDIOS */
-        .item-card { background: #fdfdfd; padding: 15px; border-radius: 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 15px; border: 1px solid #eee; }
-        .med-img { width: 65px; height: 65px; border-radius: 12px; object-fit: cover; background: #eee; }
+        /* ESTILOS DE FORM */
+        input, select, textarea { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 12px; font-size: 15px; outline: none; }
+        .btn-primary { background: #1e3c72; color: white; width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-primary:hover { opacity: 0.9; transform: scale(1.02); }
 
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Responsividade para Celular */
         @media (max-width: 768px) {
             .sidebar { width: 70px; padding: 15px 5px; }
-            .logo-title, .btn-nav span { display: none; }
-            .btn-nav i { margin-right: 0; width: 100%; text-align: center; }
+            .logo-title, .btn-nav span, .sidebar-footer span { display: none; }
+            .social-icons { flex-direction: column; }
         }
     </style>
 </head>
@@ -87,95 +80,104 @@
                 <button id="navEstoque" class="btn-nav hidden" onclick="protecaoAcesso('estoqueTab')"><i class="fas fa-box-open"></i> <span>Estoque</span></button>
                 <button id="navAnunciar" class="btn-nav hidden" onclick="protecaoAcesso('anunciarTab')"><i class="fas fa-plus-circle"></i> <span>Doar</span></button>
                 <button id="navHospital" class="btn-nav hidden" onclick="protecaoAcesso('hospitalTab')"><i class="fas fa-briefcase-medical"></i> <span>Hospitais</span></button>
+                <button id="navFeedback" class="btn-nav hidden" onclick="showTab('feedbackTab')"><i class="fas fa-comment-dots"></i> <span>Feedback</span></button>
                 <button id="navPerfil" class="btn-nav hidden" onclick="showTab('perfilTab')"><i class="fas fa-user-circle"></i> <span>Perfil</span></button>
-                <button id="navSair" class="btn-nav hidden" onclick="logout()" style="color:#d32f2f; margin-top: 20px;"><i class="fas fa-power-off"></i> <span>Sair</span></button>
+                <button id="navSair" class="btn-nav hidden" onclick="logout()" style="color:#d32f2f; margin-top: 15px;"><i class="fas fa-power-off"></i> <span>Sair</span></button>
             </nav>
+
+            <div class="sidebar-footer">
+                <span style="font-size: 11px; color: #999;">SIGA-NOS</span>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
         </aside>
 
         <main class="content-area">
             
             <div id="loginTab" class="app-card active-card">
-                <h2 style="text-align: center; color: #1e3c72; margin-bottom: 25px;">Bem-vindo</h2>
-                <input type="email" id="lEmail" placeholder="E-mail">
-                <input type="password" id="lPass" placeholder="Senha">
-                <button class="btn-primary" onclick="fazerLogin()">ACESSAR CONTA</button>
+                <h2 style="text-align: center; color: #1e3c72; margin-bottom: 25px;">Acesse sua Conta</h2>
+                <input type="email" id="lEmail" placeholder="Seu e-mail">
+                <input type="password" id="lPass" placeholder="Sua senha">
+                <button class="btn-primary" onclick="fazerLogin()">ENTRAR</button>
                 
                 <div style="text-align:center; margin-top:20px;">
-                    <a href="#" onclick="esqueciSenha()" style="font-size:13px; color:#666; text-decoration: none;">Esqueceu a senha?</a><br><br>
-                    <span>Não tem conta? <a href="#" onclick="showTab('regTab')" style="color:#1e3c72; font-weight:bold; text-decoration: none;">Cadastre-se</a></span>
-                    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
-                    <button onclick="repararSistema()" style="background:none; border:none; color: #ff9800; font-size: 11px; cursor:pointer; font-weight:bold;">LIMPAR MEMÓRIA DO SITE</button>
+                    <a href="#" onclick="esqueciSenha()" style="font-size:13px; color:#d32f2f; font-weight:bold; text-decoration: none;">Esqueci minha senha</a><br><br>
+                    <span>Novo aqui? <a href="#" onclick="showTab('regTab')" style="color:#1e3c72; font-weight:bold; text-decoration: none;">Criar conta</a></span>
                 </div>
             </div>
 
             <div id="regTab" class="app-card">
-                <h3>Criar Nova Conta</h3><br>
+                <h3>Cadastro</h3><br>
                 <input type="text" id="rNome" placeholder="Nome Completo">
-                <input type="text" id="rTel" placeholder="WhatsApp com DDD">
+                <input type="text" id="rTel" placeholder="Zap (Ex: 81988887777)">
                 <input type="email" id="rEmail" placeholder="E-mail">
-                <input type="password" id="rPass" placeholder="Criar Senha">
+                <input type="password" id="rPass" placeholder="Crie uma Senha">
                 <select id="rTipo">
-                    <option value="Doador">Quero Doar Remédios</option>
-                    <option value="Receptor">Preciso de Doações</option>
+                    <option value="Doador">Quero Doar</option>
+                    <option value="Receptor">Preciso de Doação</option>
                 </select>
-                <button class="btn-primary" style="background:#28a745" onclick="registrar()">FINALIZAR CADASTRO</button>
-                <button onclick="showTab('loginTab')" style="background:none; border:none; width:100%; margin-top:15px; color:#999; cursor:pointer;">Cancelar</button>
+                <button class="btn-primary" style="background:#28a745" onclick="registrar()">CADASTRAR</button>
+                <button onclick="showTab('loginTab')" style="background:none; border:none; width:100%; margin-top:10px; color:#999; cursor:pointer;">Voltar</button>
+            </div>
+
+            <div id="feedbackTab" class="app-card">
+                <h3>Ouvidoria & Feedback</h3>
+                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Sua opinião ajuda o Farmacura a crescer!</p>
+                <select id="fTipo">
+                    <option value="Sugestão">Sugestão</option>
+                    <option value="Elogio">Elogio</option>
+                    <option value="Denúncia">Relatar Problema</option>
+                </select>
+                <textarea id="fMsg" rows="4" placeholder="Escreva aqui sua mensagem..."></textarea>
+                <button class="btn-primary" onclick="enviarFeedback()">ENVIAR MENSAGEM</button>
             </div>
 
             <div id="estoqueTab" class="app-card">
-                <h3>Estoque Disponível</h3>
-                <input type="text" id="inputBusca" onkeyup="renderEstoque()" placeholder="🔍 O que você procura?">
+                <h3>Remédios Disponíveis</h3>
+                <input type="text" id="inputBusca" onkeyup="renderEstoque()" placeholder="Pesquisar nome...">
                 <div id="listaMed"></div>
             </div>
 
             <div id="hospitalTab" class="app-card">
-                <h3 style="text-align:center; color:#1e3c72; margin-bottom:25px;">Urgência em Recife</h3>
-                
-                <div class="hosp-box">
-                    <div class="hosp-nome">Hospital Veterinário do Recife (HVR)</div>
-                    <a href="tel:8132242361" class="hosp-tel"><i class="fas fa-phone-alt"></i> (81) 3224-2361</a>
-                    <div class="hosp-info">Cordeiro - Recife/PE<br>Aberto até as 18h</div>
+                <h3 style="text-align:center; color:#1e3c72; margin-bottom:20px;">Hospitais em Recife</h3>
+                <div style="background:#f0f7ff; padding:15px; border-radius:15px; margin-bottom:10px; text-align:center;">
+                    <b>HVR (Cordeiro)</b><br>
+                    <a href="tel:8132242361" style="font-size:22px; color:#d32f2f; font-weight:800; text-decoration:none;">(81) 3224-2361</a>
                 </div>
-
-                <div class="hosp-box" style="border-color: #bbdefb;">
-                    <div class="hosp-nome" style="color:#1976d2">Hospital Veterinário UFRPE</div>
-                    <a href="tel:8133206410" class="hosp-tel" style="color:#1976d2"><i class="fas fa-phone-alt"></i> (81) 3320-6410</a>
-                    <div class="hosp-info">Dois Irmãos - Recife/PE<br>Atendimento de Emergência</div>
+                <div style="background:#f0f7ff; padding:15px; border-radius:15px; text-align:center;">
+                    <b>UFRPE (Dois Irmãos)</b><br>
+                    <a href="tel:8133206410" style="font-size:22px; color:#1e3c72; font-weight:800; text-decoration:none;">(81) 3320-6410</a>
                 </div>
-
-                <p style="text-align:center; font-size:12px; color:#999;">Clique no número para ligar.</p>
             </div>
 
             <div id="anunciarTab" class="app-card">
-                <h3>Cadastrar Doação</h3>
+                <h3>Doar Medicamento</h3>
                 <div id="formDoador">
-                    <label style="font-size:12px; color:#777;">NOME DO MEDICAMENTO:</label>
-                    <input type="text" id="mNome" placeholder="Ex: Simparic, Apoquel...">
-                    <label style="font-size:12px; color:#777;">VALIDADE:</label>
+                    <input type="text" id="mNome" placeholder="Nome do Remédio">
+                    <label style="font-size:11px;">DATA DE VALIDADE:</label>
                     <input type="date" id="mData">
-                    <label style="font-size:12px; color:#777;">FOTO DO PRODUTO:</label>
                     <input type="file" id="mFoto" accept="image/*">
-                    <button class="btn-primary" id="btnPublicar" onclick="addMed()" style="background:#28a745; margin-top:10px;">ANUNCIAR AGORA</button>
-                </div>
-                <div id="msgAcessoNegado" style="display:none; color:red; text-align:center; padding:20px;">
-                   Sua conta é de <b>Receptor</b>. Apenas doadores podem cadastrar remédios.
+                    <button class="btn-primary" onclick="addMed()" style="background:#28a745">PUBLICAR AGORA</button>
                 </div>
             </div>
 
             <div id="perfilTab" class="app-card">
-                <h3>Meus Dados</h3><br>
+                <h3>Meu Perfil</h3><br>
                 <input type="text" id="upNome" placeholder="Nome">
                 <input type="text" id="upTel" placeholder="Telefone">
-                <input type="password" id="upPass" placeholder="Nova Senha">
-                <button class="btn-primary" onclick="atualizarCadastro()">ATUALIZAR PERFIL</button>
+                <input type="password" id="upPass" placeholder="Senha">
+                <button class="btn-primary" onclick="atualizarCadastro()">SALVAR ALTERAÇÕES</button>
             </div>
 
         </main>
     </div>
 
     <script>
-        const K_U = "farmacura_v24_users";
-        const K_M = "farmacura_v24_meds";
+        const K_U = "farmacura_v26_users";
+        const K_M = "farmacura_v26_meds";
 
         let usuarios = JSON.parse(localStorage.getItem(K_U)) || [
             {nome: "Admin", email: "adm@farmacura.com", pass: "123", tel: "81900000000", tipo: "Doador"}
@@ -196,15 +198,28 @@
             if(u) {
                 logado = u;
                 document.querySelectorAll('.btn-nav.hidden').forEach(b => b.classList.remove('hidden'));
-                document.getElementById('formDoador').style.display = (u.tipo === 'Doador') ? 'block' : 'none';
-                document.getElementById('msgAcessoNegado').style.display = (u.tipo === 'Receptor') ? 'block' : 'none';
                 document.getElementById('upNome').value = u.nome;
                 document.getElementById('upTel').value = u.tel;
                 document.getElementById('upPass').value = u.pass;
-                protecaoAcesso('estoqueTab');
-            } else {
-                alert("E-mail ou senha incorretos!");
-            }
+                showTab('estoqueTab');
+                renderEstoque();
+            } else { alert("E-mail ou senha incorretos."); }
+        }
+
+        function esqueciSenha() {
+            const email = prompt("Informe seu e-mail cadastrado:");
+            if(!email) return;
+            const u = usuarios.find(x => x.email.toLowerCase() === email.trim().toLowerCase());
+            if(u) alert("Sua senha recuperada é: " + u.pass);
+            else alert("E-mail não encontrado no sistema.");
+        }
+
+        function enviarFeedback() {
+            const msg = document.getElementById('fMsg').value;
+            if(!msg) return alert("Por favor, escreva sua mensagem.");
+            alert("✓ Obrigado! Seu feedback foi enviado para a equipe Farmacura.");
+            document.getElementById('fMsg').value = "";
+            showTab('estoqueTab');
         }
 
         function registrar() {
@@ -213,23 +228,19 @@
             const p = document.getElementById('rPass').value;
             const t = document.getElementById('rTel').value;
             const tipo = document.getElementById('rTipo').value;
-            if(!e || !p) return alert("E-mail e senha são obrigatórios!");
+            if(!e || !p) return alert("Preencha e-mail e senha!");
             usuarios.push({nome:n, email:e, pass:p, tel:t, tipo:tipo});
             localStorage.setItem(K_U, JSON.stringify(usuarios));
-            alert("Cadastro realizado com sucesso!");
+            alert("Conta criada com sucesso!");
             showTab('loginTab');
         }
 
         function addMed() {
-            const n = document.getElementById('mNome').value.trim();
+            const n = document.getElementById('mNome').value;
             const d = document.getElementById('mData').value;
             const f = document.getElementById('mFoto').files[0];
-            if(!n || !d) return alert("Preencha o nome e a validade!");
+            if(!n || !d) return alert("Preencha nome e validade.");
             
-            const btn = document.getElementById('btnPublicar');
-            btn.innerText = "Enviando...";
-            btn.disabled = true;
-
             if(f) {
                 const r = new FileReader();
                 r.onload = (e) => salvarM(n, d, e.target.result);
@@ -240,12 +251,9 @@
         function salvarM(nome, data, foto) {
             estoque.unshift({id: Date.now(), nome, data, foto, donoEmail: logado.email, donoNome: logado.nome, donoTel: logado.tel});
             localStorage.setItem(K_M, JSON.stringify(estoque));
-            alert("✓ Medicamento adicionado ao estoque!");
-            const btn = document.getElementById('btnPublicar');
-            btn.innerText = "ANUNCIAR AGORA";
-            btn.disabled = false;
-            document.getElementById('mNome').value = "";
-            protecaoAcesso('estoqueTab');
+            alert("✓ Medicamento cadastrado!");
+            showTab('estoqueTab');
+            renderEstoque();
         }
 
         function renderEstoque() {
@@ -254,27 +262,22 @@
             let data = (logado.tipo === 'Doador' && logado.email !== 'adm@farmacura.com') ? estoque.filter(i => i.donoEmail === logado.email) : estoque;
             if(busca) data = data.filter(i => i.nome.toLowerCase().includes(busca));
             
-            if(data.length === 0) {
-                lista.innerHTML = "<p style='text-align:center; color:#999; margin-top:30px;'>Nenhum item encontrado.</p>";
-                return;
-            }
-
             lista.innerHTML = data.map(i => `
-                <div class="item-card">
-                    <img src="${i.foto || 'https://via.placeholder.com/80?text=Remedio'}" class="med-img">
+                <div style="background:#f9f9f9; padding:12px; border-radius:15px; margin-bottom:10px; display:flex; align-items:center; gap:10px; border:1px solid #eee;">
+                    <img src="${i.foto || 'https://via.placeholder.com/60'}" style="width:60px; height:60px; border-radius:10px; object-fit:cover;">
                     <div style="flex-grow:1">
-                        <b style="color:#1e3c72; font-size:16px;">${i.nome}</b><br>
-                        <small style="color:#666">Venc: ${i.data.split('-').reverse().join('/')}</small>
+                        <b>${i.nome}</b><br>
+                        <small>Venc: ${i.data.split('-').reverse().join('/')}</small>
                     </div>
                     ${logado.tipo === 'Receptor' ? 
-                        `<button onclick="window.open('https://wa.me/55${i.donoTel.replace(/\D/g,'')}')" style="background:#25D366; color:white; border:none; padding:12px; border-radius:12px; cursor:pointer;"><i class="fab fa-whatsapp"></i></button>` : 
-                        `<button onclick="removerMed(${i.id})" style="background:#ffebee; color:#d32f2f; border:none; padding:12px; border-radius:12px; cursor:pointer;"><i class="fas fa-trash"></i></button>`}
+                        `<button onclick="window.open('https://wa.me/55${i.donoTel.replace(/\D/g,'')}')" style="background:#25D366; color:white; border:none; padding:10px; border-radius:10px;"><i class="fab fa-whatsapp"></i></button>` : 
+                        `<button onclick="removerMed(${i.id})" style="color:red; background:none; border:none;"><i class="fas fa-trash"></i></button>`}
                 </div>
             `).join('');
         }
 
         function removerMed(id) {
-            if(confirm("Deseja excluir este anúncio?")) {
+            if(confirm("Excluir doação?")) {
                 estoque = estoque.filter(i => i.id !== id);
                 localStorage.setItem(K_M, JSON.stringify(estoque));
                 renderEstoque();
@@ -283,7 +286,7 @@
 
         function protecaoAcesso(id) {
             if(!logado) showTab('loginTab');
-            else { showTab(id); renderEstoque(); }
+            else showTab(id);
         }
 
         function atualizarCadastro() {
@@ -293,19 +296,7 @@
             logado.pass = document.getElementById('upPass').value;
             usuarios[idx] = logado;
             localStorage.setItem(K_U, JSON.stringify(usuarios));
-            alert("Perfil atualizado com sucesso!");
-        }
-
-        function esqueciSenha() {
-            const e = prompt("Digite seu e-mail cadastrado:");
-            if(!e) return;
-            const u = usuarios.find(x => x.email.toLowerCase() === e.trim().toLowerCase());
-            if(u) alert("Sua senha é: " + u.pass);
-            else alert("E-mail não encontrado.");
-        }
-
-        function repararSistema() {
-            if(confirm("Isso limpará os erros de login. Deseja continuar?")) { localStorage.clear(); location.reload(); }
+            alert("Dados salvos!");
         }
 
         function logout() { location.reload(); }
