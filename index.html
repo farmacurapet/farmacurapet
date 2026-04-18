@@ -13,9 +13,10 @@
             --accent: #28a745;
             --danger: #d32f2f;
             --light: #f8f9fa;
+            --shadow: 0 8px 30px rgba(0,0,0,0.2);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body { 
             background-color: #0d1b2a; 
@@ -35,78 +36,81 @@
 
         .main-container { display: flex; flex-direction: row; height: 100vh; width: 100%; }
 
-        /* MENU SIDEBAR */
+        /* SIDEBAR (Desktop) */
         .sidebar {
-            width: 260px; background: white; display: flex; flex-direction: column;
-            padding: 20px; z-index: 1000; box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            width: 280px; background: white; display: flex; flex-direction: column;
+            padding: 25px; z-index: 1000; box-shadow: 4px 0 15px rgba(0,0,0,0.1);
         }
 
-        .logo-title { font-size: 22px; font-weight: 800; color: var(--primary); text-align: center; margin-bottom: 30px; }
+        .logo-title { font-size: 24px; font-weight: 800; color: var(--primary); text-align: center; margin-bottom: 30px; letter-spacing: -1px; }
 
         .nav-group { flex-grow: 1; }
         .btn-nav {
-            display: flex; align-items: center; width: 100%; padding: 12px 15px; margin-bottom: 8px;
-            border-radius: 10px; border: none; background: var(--light); color: #555;
-            font-weight: 600; cursor: pointer; transition: 0.2s; text-align: left;
+            display: flex; align-items: center; width: 100%; padding: 14px 18px; margin-bottom: 10px;
+            border-radius: 12px; border: none; background: var(--light); color: #555;
+            font-weight: 600; cursor: pointer; transition: 0.3s; text-align: left;
         }
-        .btn-nav i { width: 25px; font-size: 18px; color: var(--primary); }
-        .btn-nav:hover { background: #eef2f7; color: var(--primary); }
+        .btn-nav i { width: 30px; font-size: 20px; color: var(--primary); }
+        .btn-nav:hover { background: #eef2f7; transform: translateX(5px); }
         .hidden { display: none !important; }
 
         /* AREA DE CONTEUDO */
         .content-area { 
             flex-grow: 1; display: flex; justify-content: center; align-items: center; 
-            padding: 15px; overflow-y: auto; padding-bottom: 80px; 
+            padding: 20px; overflow-y: auto;
         }
 
         .app-card {
-            background: rgba(255, 255, 255, 0.96); padding: 25px; border-radius: 20px; 
-            width: 100%; max-width: 400px; box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            display: none; backdrop-filter: blur(10px);
-            max-height: 90vh; overflow-y: auto;
+            background: rgba(255, 255, 255, 0.98); padding: 30px; border-radius: 24px; 
+            width: 100%; max-width: 420px; box-shadow: var(--shadow);
+            display: none; backdrop-filter: blur(15px);
+            max-height: 85vh; overflow-y: auto;
         }
-        .active-card { display: block; animation: fadeIn 0.3s ease; }
+        .active-card { display: block; animation: slideUp 0.4s ease-out; }
 
-        /* ESTILO LOGO NO LOGIN */
-        .brand-login { text-align: center; margin-bottom: 25px; }
-        .brand-login i { font-size: 50px; color: var(--primary); margin-bottom: 10px; }
-        .brand-login h1 { font-size: 28px; color: var(--primary); font-weight: 800; }
+        /* LOGIN BRANDING */
+        .brand-login { text-align: center; margin-bottom: 30px; }
+        .brand-login i { font-size: 55px; color: var(--primary); margin-bottom: 12px; display: block; }
+        .brand-login h1 { font-size: 30px; color: var(--primary); font-weight: 800; line-height: 1; }
+        .brand-login p { color: #666; font-size: 15px; margin-top: 5px; }
 
-        /* INPUTS */
-        .input-group { position: relative; margin-bottom: 15px; }
+        /* FORMS */
+        .input-group { position: relative; margin-bottom: 18px; }
         input, select, textarea { 
-            width: 100%; padding: 12px 15px; border-radius: 10px; 
-            border: 1px solid #ddd; font-size: 16px; outline: none; background: white;
+            width: 100%; padding: 15px; border-radius: 12px; 
+            border: 1px solid #ddd; font-size: 16px; outline: none; background: #fff;
+            transition: 0.3s;
         }
-        .pass-toggle { position: absolute; right: 12px; top: 12px; color: #999; cursor: pointer; z-index: 5; }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1); }
+        .pass-toggle { position: absolute; right: 15px; top: 16px; color: #999; cursor: pointer; font-size: 18px; }
 
         .btn-primary { 
-            background: var(--primary); color: white; width: 100%; padding: 14px; 
-            border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px;
+            background: var(--primary); color: white; width: 100%; padding: 16px; 
+            border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 17px;
+            box-shadow: 0 4px 12px rgba(30, 60, 114, 0.3); transition: 0.3s;
         }
+        .btn-primary:active { transform: scale(0.98); }
 
-        .hosp-card {
-            background: #f0f7ff; padding: 12px; border-radius: 15px; margin-bottom: 12px;
-            border-left: 5px solid var(--primary);
-        }
-
-        /* MOBILE FIX */
+        /* RESPONSIVIDADE SMARTPHONE */
         @media (max-width: 768px) {
             .main-container { flex-direction: column; }
             .sidebar {
-                position: fixed; bottom: 0; left: 0; width: 100%; height: 75px;
-                flex-direction: row; padding: 5px; justify-content: space-around;
-                border-top: 1px solid #ddd; border-right: none;
+                position: fixed; bottom: 0; left: 0; width: 100%; height: 85px;
+                flex-direction: row; padding: 10px 15px; justify-content: space-around;
+                border-top: 1px solid rgba(0,0,0,0.05); border-right: none;
+                border-radius: 25px 25px 0 0;
             }
             .logo-title, .btn-nav span { display: none; }
-            .btn-nav { width: auto; background: transparent; margin-bottom: 0; flex-direction: column; padding: 8px; }
-            .btn-nav i { margin-right: 0; font-size: 22px; }
-            .sidebar-footer { display: flex; align-items: center; }
-            .social-icons { gap: 12px; display: flex; }
-            .content-area { padding-bottom: 100px; }
+            .btn-nav { width: 50px; height: 50px; border-radius: 50%; justify-content: center; padding: 0; background: transparent; margin: 0; }
+            .btn-nav i { margin: 0; font-size: 24px; text-align: center; width: auto; }
+            .sidebar-footer { border: none; padding: 0; display: flex; align-items: center; }
+            .social-icons { gap: 15px; display: flex; }
+            .content-area { padding-bottom: 100px; padding-top: 20px; }
+            .app-card { padding: 25px 20px; border-radius: 30px; max-height: 80vh; }
+            .brand-login h1 { font-size: 26px; }
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -118,18 +122,18 @@
             <div class="logo-title">Farmacura Pet Web</div>
             <nav class="nav-group">
                 <button class="btn-nav" onclick="showTab('loginTab')"><i class="fas fa-home"></i> <span>Início</span></button>
-                <button id="navEstoque" class="btn-nav hidden" onclick="showTab('estoqueTab')"><i class="fas fa-box-open"></i> <span>Estoque</span></button>
+                <button id="navEstoque" class="btn-nav hidden" onclick="showTab('estoqueTab')"><i class="fas fa-search"></i> <span>Estoque</span></button>
                 <button id="navAnunciar" class="btn-nav hidden" onclick="showTab('anunciarTab')"><i class="fas fa-plus-circle"></i> <span>Doar</span></button>
-                <button id="navHospital" class="btn-nav hidden" onclick="showTab('hospitalTab')"><i class="fas fa-map-marked-alt"></i> <span>Hospitais</span></button>
-                <button id="navFeedback" class="btn-nav hidden" onclick="showTab('feedbackTab')"><i class="fas fa-comment-alt"></i> <span>Feedback</span></button>
+                <button id="navHospital" class="btn-nav hidden" onclick="showTab('hospitalTab')"><i class="fas fa-map-marker-alt"></i> <span>Hospitais</span></button>
+                <button id="navFeedback" class="btn-nav hidden" onclick="showTab('feedbackTab')"><i class="fas fa-envelope"></i> <span>Feedback</span></button>
             </nav>
 
             <div class="sidebar-footer">
                 <div class="social-icons">
-                    <a href="#" style="color:#e1306c; font-size: 20px;"><i class="fab fa-instagram"></i></a>
-                    <a href="#" style="color:#4267B2; font-size: 20px;"><i class="fab fa-facebook"></i></a>
-                    <a href="#" style="color:#FF0000; font-size: 20px;"><i class="fab fa-youtube"></i></a>
-                    <button id="navSair" class="btn-nav hidden" onclick="logout()" style="color:red; background:none; border:none; padding:0;"><i class="fas fa-power-off"></i></button>
+                    <a href="https://www.instagram.com" target="_blank" rel="noopener" style="color:#e1306c;"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com" target="_blank" rel="noopener" style="color:#4267B2;"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.youtube.com" target="_blank" rel="noopener" style="color:#FF0000;"><i class="fab fa-youtube"></i></a>
+                    <button id="navSair" class="btn-nav hidden" onclick="logout()" style="color:red;"><i class="fas fa-power-off"></i></button>
                 </div>
             </div>
         </aside>
@@ -138,9 +142,9 @@
             
             <div id="loginTab" class="app-card active-card">
                 <div class="brand-login">
-                    <i class="fas fa-hand-holding-heart"></i>
-                    <h1>Farmacura Pet Web</h1>
-                    <p style="color: #666; font-size: 14px;">Doação de Medicamentos Veterinários</p>
+                    <i class="fas fa-paw"></i>
+                    <h1>Farmacura Pet</h1>
+                    <p>Web App de Doações</p>
                 </div>
 
                 <div class="input-group">
@@ -150,86 +154,87 @@
                     <input type="password" id="lPass" placeholder="Senha">
                     <i class="fas fa-eye pass-toggle" onclick="togglePass('lPass')"></i>
                 </div>
-                <button class="btn-primary" onclick="fazerLogin()">ENTRAR NO SISTEMA</button>
+                <button class="btn-primary" onclick="fazerLogin()">ENTRAR</button>
                 
-                <div style="text-align:center; margin-top:12px;">
-                    <a href="#" onclick="esqueciSenha()" style="font-size:13px; color:var(--danger); text-decoration:none;">Esqueci minha senha</a>
+                <div style="text-align:center; margin-top:15px;">
+                    <a href="#" onclick="esqueciSenha()" style="font-size:14px; color:var(--danger); text-decoration:none; font-weight: 500;">Esqueci minha senha</a>
                 </div>
-                <p style="text-align:center; margin-top:18px; font-size:14px; border-top: 1px solid #eee; padding-top: 15px;">
-                    Não tem uma conta? <a href="#" onclick="showTab('regTab')" style="color:var(--primary); font-weight:bold; text-decoration:none;">Cadastre-se</a>
+                <p style="text-align:center; margin-top:25px; font-size:14px; color: #777;">
+                    Ainda não tem conta? <br>
+                    <a href="#" onclick="showTab('regTab')" style="color:var(--primary); font-weight:bold; text-decoration:none; font-size: 16px;">Cadastre-se Grátis</a>
                 </p>
             </div>
 
             <div id="regTab" class="app-card">
-                <h3 style="color:var(--primary); text-align:center;">Criar Conta</h3><br>
-                <input type="text" id="rNome" placeholder="Nome Completo">
-                <input type="tel" id="rTel" placeholder="WhatsApp (Ex: 81900000000)">
-                <input type="email" id="rEmail" placeholder="E-mail">
+                <h2 style="color:var(--primary); text-align:center; margin-bottom:20px;">Criar Conta</h2>
+                <input type="text" id="rNome" placeholder="Nome Completo" style="margin-bottom:15px;">
+                <input type="tel" id="rTel" placeholder="WhatsApp (Ex: 81900000000)" style="margin-bottom:15px;">
+                <input type="email" id="rEmail" placeholder="Seu melhor e-mail" style="margin-bottom:15px;">
                 <div class="input-group">
-                    <input type="password" id="rPass" placeholder="Criar Senha">
+                    <input type="password" id="rPass" placeholder="Crie uma Senha">
                     <i class="fas fa-eye pass-toggle" onclick="togglePass('rPass')"></i>
                 </div>
-                <select id="rTipo">
-                    <option value="Doador">Quero Doar</option>
+                <select id="rTipo" style="margin-bottom:20px;">
+                    <option value="Doador">Sou Doador</option>
                     <option value="Receptor">Preciso de Doação</option>
                 </select>
-                <button class="btn-primary" style="background:var(--accent); margin-top:10px;" onclick="registrar()">CADASTRAR</button>
-                <button onclick="showTab('loginTab')" style="background:none; border:none; width:100%; margin-top:15px; color:#666; cursor:pointer;">Voltar</button>
+                <button class="btn-primary" style="background:var(--accent);" onclick="registrar()">CONCLUIR CADASTRO</button>
+                <button onclick="showTab('loginTab')" style="background:none; border:none; width:100%; margin-top:20px; color:#888; cursor:pointer;">Voltar para o Login</button>
             </div>
 
             <div id="estoqueTab" class="app-card">
-                <h3 style="color:var(--primary)">Remédios para Doação</h3>
-                <input type="text" id="inputBusca" onkeyup="renderEstoque()" placeholder="🔍 O que você procura?">
-                <div id="listaMed" style="margin-top:15px;"></div>
+                <h2 style="color:var(--primary); margin-bottom:15px;">Remédios</h2>
+                <input type="text" id="inputBusca" onkeyup="renderEstoque()" placeholder="🔍 Pesquisar por nome...">
+                <div id="listaMed" style="margin-top:20px;"></div>
             </div>
 
             <div id="feedbackTab" class="app-card">
-                <h3 style="color:var(--primary)">Feedback / Suporte</h3><br>
-                <p style="font-size:13px; color:#666; margin-bottom:15px;">Envie para: edsonoliveira27@hotmail.com</p>
-                <input type="email" id="fEmail" placeholder="Seu e-mail de resposta">
-                <select id="fAssunto">
+                <h2 style="color:var(--primary); margin-bottom:10px;">Suporte</h2>
+                <p style="font-size:14px; color:#666; margin-bottom:20px;">Dúvidas ou sugestões para Edson Oliveira?</p>
+                <input type="email" id="fEmail" placeholder="Seu e-mail" style="margin-bottom:15px;">
+                <select id="fAssunto" style="margin-bottom:15px;">
+                    <option value="Dúvida">Dúvida</option>
                     <option value="Sugestão">Sugestão</option>
-                    <option value="Problema">Relatar Problema</option>
-                    <option value="Elogio">Elogio</option>
+                    <option value="Problema">Relatar Erro</option>
                 </select>
-                <textarea id="fMsg" rows="4" placeholder="Sua mensagem..."></textarea>
-                <button class="btn-primary" onclick="enviarFeedback()">ENVIAR FEEDBACK</button>
+                <textarea id="fMsg" rows="4" placeholder="Escreva aqui sua mensagem..." style="margin-bottom:15px;"></textarea>
+                <button class="btn-primary" onclick="enviarFeedback()">ENVIAR E-MAIL</button>
             </div>
 
             <div id="hospitalTab" class="app-card">
-                <h3 style="margin-bottom:20px; text-align:center; color:var(--primary);">Hospitais Veterinários</h3>
-                <div class="hosp-card" style="border-left-color: var(--danger);">
-                    <b>HVR (Cordeiro)</b><br>
-                    <small>Av. Prof. Estevão F. da Costa, S/N</small>
-                    <div style="display:flex; gap:8px; margin-top:10px;">
-                        <a href="tel:8132242361" style="flex:1; text-align:center; background:white; color:var(--danger); padding:8px; border-radius:8px; text-decoration:none; font-size:13px; border:1px solid var(--danger);">Ligar</a>
-                        <a href="https://www.google.com/maps/dir//Hospital+Veterinário+do+Recife" target="_blank" style="flex:1; text-align:center; background:var(--danger); color:white; padding:8px; border-radius:8px; text-decoration:none; font-size:13px;">Rota</a>
+                <h2 style="margin-bottom:20px; text-align:center; color:var(--primary);">Hospitais Públicos</h2>
+                <div style="background:#f0f7ff; padding:15px; border-radius:18px; margin-bottom:15px; border-left:6px solid var(--danger);">
+                    <b style="font-size:17px;">HVR (Cordeiro)</b><br>
+                    <small style="color:#555;">Recife - PE</small>
+                    <div style="display:flex; gap:10px; margin-top:12px;">
+                        <a href="tel:8132242361" style="flex:1; text-align:center; background:#fff; color:var(--danger); padding:10px; border-radius:10px; text-decoration:none; font-weight:bold; border:1px solid var(--danger);">LIGAR</a>
+                        <a href="https://maps.google.com/?q=Hospital+Veterinario+do+Recife" target="_blank" style="flex:1; text-align:center; background:var(--danger); color:white; padding:10px; border-radius:10px; text-decoration:none; font-weight:bold;">MAPA</a>
                     </div>
                 </div>
-                <div class="hosp-card">
-                    <b>UFRPE (Dois Irmãos)</b><br>
-                    <small>R. Manuel de Medeiros, S/N</small>
-                    <div style="display:flex; gap:8px; margin-top:10px;">
-                        <a href="tel:8133206410" style="flex:1; text-align:center; background:white; color:var(--primary); padding:8px; border-radius:8px; text-decoration:none; font-size:13px; border:1px solid var(--primary);">Ligar</a>
-                        <a href="https://www.google.com/maps/dir//Hospital+Veterinário+UFRPE" target="_blank" style="flex:1; text-align:center; background:var(--primary); color:white; padding:8px; border-radius:8px; text-decoration:none; font-size:13px;">Rota</a>
+                <div style="background:#f0f7ff; padding:15px; border-radius:18px; border-left:6px solid var(--primary);">
+                    <b style="font-size:17px;">UFRPE (Dois Irmãos)</b><br>
+                    <small style="color:#555;">Hospital Escola</small>
+                    <div style="display:flex; gap:10px; margin-top:12px;">
+                        <a href="tel:8133206410" style="flex:1; text-align:center; background:#fff; color:var(--primary); padding:10px; border-radius:10px; text-decoration:none; font-weight:bold; border:1px solid var(--primary);">LIGAR</a>
+                        <a href="https://maps.google.com/?q=Hospital+Veterinario+UFRPE" target="_blank" style="flex:1; text-align:center; background:var(--primary); color:white; padding:10px; border-radius:10px; text-decoration:none; font-weight:bold;">MAPA</a>
                     </div>
                 </div>
             </div>
 
             <div id="anunciarTab" class="app-card">
-                <h3 style="color:var(--primary)">Anunciar Doação</h3><br>
-                <input type="text" id="mNome" placeholder="Nome do Remédio">
-                <label style="font-size:12px; font-weight:bold; color:#666;">VALIDADE:</label>
-                <input type="date" id="mData">
-                <button class="btn-primary" onclick="addMed()" style="background:var(--accent); margin-top:15px;">POSTAR AGORA</button>
+                <h2 style="color:var(--primary); margin-bottom:20px;">Doar Remédio</h2>
+                <input type="text" id="mNome" placeholder="Nome do Medicamento" style="margin-bottom:15px;">
+                <label style="font-size:13px; font-weight:bold; color:#555; margin-left:5px;">DATA DE VALIDADE:</label>
+                <input type="date" id="mData" style="margin-bottom:20px;">
+                <button class="btn-primary" onclick="addMed()" style="background:var(--accent);">PUBLICAR DOAÇÃO</button>
             </div>
 
         </main>
     </div>
 
     <script>
-        const K_U = "farmacura_users_v3";
-        const K_M = "farmacura_meds_v3";
+        const K_U = "farmacura_pro_users";
+        const K_M = "farmacura_pro_meds";
 
         let usuarios = JSON.parse(localStorage.getItem(K_U)) || [{nome: "Admin", email: "adm@adm.com", pass: "123", tel: "81900000000", tipo: "Doador"}];
         let estoque = JSON.parse(localStorage.getItem(K_M)) || [];
@@ -257,11 +262,11 @@
                 document.getElementById('navSair').classList.remove('hidden');
                 showTab('estoqueTab');
                 renderEstoque();
-            } else { alert("Dados incorretos!"); }
+            } else { alert("E-mail ou senha incorretos."); }
         }
 
         function esqueciSenha() {
-            const email = prompt("Qual o e-mail da conta?");
+            const email = prompt("Qual o seu e-mail cadastrado?");
             if (!email) return;
             const u = usuarios.find(x => x.email === email.toLowerCase().trim());
             if (u) alert("Sua senha é: " + u.pass);
@@ -275,23 +280,23 @@
             const t = document.getElementById('rTel').value;
             const tipo = document.getElementById('rTipo').value;
 
-            if(!e || !p || !n) return alert("Preencha tudo!");
+            if(!e || !p || !n) return alert("Preencha todos os campos obrigatórios.");
             if(usuarios.some(u => u.email === e)) return alert("E-mail já cadastrado!");
 
             usuarios.push({nome:n, email:e, pass:p, tel:t, tipo:tipo});
             localStorage.setItem(K_U, JSON.stringify(usuarios));
-            alert("Cadastro realizado!");
+            alert("Cadastro realizado com sucesso!");
             showTab('loginTab');
         }
 
         function addMed() {
             const n = document.getElementById('mNome').value;
             const d = document.getElementById('mData').value;
-            if(!n || !d) return alert("Preencha nome e validade.");
+            if(!n || !d) return alert("Informe o nome e a validade.");
             
             estoque.unshift({id: Date.now(), nome: n, data: d, donoEmail: logado.email, donoTel: logado.tel});
             localStorage.setItem(K_M, JSON.stringify(estoque));
-            alert("Doação registrada!");
+            alert("Medicamento publicado no estoque!");
             showTab('estoqueTab');
             renderEstoque();
         }
@@ -305,20 +310,20 @@
             if(busca) filtrados = filtrados.filter(i => i.nome.toLowerCase().includes(busca));
             
             lista.innerHTML = filtrados.length ? filtrados.map(i => `
-                <div style="background:white; padding:12px; border-radius:12px; margin-bottom:10px; border:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+                <div style="background:#fff; padding:15px; border-radius:15px; margin-bottom:12px; border:1px solid #eee; display:flex; justify-content:space-between; align-items:center; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
                     <div>
-                        <strong style="color:var(--primary)">${i.nome}</strong><br>
-                        <small style="color:#666">Val: ${i.data.split('-').reverse().join('/')}</small>
+                        <strong style="color:var(--primary); font-size:16px;">${i.nome}</strong><br>
+                        <small style="color:#888">Validade: ${i.data.split('-').reverse().join('/')}</small>
                     </div>
                     ${logado.tipo === 'Receptor' ? 
-                        `<a href="https://wa.me/55${i.donoTel.replace(/\D/g,'')}" target="_blank" style="background:#25D366; color:white; padding:10px 15px; border-radius:8px; text-decoration:none;"><i class="fab fa-whatsapp"></i></a>` : 
-                        `<button onclick="removerMed(${i.id})" style="color:red; background:none; border:none; padding:10px; cursor:pointer;"><i class="fas fa-trash"></i></button>`}
+                        `<a href="https://wa.me/55${i.donoTel.replace(/\D/g,'')}" target="_blank" style="background:#25D366; color:white; width:45px; height:45px; border-radius:12px; display:flex; align-items:center; justify-content:center; text-decoration:none;"><i class="fab fa-whatsapp" style="font-size:22px;"></i></a>` : 
+                        `<button onclick="removerMed(${i.id})" style="color:red; background:none; border:none; padding:10px;"><i class="fas fa-trash-alt"></i></button>`}
                 </div>
-            `).join('') : "<p style='text-align:center; color:#999;'>Nenhum item disponível.</p>";
+            `).join('') : "<p style='text-align:center; color:#999; padding-top:20px;'>Nenhum remédio encontrado.</p>";
         }
 
         function removerMed(id) {
-            if(confirm("Remover doação?")) {
+            if(confirm("Deseja apagar este anúncio?")) {
                 estoque = estoque.filter(i => i.id !== id);
                 localStorage.setItem(K_M, JSON.stringify(estoque));
                 renderEstoque();
@@ -329,11 +334,10 @@
             const emailRemetente = document.getElementById('fEmail').value;
             const assunto = document.getElementById('fAssunto').value;
             const mensagem = document.getElementById('fMsg').value;
-            if(!mensagem) return alert("Escreva sua mensagem.");
+            if(!mensagem) return alert("Por favor, escreva sua mensagem.");
 
-            const mailtoLink = `mailto:edsonoliveira27@hotmail.com?subject=Suporte Farmacura: ${assunto}&body=Usuário: ${emailRemetente}%0D%0AMensagem: ${mensagem}`;
+            const mailtoLink = `mailto:edsonoliveira27@hotmail.com?subject=Suporte App: ${assunto}&body=De: ${emailRemetente}%0D%0AMensagem: ${mensagem}`;
             window.location.href = mailtoLink;
-            showTab('estoqueTab');
         }
 
         function logout() { location.reload(); }
