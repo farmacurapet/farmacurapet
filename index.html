@@ -6,7 +6,31 @@
     <title>Farmacura Pet - Painel Administrativo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <style>
+    <style>/* Posicionamento do grupo */
+.input-group {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+}
+
+/* Ajuste do input para o texto não bater no ícone */
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    padding-right: 40px; 
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Estilo do ícone do olho */
+#togglePassword {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--primary); /* Usa a cor azul que você já definiu */
+}
         :root {
             --primary: #1e3c72;
             --accent: #28a745;
@@ -110,7 +134,15 @@
                 <input type="email" id="lEmail" placeholder="E-mail">
                 <input type="password" id="lPass" placeholder="Senha" onkeypress="verificarEnter(event)">
                 <button class="btn-submit" onclick="login()">ENTRAR NO PAINEL</button>
-                
+                <div class="input-container">
+    <label for="senha">Senha:</label>
+    <div class="input-group">
+        <input type="password" id="senha" placeholder="Digite sua senha">
+        <i class="fas fa-eye" id="togglePassword"></i>
+    </div>
+</div>
+
+<button onclick="abrirModalAtualizar()" class="btn-link">Atualizar Cadastro</button>
                 <div style="text-align:center; margin-top:15px;">
                     <a href="#" onclick="recuperarSenha()" style="color:var(--danger); font-size:13px; text-decoration:none; font-weight:bold;">Esqueci minha senha</a>
                 </div>
@@ -198,7 +230,28 @@
                 document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
                 el.classList.add('active');
             }
+        }<script>
+    // Lógica para mostrar/esconder senha
+    const togglePassword = document.querySelector('#togglePassword');
+    const passwordField = document.querySelector('#senha');
+
+    togglePassword.addEventListener('click', function () {
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        
+        // Troca o ícone (olho aberto / olho cortado)
+        this.classList.toggle('fa-eye-slash');
+    });
+
+    // Função simples para simular a atualização de cadastro
+    function abrirModalAtualizar() {
+        const novoNome = prompt("Digite o novo nome para o cadastro:");
+        if (novoNome) {
+            alert("Nome atualizado para: " + novoNome);
+            // Aqui você conectaria com sua lógica de salvar dados
         }
+    }
+</script>
 
         function recuperarSenha() {
             const msgBox = document.getElementById('loginMsg');
