@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farmacura Pet - Sistema Administrativo</title>
+    <title>Farmacura Pet - Sistema de Solidariedade</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -19,200 +19,159 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         
         body { 
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
                         url('https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=1920'); 
             background-size: cover; background-position: center; background-attachment: fixed;
-            min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding-top: 50px;
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding-top: 60px;
         }
 
+        /* BARRA DE NOTÍCIAS */
         .news-ticker {
-            width: 100%; background: gold; color: #000; position: fixed; top: 0; left: 0;
-            padding: 10px 0; font-weight: bold; overflow: hidden; z-index: 1000;
+            width: 100%; background: #ffd700; color: #000; position: fixed; top: 0; left: 0;
+            padding: 12px 0; font-weight: bold; overflow: hidden; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        .ticker-wrapper { display: inline-block; white-space: nowrap; animation: ticker 30s linear infinite; }
+        .ticker-wrapper { display: inline-block; white-space: nowrap; animation: ticker 35s linear infinite; }
         @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
         .card {
-            background: var(--white); padding: 2rem; border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4); width: 95%; max-width: 400px; margin: 20px;
+            background: var(--white); padding: 2.5rem; border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5); width: 95%; max-width: 450px; margin: 20px;
         }
 
-        #dashboardPage.card, #estoquePage.card { max-width: 1100px; }
+        #dashboardPage.card, #estoquePage.card { max-width: 1000px; }
 
         .logo-emblem {
-            background: var(--primary); color: white; width: 60px; height: 60px;
+            background: var(--primary); color: white; width: 70px; height: 70px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 30px; margin-bottom: 10px; border: 3px solid #fff;
+            font-size: 35px; margin: 0 auto 15px; border: 3px solid #fff;
         }
 
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
+
         .btn {
-            padding: 12px; border: none; border-radius: 8px; cursor: pointer;
-            font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s;
+            padding: 14px; border: none; border-radius: 8px; cursor: pointer;
+            font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s;
+            font-size: 16px; width: 100%;
         }
-        .btn-primary { background: var(--primary); color: white; width: 100%; }
-        .btn-accent { background: var(--accent); color: white; width: 100%; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: #152a50; }
+        .btn-accent { background: var(--accent); color: white; }
         .btn-danger { background: var(--danger); color: white; }
 
         .dashboard-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 25px;
         }
 
-        .section-box { background: #fdfdfd; padding: 20px; border-radius: 12px; border-top: 6px solid var(--primary); }
+        .section-box { background: #f8f9fa; padding: 25px; border-radius: 12px; border-top: 5px solid var(--primary); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; border-radius: 8px; overflow: hidden; }
+        th, td { border: 1px solid #eee; padding: 15px; text-align: left; }
         th { background: var(--primary); color: white; }
 
         .hidden { display: none !important; }
+        h2 { text-align: center; margin-bottom: 20px; color: var(--primary); }
     </style>
 </head>
 <body>
 
     <div class="news-ticker">
         <div class="ticker-wrapper">
-            +++ Google News Pet: Novas campanhas de vacinação em Recife iniciam este mês +++ Mantenha seu pet hidratado no verão +++ Hospital da UFRPE com novos horários de atendimento +++ Doe medicamentos que sobraram e salve vidas +++
+            +++ FARMA CURA PET: Conectando doadores de medicamentos veterinários em Pernambuco +++ Doe o que sobrou e salve uma vida +++ Hospital Veterinário da UFRPE com novos horários +++ Verifique sempre a validade antes de doar +++
         </div>
     </div>
 
     <div id="loginPage" class="card">
-        <div class="logo-emblem" style="margin: 0 auto 10px;"><i class="fas fa-paw"></i></div>
+        <div class="logo-emblem"><i class="fas fa-paw"></i></div>
         <h2>Farmacura Pet</h2>
         <form id="formLogin">
-            <input type="email" id="userEmail" placeholder="E-mail" required style="margin-bottom:10px; display:block; width:100%; padding:10px;">
-            <input type="password" id="userPass" placeholder="Senha" required style="margin-bottom:10px; display:block; width:100%; padding:10px;">
-            <button type="submit" class="btn btn-primary">ENTRAR</button>
+            <input type="email" id="userEmail" placeholder="Seu E-mail" required>
+            <input type="password" id="userPass" placeholder="Sua Senha" required>
+            <button type="submit" class="btn btn-primary">ENTRAR NO SISTEMA</button>
         </form>
-        <button onclick="mudarTela('registerPage')" style="background:none; border:none; color:blue; margin-top:10px; cursor:pointer;">Configurar Novo Acesso</button>
+        <p style="text-align: center; margin-top: 15px;">
+            Não tem acesso? <a href="#" onclick="mudarTela('registerPage')" style="color: var(--primary); font-weight: bold;">Criar Nova Conta</a>
+        </p>
     </div>
 
     <div id="registerPage" class="card hidden">
-        <h2>Configurar Usuário</h2>
+        <h2>Novo Usuário</h2>
         <form id="formRegister">
-            <input type="email" id="regEmail" placeholder="E-mail" required style="margin-bottom:10px; display:block; width:100%; padding:10px;">
-            <input type="tel" id="regWhats" placeholder="WhatsApp" required style="margin-bottom:10px; display:block; width:100%; padding:10px;">
-            <input type="password" id="regPass" placeholder="Senha" required style="margin-bottom:10px; display:block; width:100%; padding:10px;">
-            <button type="submit" class="btn btn-primary">SALVAR NA NUVEM</button>
+            <input type="email" id="regEmail" placeholder="E-mail principal" required>
+            <input type="tel" id="regWhats" placeholder="WhatsApp (DDD + Número)" required>
+            <input type="password" id="regPass" placeholder="Crie uma Senha" required>
+            <button type="submit" class="btn btn-primary">CADASTRAR E SALVAR</button>
         </form>
-        <button onclick="mudarTela('loginPage')" class="btn btn-danger" style="margin-top:10px; width:100%;">VOLTAR</button>
+        <button onclick="mudarTela('loginPage')" class="btn btn-danger" style="margin-top: 15px;">CANCELAR / VOLTAR</button>
     </div>
 
     <div id="dashboardPage" class="card hidden">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h2>Painel Principal</h2>
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 10px;">
+            <h2>Painel de Controle</h2>
             <div style="display:flex; gap:10px;">
-                <button class="btn btn-accent" onclick="mudarTela('estoquePage')"><i class="fas fa-boxes"></i> VER ESTOQUE</button>
-                <button class="btn btn-danger" onclick="location.reload()">SAIR</button>
+                <button class="btn btn-accent" style="width: auto;" onclick="mudarTela('estoquePage')"><i class="fas fa-search"></i> VER ESTOQUE</button>
+                <button class="btn btn-danger" style="width: auto;" onclick="location.reload()"><i class="fas fa-sign-out-alt"></i> SAIR</button>
             </div>
         </div>
 
         <div class="dashboard-grid">
             <div class="section-box">
-                <h3><i class="fas fa-plus-circle"></i> Cadastrar Medicamento</h3>
-                <input type="text" id="medNome" placeholder="Nome do Remédio" style="margin:10px 0; width:100%; padding:10px;">
-                <input type="number" id="medQtd" placeholder="Quantidade" style="margin-bottom:10px; width:100%; padding:10px;">
-                <button class="btn btn-primary" onclick="salvarNoEstoque()">ADICIONAR AO INVENTÁRIO</button>
+                <h3><i class="fas fa-hand-holding-medical"></i> Doar Medicamento</h3>
+                <label style="display:block; margin: 10px 0 5px;">Nome do Remédio:</label>
+                <input type="text" id="medNome" placeholder="Ex: Simparic, Apoquel...">
+                <label style="display:block; margin-bottom: 5px;">Quantidade (unidades):</label>
+                <input type="number" id="medQtd" placeholder="Ex: 2">
+                <button class="btn btn-primary" onclick="salvarNoEstoque()">PUBLICAR DOAÇÃO</button>
             </div>
 
             <div class="section-box">
-                <h3><i class="fas fa-hospital"></i> Emergências</h3>
-                <p>UFRPE: (81) 3320-6410</p>
-                <p>Hosp. Recife: (81) 3355-8179</p>
+                <h3><i class="fas fa-info-circle"></i> Suporte Local</h3>
+                <p><strong>UFRPE (Recife):</strong> (81) 3320-6410</p>
+                <p><strong>Hosp. Veterinário (Recife):</strong> (81) 3355-8179</p>
+                <hr style="margin: 10px 0;">
+                <p>Ajude a divulgar este projeto de solidariedade pet em sua rede social!</p>
             </div>
         </div>
     </div>
 
     <div id="estoquePage" class="card hidden">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #ddd; padding-bottom:10px;">
-            <h2><i class="fas fa-warehouse"></i> Estoque (Sincronizado)</h2>
-            <button class="btn btn-primary" onclick="mudarTela('dashboardPage')">VOLTAR AO PAINEL</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #ddd; padding-bottom:15px; flex-wrap: wrap;">
+            <h2><i class="fas fa-boxes"></i> Lista de Doações Disponíveis</h2>
+            <button class="btn btn-primary" style="width: auto;" onclick="mudarTela('dashboardPage')">VOLTAR AO MENU</button>
         </div>
         
-        <table id="tabelaEstoque">
-            <thead>
-                <tr>
-                    <th>Medicamento</th>
-                    <th>Quantidade</th>
-                    <th>Ação</th>
-                </tr>
-            </thead>
-            <tbody id="corpoEstoque"></tbody>
-        </table>
+        <div style="overflow-x: auto;">
+            <table id="tabelaEstoque">
+                <thead>
+                    <tr>
+                        <th>Medicamento</th>
+                        <th>Quantidade</th>
+                        <th>Ação / Status</th>
+                    </tr>
+                </thead>
+                <tbody id="corpoEstoque">
+                    </tbody>
+            </table>
+        </div>
     </div>
 
 <script>
-    // --- CONFIGURAÇÃO SUPABASE ---
-    const SUPABASE_URL = 'SUA_URL_AQUI'; // Substitua pela sua URL
-    const SUPABASE_KEY = 'SUA_CHAVE_ANON_AQUI'; // Substitua pela sua Key
+    // CONFIGURAÇÕES DO SUPABASE
+    // SUBSTITUA PELOS SEUS DADOS REAIS DO PAINEL SUPABASE
+    const SUPABASE_URL = 'SUA_URL_DO_SUPABASE_AQUI'; 
+    const SUPABASE_KEY = 'SUA_CHAVE_ANON_DO_SUPABASE_AQUI'; 
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Navegação entre telas
+    // FUNÇÃO DE NAVEGAÇÃO
     function mudarTela(id) {
         document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-        document.getElementById(id).classList.remove('hidden');
-        if(id === 'estoquePage') atualizarTabela();
+        const target = document.getElementById(id);
+        if (target) target.classList.remove('hidden');
+        if (id === 'estoquePage') atualizarTabela();
     }
 
-    // SALVAR MEDICAMENTO NO SUPABASE
-    async function salvarNoEstoque() {
-        const nome = document.getElementById('medNome').value;
-        const qtd = document.getElementById('medQtd').value;
-        
-        if(!nome || !qtd) return alert("Preencha tudo!");
+    // --- LÓGICA DE USUÁRIOS ---
 
-        const { error } = await _supabase
-            .from('medicamentos')
-            .insert([{ nome: nome.toUpperCase(), quantidade: parseInt(qtd) }]);
-
-        if (error) {
-            alert("Erro ao salvar: " + error.message);
-        } else {
-            alert("Medicamento salvo na nuvem com sucesso!");
-            document.getElementById('medNome').value = "";
-            document.getElementById('medQtd').value = "";
-        }
-    }
-
-    // BUSCAR MEDICAMENTOS DA NUVEM
-    async function atualizarTabela() {
-        const corpo = document.getElementById('corpoEstoque');
-        corpo.innerHTML = "<tr><td colspan='3'>Carregando dados da nuvem...</td></tr>";
-
-        const { data: estoque, error } = await _supabase
-            .from('medicamentos')
-            .select('*')
-            .order('id', { ascending: false });
-
-        if (error) {
-            corpo.innerHTML = "<tr><td colspan='3'>Erro ao buscar dados.</td></tr>";
-            return;
-        }
-
-        corpo.innerHTML = "";
-        estoque.forEach((item) => {
-            corpo.innerHTML += `
-                <tr>
-                    <td>${item.nome}</td>
-                    <td>${item.quantidade} un.</td>
-                    <td><button class="btn btn-danger" style="padding:5px 10px;" onclick="darBaixa(${item.id})">DOAR</button></td>
-                </tr>
-            `;
-        });
-    }
-
-    // REMOVER MEDICAMENTO (DAR BAIXA)
-    async function darBaixa(id) {
-        if(confirm("Confirmar doação deste medicamento?")) {
-            const { error } = await _supabase
-                .from('medicamentos')
-                .delete()
-                .eq('id', id);
-
-            if (error) alert("Erro ao doar: " + error.message);
-            else atualizarTabela();
-        }
-    }
-
-    // CADASTRO DE USUÁRIO NO SUPABASE
+    // CADASTRAR NOVO USUÁRIO
     document.getElementById('formRegister').addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('regEmail').value;
@@ -224,14 +183,14 @@
             .insert([{ email: email, whatsapp: whats, senha: pass }]);
 
         if (error) {
-            alert("Erro ao cadastrar: " + error.message);
+            alert("Erro no cadastro: " + error.message);
         } else {
-            alert("Usuário configurado na nuvem! Agora faça login.");
+            alert("Usuário cadastrado com sucesso na nuvem!");
             mudarTela('loginPage');
         }
     });
 
-    // LOGIN CONSULTANDO O BANCO
+    // LOGIN DE USUÁRIO
     document.getElementById('formLogin').addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('userEmail').value;
@@ -241,19 +200,94 @@
             .from('perfis')
             .select('*')
             .eq('email', email)
-            .eq('senha', pass)
-            .single();
+            .eq('senha', pass);
 
-        if (data) {
+        if (error) {
+            alert("Erro ao conectar: " + error.message);
+            return;
+        }
+
+        if (data && data.length > 0) {
             mudarTela('dashboardPage');
         } else {
-            alert("E-mail ou senha incorretos em nossa base de dados!");
+            alert("E-mail ou senha incorretos!");
         }
     });
 
-    // Inicia na tela de login
+    // --- LÓGICA DE MEDICAMENTOS ---
+
+    // ADICIONAR AO BANCO
+    async function salvarNoEstoque() {
+        const nome = document.getElementById('medNome').value;
+        const qtd = document.getElementById('medQtd').value;
+        
+        if(!nome || !qtd) return alert("Preencha o nome e a quantidade!");
+
+        const { error } = await _supabase
+            .from('medicamentos')
+            .insert([{ nome: nome.toUpperCase(), quantidade: parseInt(qtd) }]);
+
+        if (error) {
+            alert("Erro ao salvar: " + error.message);
+        } else {
+            alert("Doação publicada! Agora todos podem ver.");
+            document.getElementById('medNome').value = "";
+            document.getElementById('medQtd').value = "";
+            mudarTela('estoquePage');
+        }
+    }
+
+    // BUSCAR DADOS DA NUVEM PARA A TABELA
+    async function atualizarTabela() {
+        const corpo = document.getElementById('corpoEstoque');
+        corpo.innerHTML = "<tr><td colspan='3' style='text-align:center;'>Sincronizando com o banco de dados...</td></tr>";
+
+        const { data: estoque, error } = await _supabase
+            .from('medicamentos')
+            .select('*')
+            .order('id', { ascending: false });
+
+        if (error) {
+            corpo.innerHTML = "<tr><td colspan='3'>Erro ao carregar doações.</td></tr>";
+            return;
+        }
+
+        corpo.innerHTML = "";
+        if(estoque.length === 0) {
+            corpo.innerHTML = "<tr><td colspan='3' style='text-align:center;'>Nenhuma doação ativa no momento.</td></tr>";
+        }
+
+        estoque.forEach((item) => {
+            corpo.innerHTML += `
+                <tr>
+                    <td><strong>${item.nome}</strong></td>
+                    <td>${item.quantidade} un.</td>
+                    <td>
+                        <button class="btn btn-danger" style="padding: 8px; width: auto;" onclick="darBaixa(${item.id})">
+                            <i class="fas fa-check"></i> FOI DOADO
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    // REMOVER DO BANCO (BAIXA)
+    async function darBaixa(id) {
+        if(confirm("Deseja confirmar que este medicamento já foi entregue? ele sairá da lista pública.")) {
+            const { error } = await _supabase
+                .from('medicamentos')
+                .delete()
+                .eq('id', id);
+
+            if (error) alert("Erro ao atualizar status.");
+            else atualizarTabela();
+        }
+    }
+
+    // GARANTIR QUE COMECE NA TELA DE LOGIN
     window.onload = () => mudarTela('loginPage');
 </script>
 
 </body>
-</html>
+    </html>
