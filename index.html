@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farmacura Pet - Sistema</title>
+    <title>Farmacura Pet - Sistema Administrativo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
@@ -11,11 +11,11 @@
             --primary: #1e3c72;
             --accent: #28a745;
             --danger: #d32f2f;
-            --side-bg: #ffffff;
+            --white: #ffffff;
             --body-bg: #f4f7f6;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         
         body { 
             background-color: var(--body-bg); 
@@ -25,8 +25,8 @@
             height: 100vh; 
         }
 
-        .card-admin {
-            background: var(--side-bg);
+        .card {
+            background: var(--white);
             padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
@@ -35,8 +35,8 @@
         }
 
         h2 { color: var(--primary); margin-bottom: 1.5rem; text-align: center; }
-        .form-group { margin-bottom: 1rem; position: relative; }
-        label { display: block; margin-bottom: 5px; color: #555; font-size: 0.9rem; }
+        .form-group { margin-bottom: 1.2rem; position: relative; }
+        label { display: block; margin-bottom: 5px; color: #555; font-weight: 600; }
 
         input {
             width: 100%;
@@ -45,145 +45,147 @@
             border: 1px solid #ddd;
             border-radius: 8px;
             outline: none;
+            font-size: 1rem;
         }
 
+        /* Estilo do Olhinho */
         .toggle-password {
             position: absolute;
             right: 12px;
-            top: 35px;
+            top: 38px;
             cursor: pointer;
             color: #888;
+            font-size: 1.1rem;
         }
 
-        .btn-submit {
+        .btn {
             width: 100%;
             padding: 12px;
-            background: var(--primary);
-            color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
-            margin-top: 1rem;
+            font-size: 1rem;
+            transition: 0.3s;
         }
 
-        .btn-secondary {
-            background: transparent;
-            color: var(--primary);
-            border: 1px solid var(--primary);
-            margin-top: 0.5rem;
-        }
+        .btn-primary { background: var(--primary); color: white; margin-top: 10px; }
+        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); margin-top: 15px; }
+        .btn:hover { opacity: 0.85; }
 
-        .status-msg {
-            text-align: center;
-            margin-top: 1rem;
-            font-size: 0.85rem;
-            font-weight: bold;
-        }
-
-        /* Esconder seções */
+        .status-msg { text-align: center; margin-top: 1rem; font-weight: bold; min-height: 20px; }
+        
+        /* Controle de exibição das telas */
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
-<div id="loginSection" class="card-admin">
-    <h2><i class="fas fa-lock"></i> Login Pet</h2>
-    <form id="loginForm">
-        <div class="form-group">
-            <label>E-mail</label>
-            <input type="email" id="loginEmail" placeholder="seu@email.com" required>
-        </div>
-        <div class="form-group">
-            <label>Senha</label>
-            <input type="password" id="loginPass" placeholder="Sua senha" required>
-            <i class="fa-solid fa-eye toggle-password" onclick="toggleView('loginPass', this)"></i>
-        </div>
-        <button type="submit" class="btn-submit">ENTRAR</button>
-        <p style="text-align:center; font-size: 0.8rem; margin-top: 10px;">
-            Não tem conta? <a href="#" onclick="showSection('adminSection')">Cadastre aqui</a>
-        </p>
-    </form>
-    <div id="loginMsg" class="status-msg"></div>
-</div>
+    <div id="loginPage" class="card">
+        <h2><i class="fas fa-lock"></i> Login Admin</h2>
+        <form id="formLogin">
+            <div class="form-group">
+                <label>E-mail</label>
+                <input type="email" id="userEmail" placeholder="Digite seu e-mail" required>
+            </div>
+            <div class="form-group">
+                <label>Senha</label>
+                <input type="password" id="userPass" placeholder="Digite sua senha" required>
+                <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('userPass', this)"></i>
+            </div>
+            <button type="submit" class="btn btn-primary">ENTRAR NO SISTEMA</button>
+        </form>
+        <button class="btn btn-outline" onclick="mudarTela('registerPage')">CADASTRAR / ATUALIZAR CONTA</button>
+        <div id="loginMsg" class="status-msg"></div>
+    </div>
 
-<div id="adminSection" class="card-admin hidden">
-    <h2><i class="fas fa-paw"></i> Gerenciar Acesso</h2>
-    <form id="adminForm">
-        <div class="form-group">
-            <label>Novo E-mail</label>
-            <input type="email" id="adminEmail" placeholder="novo@email.com" required>
-        </div>
-        <div class="form-group">
-            <label>Nova Senha</label>
-            <input type="password" id="adminPass" placeholder="Mínimo 6 caracteres" required>
-            <i class="fa-solid fa-eye toggle-password" onclick="toggleView('adminPass', this)"></i>
-        </div>
-        <button type="submit" class="btn-submit">SALVAR / ATUALIZAR</button>
-        <button type="button" class="btn-submit btn-secondary" onclick="showSection('loginSection')">VOLTAR AO LOGIN</button>
-    </form>
-    <div id="adminMsg" class="status-msg"></div>
-</div>
+    <div id="registerPage" class="card hidden">
+        <h2><i class="fas fa-user-plus"></i> Configurar Acesso</h2>
+        <form id="formRegister">
+            <div class="form-group">
+                <label>Definir E-mail</label>
+                <input type="email" id="regEmail" placeholder="novo@email.com" required>
+            </div>
+            <div class="form-group">
+                <label>Definir Senha</label>
+                <input type="password" id="regPass" placeholder="Crie uma senha forte" required>
+                <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('regPass', this)"></i>
+            </div>
+            <button type="submit" class="btn btn-primary">SALVAR DADOS</button>
+        </form>
+        <button class="btn btn-outline" onclick="mudarTela('loginPage')">VOLTAR PARA LOGIN</button>
+        <div id="regMsg" class="status-msg"></div>
+    </div>
 
 <script>
-    // --- FUNÇÕES DE NAVEGAÇÃO ---
-    function showSection(id) {
-        document.getElementById('loginSection').classList.add('hidden');
-        document.getElementById('adminSection').classList.add('hidden');
-        document.getElementById(id).classList.remove('hidden');
+    // 1. Função para trocar de tela
+    function mudarTela(idTela) {
+        document.getElementById('loginPage').classList.add('hidden');
+        document.getElementById('registerPage').classList.add('hidden');
+        document.getElementById(idTela).classList.remove('hidden');
+        
+        // Limpa mensagens de erro ao trocar
+        document.getElementById('loginMsg').innerText = "";
+        document.getElementById('regMsg').innerText = "";
     }
 
-    function toggleView(inputId, icon) {
+    // 2. Função do Olhinho (Ver Senha)
+    function togglePassword(inputId, icon) {
         const input = document.getElementById(inputId);
-        const isPass = input.type === 'password';
-        input.type = isPass ? 'text' : 'password';
-        icon.classList.toggle('fa-eye');
-        icon.classList.toggle('fa-eye-slash');
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = "password";
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
     }
 
-    // --- LÓGICA DE LOGIN ---
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
+    // 3. Salvar Cadastro (Atualizar)
+    document.getElementById('formRegister').addEventListener('submit', function(e) {
         e.preventDefault();
-        const email = document.getElementById('loginEmail').value;
-        const pass = document.getElementById('loginPass').value;
+        const email = document.getElementById('regEmail').value;
+        const pass = document.getElementById('regPass').value;
+        
+        // Salva permanentemente no navegador
+        localStorage.setItem('admin_user', email);
+        localStorage.setItem('admin_password', pass);
+
+        const msg = document.getElementById('regMsg');
+        msg.style.color = "var(--accent)";
+        msg.innerText = "Dados salvos! Redirecionando...";
+
+        setTimeout(() => mudarTela('loginPage'), 1500);
+    });
+
+    // 4. Lógica de Login
+    document.getElementById('formLogin').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const emailDigitado = document.getElementById('userEmail').value;
+        const senhaDigitada = document.getElementById('userPass').value;
+        
+        const emailSalvo = localStorage.getItem('admin_user');
+        const senhaSalva = localStorage.getItem('admin_password');
+
         const msg = document.getElementById('loginMsg');
 
-        // Busca o que está salvo
-        const savedEmail = localStorage.getItem('pet_admin_email');
-        const savedPass = localStorage.getItem('pet_admin_pass');
-
-        if (email === savedEmail && pass === savedPass) {
+        if (emailDigitado === emailSalvo && senhaDigitada === senhaSalva) {
             msg.style.color = "var(--accent)";
-            msg.innerText = "Login realizado! Redirecionando...";
-            // Aqui você redirecionaria para a sua Dashboard real
-            setTimeout(() => alert("Bem-vindo ao Painel Farmacura!"), 1000);
+            msg.innerText = "Acesso autorizado! Bem-vindo.";
+            // Aqui você colocaria o link para sua página principal, ex:
+            // window.location.href = "dashboard.html";
         } else {
             msg.style.color = "var(--danger)";
-            msg.innerText = "E-mail ou senha incorretos!";
+            msg.innerText = "Usuário ou senha não encontrados.";
         }
     });
 
-    // --- LÓGICA DE CADASTRO/ATUALIZAÇÃO ---
-    document.getElementById('adminForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = document.getElementById('adminEmail').value;
-        const pass = document.getElementById('adminPass').value;
-        const msg = document.getElementById('adminMsg');
-
-        // Salva os dados para serem usados no login depois
-        localStorage.setItem('pet_admin_email', email);
-        localStorage.setItem('pet_admin_pass', pass);
-
-        msg.style.color = "var(--accent)";
-        msg.innerText = "Dados atualizados! Use-os para logar agora.";
-        
-        setTimeout(() => showSection('loginSection'), 2000);
-    });
-
-    // Ao carregar, verifica se já existe cadastro. Se não, manda para o cadastro.
+    // Início: Se não houver nada salvo, sugere o cadastro
     window.onload = () => {
-        if (!localStorage.getItem('pet_admin_email')) {
-            showSection('adminSection');
+        if (!localStorage.getItem('admin_user')) {
+            mudarTela('registerPage');
+            document.getElementById('regMsg').innerText = "Crie seu primeiro acesso.";
+            document.getElementById('regMsg').style.color = "var(--primary)";
         }
     };
 </script>
