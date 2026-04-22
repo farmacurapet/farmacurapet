@@ -82,16 +82,16 @@
             <input type="password" id="userPass" placeholder="Senha" required style="margin-bottom:10px; display:block; width:100%; padding:10px;">
             <button type="submit" class="btn btn-primary">ENTRAR</button>
         </form>
-        <button onclick="mudarTela('registerPage')" style="background:none; border:none; color:blue; margin-top:10px; cursor:pointer;">Criar Nova Conta</button>
+        <button onclick="mudarTela('registerPage')" style="background:none; border:none; color:blue; margin-top:10px; cursor:pointer;">Configurar Novo Acesso</button>
     </div>
 
     <div id="registerPage" class="card hidden">
-        <h2>Criar Conta</h2>
+        <h2>Configurar Usuário</h2>
         <form id="formRegister">
             <input type="email" id="regEmail" placeholder="E-mail" required style="margin-bottom:10px; display:block; width:100%; padding:10px;">
             <input type="tel" id="regWhats" placeholder="WhatsApp" required style="margin-bottom:10px; display:block; width:100%; padding:10px;">
             <input type="password" id="regPass" placeholder="Senha" required style="margin-bottom:10px; display:block; width:100%; padding:10px;">
-            <button type="submit" class="btn btn-primary">CADASTRAR</button>
+            <button type="submit" class="btn btn-primary">SALVAR NA NUVEM</button>
         </form>
         <button onclick="mudarTela('loginPage')" class="btn btn-danger" style="margin-top:10px; width:100%;">VOLTAR</button>
     </div>
@@ -107,31 +107,31 @@
 
         <div class="dashboard-grid">
             <div class="section-box">
-                <h3><i class="fas fa-plus-circle"></i> Cadastrar Doação</h3>
-                <input type="text" id="medNome" placeholder="Nome do Medicamento" style="margin:10px 0; width:100%; padding:10px;">
+                <h3><i class="fas fa-plus-circle"></i> Cadastrar Medicamento</h3>
+                <input type="text" id="medNome" placeholder="Nome do Remédio" style="margin:10px 0; width:100%; padding:10px;">
                 <input type="number" id="medQtd" placeholder="Quantidade" style="margin-bottom:10px; width:100%; padding:10px;">
-                <button class="btn btn-primary" onclick="salvarNoEstoque()">PUBLICAR DOAÇÃO</button>
+                <button class="btn btn-primary" onclick="salvarNoEstoque()">ADICIONAR AO INVENTÁRIO</button>
             </div>
 
             <div class="section-box">
-                <h3><i class="fas fa-hospital"></i> Emergências (Pernambuco)</h3>
+                <h3><i class="fas fa-hospital"></i> Emergências</h3>
                 <p>UFRPE: (81) 3320-6410</p>
-                <p>Hosp. Veterinário Recife: (81) 3355-8179</p>
+                <p>Hosp. Recife: (81) 3355-8179</p>
             </div>
         </div>
     </div>
 
     <div id="estoquePage" class="card hidden">
         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #ddd; padding-bottom:10px;">
-            <h2><i class="fas fa-warehouse"></i> Medicamentos Disponíveis</h2>
+            <h2><i class="fas fa-warehouse"></i> Estoque (Sincronizado)</h2>
             <button class="btn btn-primary" onclick="mudarTela('dashboardPage')">VOLTAR AO PAINEL</button>
         </div>
         
         <table id="tabelaEstoque">
             <thead>
                 <tr>
-                    <th>Remédio</th>
-                    <th>Qtd</th>
+                    <th>Medicamento</th>
+                    <th>Quantidade</th>
                     <th>Ação</th>
                 </tr>
             </thead>
@@ -140,56 +140,50 @@
     </div>
 
 <script>
-    // IMPORTANTE: Insira seus dados do Supabase aqui
-    const SUPABASE_URL = 'SUA_URL_AQUI'; 
-    const SUPABASE_KEY = 'SUA_CHAVE_ANON_AQUI'; 
+    // --- CONFIGURAÇÃO SUPABASE ---
+    const SUPABASE_URL = 'SUA_URL_AQUI'; // Substitua pela sua URL
+    const SUPABASE_KEY = 'SUA_CHAVE_ANON_AQUI'; // Substitua pela sua Key
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Função de Navegação - Corrigida para garantir que a tela mude
+    // Navegação entre telas
     function mudarTela(id) {
-        console.log("Mudando para tela: " + id);
         document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-        const proximaTela = document.getElementById(id);
-        if (proximaTela) {
-            proximaTela.classList.remove('hidden');
-        }
+        document.getElementById(id).classList.remove('hidden');
         if(id === 'estoquePage') atualizarTabela();
     }
 
-    // SALVAR MEDICAMENTO
+    // SALVAR MEDICAMENTO NO SUPABASE
     async function salvarNoEstoque() {
         const nome = document.getElementById('medNome').value;
         const qtd = document.getElementById('medQtd').value;
         
-        if(!nome || !qtd) return alert("Preencha todos os campos!");
+        if(!nome || !qtd) return alert("Preencha tudo!");
 
         const { error } = await _supabase
             .from('medicamentos')
             .insert([{ nome: nome.toUpperCase(), quantidade: parseInt(qtd) }]);
 
         if (error) {
-            console.error(error);
-            alert("Erro ao salvar no banco: " + error.message);
+            alert("Erro ao salvar: " + error.message);
         } else {
-            alert("Doação cadastrada com sucesso!");
+            alert("Medicamento salvo na nuvem com sucesso!");
             document.getElementById('medNome').value = "";
             document.getElementById('medQtd').value = "";
-            mudarTela('estoquePage');
         }
     }
 
-    // BUSCAR MEDICAMENTOS
+    // BUSCAR MEDICAMENTOS DA NUVEM
     async function atualizarTabela() {
         const corpo = document.getElementById('corpoEstoque');
-        corpo.innerHTML = "<tr><td colspan='3'>Sincronizando...</td></tr>";
+        corpo.innerHTML = "<tr><td colspan='3'>Carregando dados da nuvem...</td></tr>";
 
         const { data: estoque, error } = await _supabase
             .from('medicamentos')
-            .select('*');
+            .select('*')
+            .order('id', { ascending: false });
 
         if (error) {
-            console.error(error);
-            corpo.innerHTML = "<tr><td colspan='3'>Erro de conexão.</td></tr>";
+            corpo.innerHTML = "<tr><td colspan='3'>Erro ao buscar dados.</td></tr>";
             return;
         }
 
@@ -198,23 +192,27 @@
             corpo.innerHTML += `
                 <tr>
                     <td>${item.nome}</td>
-                    <td>${item.quantidade}</td>
-                    <td><button class="btn btn-danger" style="padding:5px 10px;" onclick="darBaixa(${item.id})">RETIRAR</button></td>
+                    <td>${item.quantidade} un.</td>
+                    <td><button class="btn btn-danger" style="padding:5px 10px;" onclick="darBaixa(${item.id})">DOAR</button></td>
                 </tr>
             `;
         });
     }
 
-    // DAR BAIXA (DELETE)
+    // REMOVER MEDICAMENTO (DAR BAIXA)
     async function darBaixa(id) {
-        if(confirm("Deseja retirar este item do estoque?")) {
-            const { error } = await _supabase.from('medicamentos').delete().eq('id', id);
-            if (error) alert("Erro ao excluir.");
+        if(confirm("Confirmar doação deste medicamento?")) {
+            const { error } = await _supabase
+                .from('medicamentos')
+                .delete()
+                .eq('id', id);
+
+            if (error) alert("Erro ao doar: " + error.message);
             else atualizarTabela();
         }
     }
 
-    // REGISTRO DE USUÁRIO
+    // CADASTRO DE USUÁRIO NO SUPABASE
     document.getElementById('formRegister').addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('regEmail').value;
@@ -226,43 +224,36 @@
             .insert([{ email: email, whatsapp: whats, senha: pass }]);
 
         if (error) {
-            alert("Erro no cadastro: " + error.message);
+            alert("Erro ao cadastrar: " + error.message);
         } else {
-            alert("Conta criada! Pode fazer login.");
+            alert("Usuário configurado na nuvem! Agora faça login.");
             mudarTela('loginPage');
         }
     });
 
-    // LOGIN - REVISADO (Sem .single() para evitar travamento)
+    // LOGIN CONSULTANDO O BANCO
     document.getElementById('formLogin').addEventListener('submit', async (e) => {
         e.preventDefault();
-        console.log("Tentando login...");
         const email = document.getElementById('userEmail').value;
         const pass = document.getElementById('userPass').value;
 
-        // Buscamos se existe alguém com esse e-mail e senha
         const { data, error } = await _supabase
             .from('perfis')
             .select('*')
             .eq('email', email)
-            .eq('senha', pass);
+            .eq('senha', pass)
+            .single();
 
-        if (error) {
-            console.error(error);
-            alert("Erro na consulta: " + error.message);
-            return;
-        }
-
-        if (data && data.length > 0) {
-            console.log("Login autorizado!");
-            mudarTela('dashboardPage'); // << AQUI ELE LIBERA O PAINEL
+        if (data) {
+            mudarTela('dashboardPage');
         } else {
-            alert("E-mail ou senha não encontrados!");
+            alert("E-mail ou senha incorretos em nossa base de dados!");
         }
     });
 
-    // Inicia sempre na tela de login
+    // Inicia na tela de login
     window.onload = () => mudarTela('loginPage');
 </script>
+
 </body>
 </html>
