@@ -22,7 +22,7 @@
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            height: 100vh; 
+            min-height: 100vh; 
         }
 
         .card {
@@ -33,6 +33,9 @@
             width: 100%;
             max-width: 400px;
         }
+
+        /* Estilo especial para o Painel (mais largo) */
+        #dashboardPage.card { max-width: 800px; width: 90%; }
 
         h2 { color: var(--primary); margin-bottom: 1.5rem; text-align: center; }
         .form-group { margin-bottom: 1.2rem; position: relative; }
@@ -48,14 +51,12 @@
             font-size: 1rem;
         }
 
-        /* Estilo do Olhinho */
         .toggle-password {
             position: absolute;
             right: 12px;
             top: 38px;
             cursor: pointer;
             color: #888;
-            font-size: 1.1rem;
         }
 
         .btn {
@@ -67,16 +68,19 @@
             font-weight: bold;
             font-size: 1rem;
             transition: 0.3s;
+            text-align: center;
         }
 
         .btn-primary { background: var(--primary); color: white; margin-top: 10px; }
         .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); margin-top: 15px; }
+        .btn-danger { background: var(--danger); color: white; margin-top: 20px; width: auto; padding: 8px 20px; }
         .btn:hover { opacity: 0.85; }
 
         .status-msg { text-align: center; margin-top: 1rem; font-weight: bold; min-height: 20px; }
         
-        /* Controle de exibição das telas */
-        .hidden { display: none; }
+        .hidden { display: none !important; }
+
+        .welcome-box { text-align: center; padding: 20px; }
     </style>
 </head>
 <body>
@@ -117,19 +121,29 @@
         <div id="regMsg" class="status-msg"></div>
     </div>
 
+    <div id="dashboardPage" class="card hidden">
+        <div class="welcome-box">
+            <h2><i class="fas fa-chart-line"></i> Painel Farmacura Pet</h2>
+            <p>Bem-vindo ao sistema de gerenciamento administrativo.</p>
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+            
+            <div style="background: #e9ecef; padding: 40px; border-radius: 8px;">
+                <p>O conteúdo do seu sistema aparecerá nesta área.</p>
+            </div>
+
+            <button class="btn btn-danger" onclick="logout()">SAIR / LOGOUT</button>
+        </div>
+    </div>
+
 <script>
-    // 1. Função para trocar de tela
     function mudarTela(idTela) {
         document.getElementById('loginPage').classList.add('hidden');
         document.getElementById('registerPage').classList.add('hidden');
-        document.getElementById(idTela).classList.remove('hidden');
+        document.getElementById('dashboardPage').classList.add('hidden');
         
-        // Limpa mensagens de erro ao trocar
-        document.getElementById('loginMsg').innerText = "";
-        document.getElementById('regMsg').innerText = "";
+        document.getElementById(idTela).classList.remove('hidden');
     }
 
-    // 2. Função do Olhinho (Ver Senha)
     function togglePassword(inputId, icon) {
         const input = document.getElementById(inputId);
         if (input.type === "password") {
@@ -141,51 +155,43 @@
         }
     }
 
-    // 3. Salvar Cadastro (Atualizar)
+    // SALVAR CADASTRO
     document.getElementById('formRegister').addEventListener('submit', function(e) {
         e.preventDefault();
-        const email = document.getElementById('regEmail').value;
-        const pass = document.getElementById('regPass').value;
-        
-        // Salva permanentemente no navegador
-        localStorage.setItem('admin_user', email);
-        localStorage.setItem('admin_password', pass);
+        localStorage.setItem('admin_user', document.getElementById('regEmail').value);
+        localStorage.setItem('admin_password', document.getElementById('regPass').value);
 
         const msg = document.getElementById('regMsg');
         msg.style.color = "var(--accent)";
-        msg.innerText = "Dados salvos! Redirecionando...";
-
-        setTimeout(() => mudarTela('loginPage'), 1500);
+        msg.innerText = "Configuração salva com sucesso!";
+        setTimeout(() => mudarTela('loginPage'), 1200);
     });
 
-    // 4. Lógica de Login
+    // LOGAR
     document.getElementById('formLogin').addEventListener('submit', function(e) {
         e.preventDefault();
         const emailDigitado = document.getElementById('userEmail').value;
         const senhaDigitada = document.getElementById('userPass').value;
-        
         const emailSalvo = localStorage.getItem('admin_user');
         const senhaSalva = localStorage.getItem('admin_password');
 
-        const msg = document.getElementById('loginMsg');
-
         if (emailDigitado === emailSalvo && senhaDigitada === senhaSalva) {
-            msg.style.color = "var(--accent)";
-            msg.innerText = "Acesso autorizado! Bem-vindo.";
-            // Aqui você colocaria o link para sua página principal, ex:
-            // window.location.href = "dashboard.html";
+            mudarTela('dashboardPage'); // <-- ISSO FAZ O LOGIN ACONTECER
         } else {
+            const msg = document.getElementById('loginMsg');
             msg.style.color = "var(--danger)";
-            msg.innerText = "Usuário ou senha não encontrados.";
+            msg.innerText = "E-mail ou senha incorretos.";
         }
     });
 
-    // Início: Se não houver nada salvo, sugere o cadastro
+    function logout() {
+        document.getElementById('userPass').value = ""; // Limpa a senha por segurança
+        mudarTela('loginPage');
+    }
+
     window.onload = () => {
         if (!localStorage.getItem('admin_user')) {
             mudarTela('registerPage');
-            document.getElementById('regMsg').innerText = "Crie seu primeiro acesso.";
-            document.getElementById('regMsg').style.color = "var(--primary)";
         }
     };
 </script>
