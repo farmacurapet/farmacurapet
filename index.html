@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FarmacuraPet - Oficial</title>
+    <title>FarmacuraPet - Conectando Doações</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -13,7 +13,8 @@
         body { font-family: 'Poppins', sans-serif; margin: 0; display: flex; background: var(--light); height: 100vh; }
         
         /* Sidebar */
-        nav { width: 260px; background: var(--dark); color: white; padding: 20px; display: flex; flex-direction: column; transition: 0.3s; }
+        nav { width: 260px; background: var(--dark); color: white; padding: 20px; display: flex; flex-direction: column; }
+        nav h2 { color: var(--primary); margin-bottom: 30px; }
         nav a { color: white; text-decoration: none; padding: 12px; display: block; border-radius: 8px; margin-bottom: 5px; cursor: pointer; }
         nav a:hover { background: #3e4f5f; }
 
@@ -21,90 +22,58 @@
         main { flex: 1; padding: 30px; overflow-y: auto; }
         .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
         
-        /* Auth Screen */
-        .auth-container { max-width: 400px; margin: 50px auto; position: relative; }
-        .password-wrapper { position: relative; width: 100%; }
-        .password-wrapper i { position: absolute; right: 15px; top: 25px; cursor: pointer; color: #777; }
-        
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: inherit; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
         button { width: 100%; padding: 12px; background: var(--primary); border: none; color: white; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 10px; }
         
-        .hidden { display: none !important; }
+        .hidden { display: none; }
+        .iframe-container { width: 100%; height: 500px; border-radius: 12px; border: 2px solid var(--dark); margin-top: 10px; }
+        
         .social-links { margin-top: auto; padding-top: 20px; border-top: 1px solid #3e4f5f; }
-        .iframe-container { width: 100%; height: 600px; border-radius: 12px; border: 2px solid var(--dark); }
+        .social-links a { font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
-    <nav id="sidebar" class="hidden">
-        <h2 style="color: var(--primary);">FarmacuraPet</h2>
-        <a onclick="showSection('section-doar')"><i class="fas fa-plus"></i> Doar Medicamento</a>
+    <nav>
+        <h2>FarmacuraPet</h2>
+        <a onclick="showSection('section-doar')"><i class="fas fa-plus"></i> Doar Agora</a>
         <a onclick="showSection('section-estoque')"><i class="fas fa-pills"></i> Ver Estoque</a>
-        <a onclick="showSection('section-lazer')"><i class="fas fa-gamepad"></i> Jogos & Redes</a>
+        <a onclick="showSection('section-lazer')"><i class="fas fa-gamepad"></i> Lazer & Redes</a>
         
         <div class="social-links">
-            <p style="font-size: 0.8rem; opacity: 0.7;">Redes Sociais:</p>
             <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
             <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
             <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i> YouTube</a>
-            <a onclick="logout()" style="color: #ff7675; margin-top: 20px;"><i class="fas fa-power-off"></i> Sair</a>
         </div>
     </nav>
 
     <main>
-        <div id="auth-screen" class="auth-container card">
-            <h2 id="auth-title" style="text-align: center;">Login</h2>
-            
-            <input type="email" id="email" placeholder="E-mail">
-            
-            <div class="password-wrapper">
-                <input type="password" id="password" placeholder="Senha">
-                <i class="fas fa-eye" id="togglePassword" onclick="togglePass()"></i>
-            </div>
-
-            <div id="register-fields" class="hidden">
-                <input type="text" id="whatsapp" placeholder="WhatsApp (Ex: 81988887777)">
-                <input type="text" id="user_name" placeholder="Nome Completo">
-                <small style="display: block; margin-bottom: 10px; color: #666;">
-                    * O WhatsApp será usado para combinar a entrega.
-                </small>
-            </div>
-
-            <button id="btn-auth" onclick="handleAuthAction()">Entrar</button>
-            
-            <div style="text-align: center; margin-top: 15px;">
-                <p style="cursor: pointer; color: var(--secondary); font-size: 0.9rem;" onclick="toggleAuthMode()" id="auth-switch">
-                    Não tem conta? Cadastre-se
-                </p>
-                <p style="cursor: pointer; color: #999; font-size: 0.8rem;" onclick="forgotPassword()">
-                    Esqueci minha senha
-                </p>
-            </div>
-        </div>
-
-        <section id="section-doar" class="hidden">
+        <section id="section-doar">
             <div class="card">
-                <h3><i class="fas fa-hand-holding-heart"></i> Cadastrar Medicamento</h3>
-                <input type="text" id="med_nome" placeholder="Nome do Remédio">
-                <input type="text" id="med_dosagem" placeholder="Dosagem (Ex: 500mg)">
-                <label>Validade:</label>
+                <h3><i class="fas fa-hand-holding-medical"></i> Cadastrar Doação</h3>
+                <p style="font-size: 0.8rem; color: #666;">Não precisa de conta. Preencha os dados abaixo:</p>
+                
+                <input type="text" id="med_nome" placeholder="Nome do Medicamento">
+                <input type="text" id="med_whatsapp" placeholder="Seu WhatsApp (Ex: 81988887777)">
+                <label>Data de Validade:</label>
                 <input type="date" id="med_validade">
                 <input type="number" id="med_qtd" placeholder="Quantidade">
-                <button onclick="salvarMedicamento()">Confirmar Doação</button>
+                
+                <button onclick="salvarSemLogin()">Publicar Doação</button>
             </div>
         </section>
 
         <section id="section-estoque" class="hidden">
             <div class="card">
-                <h3><i class="fas fa-boxes"></i> Estoque Virtual</h3>
-                <div id="lista-medicamentos">Carregando...</div>
+                <h3><i class="fas fa-boxes"></i> Medicamentos Disponíveis</h3>
+                <div id="lista-medicamentos">Carregando estoque...</div>
             </div>
         </section>
 
         <section id="section-lazer" class="hidden">
             <div class="card">
                 <h3>Espaço Interativo</h3>
-                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                <div style="display: flex; gap: 10px;">
                     <button onclick="changeIframe('https://www.jogos360.com.br')" style="background: #e67e22;">Jogos 360</button>
                     <button onclick="changeIframe('https://m.youtube.com')" style="background: #c0392b;">YouTube</button>
                 </div>
@@ -114,109 +83,51 @@
     </main>
 
     <script>
-        // CONFIGURAÇÃO DO SUPABASE
+        // Use a sua URL e Key do Supabase
         const supabaseUrl = 'https://tkupfowbgylkjdkwfiyr.supabase.co';
         const supabaseKey = 'SUA_CHAVE_ANON_AQUI'; 
         const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        let isRegisterMode = false;
-
-        // 1. Mostrar/Ocultar Senha (Olhinho)
-        function togglePass() {
-            const passInput = document.getElementById('password');
-            const icon = document.getElementById('togglePassword');
-            if (passInput.type === "password") {
-                passInput.type = "text";
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                passInput.type = "password";
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
-            }
-        }
-
-        // 2. Trocar entre Login e Cadastro
-        function toggleAuthMode() {
-            isRegisterMode = !isRegisterMode;
-            document.getElementById('register-fields').classList.toggle('hidden');
-            document.getElementById('auth-title').innerText = isRegisterMode ? 'Criar Conta' : 'Login';
-            document.getElementById('btn-auth').innerText = isRegisterMode ? 'Cadastrar Agora' : 'Entrar';
-            document.getElementById('auth-switch').innerText = isRegisterMode ? 'Já tenho conta' : 'Não tem conta? Cadastre-se';
-        }
-
-        // 3. Ação Principal do Botão (Login ou Cadastro)
-        async function handleAuthAction() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const whatsapp = document.getElementById('whatsapp').value;
-            const nome = document.getElementById('user_name').value;
-
-            if (!email || !password) return alert("Preencha e-mail e senha.");
-
-            if (isRegisterMode) {
-                // CADASTRO
-                const { data, error } = await _supabase.auth.signUp({
-                    email,
-                    password,
-                    options: {
-                        data: { full_name: nome, whatsapp: whatsapp }
-                    }
-                });
-                if (error) alert("Erro no cadastro: " + error.message);
-                else alert("Cadastro realizado! Verifique seu e-mail para confirmar.");
-            } else {
-                // LOGIN
-                const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
-                if (error) alert("Falha no login: " + error.message);
-                else loginSuccess();
-            }
-        }
-
-        // 4. Esqueci minha senha
-        async function forgotPassword() {
-            const email = document.getElementById('email').value;
-            if (!email) return alert("Digite seu e-mail primeiro.");
-            const { error } = await _supabase.auth.resetPasswordForEmail(email);
-            if (error) alert(error.message);
-            else alert("E-mail de recuperação enviado!");
-        }
-
-        function loginSuccess() {
-            document.getElementById('auth-screen').classList.add('hidden');
-            document.getElementById('sidebar').classList.remove('hidden');
-            showSection('section-doar');
-            carregarEstoque();
-        }
-
-        // 5. Salvar Medicamento
-        async function salvarMedicamento() {
-            const { data: { user } } = await _supabase.auth.getUser();
+        // 1. Salvar sem login
+        async function salvarSemLogin() {
             const nome = document.getElementById('med_nome').value;
+            const zap = document.getElementById('med_whatsapp').value;
             const validade = document.getElementById('med_validade').value;
             const qtd = document.getElementById('med_qtd').value;
 
-            if(!nome || !validade) return alert("Preencha os campos!");
+            if(!nome || !zap || !validade) return alert("Por favor, preencha todos os campos.");
 
+            // Enviamos para a tabela 'medicamentos'
+            // IMPORTANTE: Para isso funcionar sem login, o RLS no Supabase deve permitir INSERT para 'anon'
             const { error } = await _supabase.from('medicamentos').insert([
-                { nome_medicamento: nome, data_validade: validade, quantidade: qtd, doador_id: user.id }
+                { 
+                    nome_medicamento: nome, 
+                    data_validade: validade, 
+                    quantidade: qtd, 
+                    status: 'disponivel',
+                    dosagem: zap // Usando o campo dosagem temporariamente para guardar o zap ou crie uma coluna 'whatsapp' no banco
+                }
             ]);
 
-            if (error) alert(error.message);
-            else {
-                alert("Doação publicada!");
+            if (error) {
+                alert("Erro ao publicar: " + error.message);
+            } else {
+                alert("Doação publicada com sucesso!");
                 showSection('section-estoque');
                 carregarEstoque();
             }
         }
 
-        // 6. Confirmar Recebimento (Faz o item sair da tela)
+        // 2. Confirmar Recebimento (Faz o item sair da tela)
         async function confirmarDoacao(id) {
             const { error } = await _supabase.from('medicamentos').update({ status: 'doado' }).eq('id', id);
             if (!error) {
-                alert("Retirado do estoque com sucesso!");
+                alert("O medicamento foi retirado do estoque virtual!");
                 carregarEstoque();
             }
         }
 
+        // 3. Funções de Interface
         function showSection(id) {
             document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
             document.getElementById(id).classList.remove('hidden');
@@ -229,22 +140,26 @@
         async function carregarEstoque() {
             const { data } = await _supabase.from('medicamentos').select('*').eq('status', 'disponivel');
             const container = document.getElementById('lista-medicamentos');
-            if(data.length === 0) container.innerHTML = "Nenhum medicamento disponível no momento.";
-            else {
-                container.innerHTML = data.map(m => `
-                    <div class="card" style="border-left: 5px solid var(--secondary);">
-                        <strong>${m.nome_medicamento}</strong> - ${m.quantidade} unidades<br>
-                        <small>Vence em: ${m.data_validade}</small><br>
-                        <button onclick="confirmarDoacao('${m.id}')" style="background: var(--secondary); margin-top: 10px;">Confirmar Retirada</button>
-                    </div>
-                `).join('');
+            
+            if(!data || data.length === 0) {
+                container.innerHTML = "Nenhum medicamento disponível.";
+                return;
             }
+
+            container.innerHTML = data.map(m => `
+                <div class="card" style="border-left: 5px solid var(--secondary);">
+                    <strong>${m.nome_medicamento}</strong> - ${m.quantidade} unidades<br>
+                    <small>Vencimento: ${m.data_validade}</small><br>
+                    <a href="https://wa.me/${m.dosagem}" target="_blank" style="color: green; text-decoration: none; font-weight: bold;">
+                        <i class="fab fa-whatsapp"></i> Falar com doador
+                    </a><br>
+                    <button onclick="confirmarDoacao('${m.id}')" style="background: var(--secondary); margin-top: 10px; font-size: 0.8rem; padding: 5px;">Confirmar Recebimento</button>
+                </div>
+            `).join('');
         }
 
-        function logout() {
-            _supabase.auth.signOut();
-            location.reload();
-        }
+        // Inicia carregando o estoque
+        carregarEstoque();
     </script>
 </body>
 </html>
