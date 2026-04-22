@@ -11,127 +11,182 @@
             --primary: #1e3c72;
             --accent: #28a745;
             --danger: #d32f2f;
-            --white: #ffffff;
-            --body-bg: #f4f7f6;
+            --white: rgba(255, 255, 255, 0.95);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         
         body { 
-            background-color: var(--body-bg); 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
+            /* Fundo de tela com cão e medicamentos */
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=1920'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
         .card {
             background: var(--white);
             padding: 2rem;
             border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             width: 100%;
             max-width: 400px;
         }
 
-        /* Estilo especial para o Painel (mais largo) */
-        #dashboardPage.card { max-width: 800px; width: 90%; }
+        /* Ajuste do Painel para ser maior que o login */
+        #dashboardPage.card { 
+            max-width: 1000px; 
+            width: 95%; 
+            max-height: 90vh; 
+            overflow-y: auto; 
+        }
 
         h2 { color: var(--primary); margin-bottom: 1.5rem; text-align: center; }
-        .form-group { margin-bottom: 1.2rem; position: relative; }
-        label { display: block; margin-bottom: 5px; color: #555; font-weight: 600; }
+        .form-group { margin-bottom: 1rem; position: relative; }
+        label { display: block; margin-bottom: 5px; color: #333; font-weight: 600; }
 
-        input {
-            width: 100%;
-            padding: 12px;
-            padding-right: 40px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            outline: none;
-            font-size: 1rem;
+        input, select {
+            width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;
         }
 
-        .toggle-password {
-            position: absolute;
-            right: 12px;
-            top: 38px;
-            cursor: pointer;
-            color: #888;
-        }
+        .toggle-password { position: absolute; right: 12px; top: 35px; cursor: pointer; color: #888; }
 
         .btn {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1rem;
-            transition: 0.3s;
-            text-align: center;
+            width: 100%; padding: 12px; border: none; border-radius: 8px;
+            cursor: pointer; font-weight: bold; transition: 0.3s; text-align: center; display: inline-block; text-decoration: none;
         }
-
         .btn-primary { background: var(--primary); color: white; margin-top: 10px; }
-        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); margin-top: 15px; }
-        .btn-danger { background: var(--danger); color: white; margin-top: 20px; width: auto; padding: 8px 20px; }
-        .btn:hover { opacity: 0.85; }
+        .btn-accent { background: var(--accent); color: white; }
+        .btn-danger { background: var(--danger); color: white; margin-top: 20px; width: auto; }
 
-        .status-msg { text-align: center; margin-top: 1rem; font-weight: bold; min-height: 20px; }
-        
         .hidden { display: none !important; }
 
-        .welcome-box { text-align: center; padding: 20px; }
+        /* GRID DO PAINEL */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .section-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .social-links a {
+            font-size: 24px; margin-right: 15px; color: var(--primary); text-decoration: none;
+        }
+
+        .hospital-card {
+            background: white; padding: 10px; margin-top: 10px; border-radius: 5px; border: 1px solid #eee;
+        }
+
+        .btn-call { background: #007bff; color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px; }
+        .btn-nav { background: #6610f2; color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px; }
     </style>
 </head>
 <body>
 
     <div id="loginPage" class="card">
-        <h2><i class="fas fa-lock"></i> Login Admin</h2>
+        <h2><i class="fas fa-paw"></i> Farmacura Login</h2>
         <form id="formLogin">
             <div class="form-group">
                 <label>E-mail</label>
-                <input type="email" id="userEmail" placeholder="Digite seu e-mail" required>
+                <input type="email" id="userEmail" required>
             </div>
             <div class="form-group">
                 <label>Senha</label>
-                <input type="password" id="userPass" placeholder="Digite sua senha" required>
+                <input type="password" id="userPass" required>
                 <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('userPass', this)"></i>
             </div>
-            <button type="submit" class="btn btn-primary">ENTRAR NO SISTEMA</button>
+            <button type="submit" class="btn btn-primary">ENTRAR</button>
         </form>
-        <button class="btn btn-outline" onclick="mudarTela('registerPage')">CADASTRAR / ATUALIZAR CONTA</button>
-        <div id="loginMsg" class="status-msg"></div>
+        <button class="btn btn-outline" style="margin-top:10px; background:none; border:none; color:var(--primary); cursor:pointer;" onclick="mudarTela('registerPage')">Atualizar Cadastro</button>
+        <div id="loginMsg" style="text-align:center; margin-top:10px;"></div>
     </div>
 
     <div id="registerPage" class="card hidden">
-        <h2><i class="fas fa-user-plus"></i> Configurar Acesso</h2>
+        <h2>Configurar Acesso</h2>
         <form id="formRegister">
             <div class="form-group">
                 <label>Definir E-mail</label>
-                <input type="email" id="regEmail" placeholder="novo@email.com" required>
+                <input type="email" id="regEmail" required>
             </div>
             <div class="form-group">
                 <label>Definir Senha</label>
-                <input type="password" id="regPass" placeholder="Crie uma senha forte" required>
+                <input type="password" id="regPass" required>
                 <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('regPass', this)"></i>
             </div>
-            <button type="submit" class="btn btn-primary">SALVAR DADOS</button>
+            <button type="submit" class="btn btn-primary">SALVAR CADASTRO</button>
         </form>
-        <button class="btn btn-outline" onclick="mudarTela('loginPage')">VOLTAR PARA LOGIN</button>
-        <div id="regMsg" class="status-msg"></div>
+        <button class="btn btn-outline" onclick="mudarTela('loginPage')">VOLTAR</button>
     </div>
 
     <div id="dashboardPage" class="card hidden">
-        <div class="welcome-box">
-            <h2><i class="fas fa-chart-line"></i> Painel Farmacura Pet</h2>
-            <p>Bem-vindo ao sistema de gerenciamento administrativo.</p>
-            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 2px solid var(--primary); padding-bottom: 10px;">
+            <h2>Painel Farmacura Pet</h2>
+            <button class="btn btn-danger" onclick="location.reload()">SAIR</button>
+        </div>
+
+        <div class="dashboard-grid">
             
-            <div style="background: #e9ecef; padding: 40px; border-radius: 8px;">
-                <p>O conteúdo do seu sistema aparecerá nesta área.</p>
+            <div class="section-box">
+                <h3><i class="fas fa-share-alt"></i> Redes & Feedback</h3>
+                <div class="social-links" style="margin: 10px 0;">
+                    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>
+                <hr>
+                <p style="margin-top:10px;"><strong>Jogos 360:</strong> <a href="https://www.jogos360.com.br" target="_blank">Acessar Jogos</a></p>
+                <label style="margin-top:10px;">Feedback:</label>
+                <textarea style="width:100%; border-radius:5px; padding:5px;" placeholder="Deixe seu comentário..."></textarea>
             </div>
 
-            <button class="btn btn-danger" onclick="logout()">SAIR / LOGOUT</button>
+            <div class="section-box">
+                <h3><i class="fas fa-pills"></i> Cadastro de Medicamentos</h3>
+                <form id="formMed">
+                    <input type="text" id="medNome" placeholder="Nome do Medicamento" style="margin-bottom:5px;">
+                    <input type="number" id="medQtd" placeholder="Quantidade em Estoque">
+                    <button type="button" class="btn btn-primary" onclick="addEstoque()">Adicionar ao Estoque</button>
+                </form>
+                <div id="estoqueVirtual" style="margin-top:10px; font-size:14px; background:white; padding:5px; border-radius:5px;">
+                    <strong>Estoque Virtual:</strong>
+                    <ul id="listaEstoque"></ul>
+                </div>
+            </div>
+
+            <div class="section-box">
+                <h3><i class="fas fa-hospital"></i> Hospitais Recife e Região</h3>
+                
+                <div class="hospital-card">
+                    <strong>HOSPITAL VETERINÁRIO UFRPE</strong><br>
+                    <small>R. Manuel de Medeiros, s/n - Dois Irmãos</small><br>
+                    <div style="margin-top:5px;">
+                        <a href="tel:08133206410" class="btn-call"><i class="fas fa-phone"></i> Ligar</a>
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=Hospital+Veterinario+UFRPE" target="_blank" class="btn-nav"><i class="fas fa-map-marker-alt"></i> Navegar</a>
+                    </div>
+                </div>
+
+                <div class="hospital-card">
+                    <strong>Hospital Veterinário do Recife</strong><br>
+                    <small>Av. Prof. Estevão F. da Costa, 835</small><br>
+                    <div style="margin-top:5px;">
+                        <a href="tel:08133558179" class="btn-call"><i class="fas fa-phone"></i> Ligar</a>
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=Hospital+Veterinario+do+Recife" target="_blank" class="btn-nav"><i class="fas fa-map-marker-alt"></i> Navegar</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -140,61 +195,53 @@
         document.getElementById('loginPage').classList.add('hidden');
         document.getElementById('registerPage').classList.add('hidden');
         document.getElementById('dashboardPage').classList.add('hidden');
-        
         document.getElementById(idTela).classList.remove('hidden');
     }
 
     function togglePassword(inputId, icon) {
         const input = document.getElementById(inputId);
-        if (input.type === "password") {
-            input.type = "text";
-            icon.classList.replace('fa-eye', 'fa-eye-slash');
-        } else {
-            input.type = "password";
-            icon.classList.replace('fa-eye-slash', 'fa-eye');
-        }
+        input.type = input.type === "password" ? "text" : "password";
+        icon.classList.toggle('fa-eye');
+        icon.classList.toggle('fa-eye-slash');
     }
 
-    // SALVAR CADASTRO
+    // Lógica de Cadastro
     document.getElementById('formRegister').addEventListener('submit', function(e) {
         e.preventDefault();
         localStorage.setItem('admin_user', document.getElementById('regEmail').value);
         localStorage.setItem('admin_password', document.getElementById('regPass').value);
-
-        const msg = document.getElementById('regMsg');
-        msg.style.color = "var(--accent)";
-        msg.innerText = "Configuração salva com sucesso!";
-        setTimeout(() => mudarTela('loginPage'), 1200);
+        alert("Cadastro Atualizado!");
+        mudarTela('loginPage');
     });
 
-    // LOGAR
+    // Lógica de Login
     document.getElementById('formLogin').addEventListener('submit', function(e) {
         e.preventDefault();
-        const emailDigitado = document.getElementById('userEmail').value;
-        const senhaDigitada = document.getElementById('userPass').value;
-        const emailSalvo = localStorage.getItem('admin_user');
-        const senhaSalva = localStorage.getItem('admin_password');
-
-        if (emailDigitado === emailSalvo && senhaDigitada === senhaSalva) {
-            mudarTela('dashboardPage'); // <-- ISSO FAZ O LOGIN ACONTECER
+        const uS = localStorage.getItem('admin_user');
+        const pS = localStorage.getItem('admin_password');
+        if(document.getElementById('userEmail').value === uS && document.getElementById('userPass').value === pS) {
+            mudarTela('dashboardPage');
         } else {
-            const msg = document.getElementById('loginMsg');
-            msg.style.color = "var(--danger)";
-            msg.innerText = "E-mail ou senha incorretos.";
+            document.getElementById('loginMsg').innerHTML = "<span style='color:red'>Dados Inválidos!</span>";
         }
     });
 
-    function logout() {
-        document.getElementById('userPass').value = ""; // Limpa a senha por segurança
-        mudarTela('loginPage');
+    // Lógica de Estoque
+    function addEstoque() {
+        const nome = document.getElementById('medNome').value;
+        const qtd = document.getElementById('medQtd').value;
+        if(nome && qtd) {
+            const li = document.createElement('li');
+            li.innerHTML = `${nome} - <b>${qtd} un.</b>`;
+            document.getElementById('listaEstoque').appendChild(li);
+            document.getElementById('formMed').reset();
+        }
     }
 
     window.onload = () => {
-        if (!localStorage.getItem('admin_user')) {
-            mudarTela('registerPage');
-        }
+        if (!localStorage.getItem('admin_user')) mudarTela('registerPage');
     };
 </script>
 
 </body>
-</html>
+    </html>
