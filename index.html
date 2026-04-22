@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farmacura Pet - Painel Administrativo</title>
+    <title>Farmacura Pet - Sistema</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
@@ -15,7 +15,7 @@
             --body-bg: #f4f7f6;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
         
         body { 
             background-color: var(--body-bg); 
@@ -35,34 +35,25 @@
         }
 
         h2 { color: var(--primary); margin-bottom: 1.5rem; text-align: center; }
-
         .form-group { margin-bottom: 1rem; position: relative; }
-
         label { display: block; margin-bottom: 5px; color: #555; font-size: 0.9rem; }
 
         input {
             width: 100%;
             padding: 12px;
-            padding-right: 40px; /* Espaço para o olhinho */
+            padding-right: 40px;
             border: 1px solid #ddd;
             border-radius: 8px;
             outline: none;
-            transition: border 0.3s;
         }
 
-        input:focus { border-color: var(--primary); }
-
-        /* Estilização do Olhinho */
         .toggle-password {
             position: absolute;
             right: 12px;
             top: 35px;
             cursor: pointer;
             color: #888;
-            transition: color 0.3s;
         }
-
-        .toggle-password:hover { color: var(--primary); }
 
         .btn-submit {
             width: 100%;
@@ -76,83 +67,125 @@
             margin-top: 1rem;
         }
 
-        .btn-submit:hover { opacity: 0.9; }
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            margin-top: 0.5rem;
+        }
 
         .status-msg {
             text-align: center;
             margin-top: 1rem;
             font-size: 0.85rem;
-            display: none;
+            font-weight: bold;
         }
+
+        /* Esconder seções */
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-<div class="card-admin">
-    <h2><i class="fas fa-paw"></i> Farmacura Pet</h2>
-    
-    <form id="adminForm">
+<div id="loginSection" class="card-admin">
+    <h2><i class="fas fa-lock"></i> Login Pet</h2>
+    <form id="loginForm">
         <div class="form-group">
-            <label>E-mail de Acesso</label>
-            <input type="email" id="email" placeholder="seu@email.com" required>
+            <label>E-mail</label>
+            <input type="email" id="loginEmail" placeholder="seu@email.com" required>
         </div>
-
         <div class="form-group">
             <label>Senha</label>
-            <input type="password" id="password" placeholder="Sua senha" required>
-            <i class="fa-solid fa-eye toggle-password" id="eye"></i>
+            <input type="password" id="loginPass" placeholder="Sua senha" required>
+            <i class="fa-solid fa-eye toggle-password" onclick="toggleView('loginPass', this)"></i>
         </div>
-
-        <button type="submit" class="btn-submit">SALVAR / ATUALIZAR</button>
+        <button type="submit" class="btn-submit">ENTRAR</button>
+        <p style="text-align:center; font-size: 0.8rem; margin-top: 10px;">
+            Não tem conta? <a href="#" onclick="showSection('adminSection')">Cadastre aqui</a>
+        </p>
     </form>
-    
-    <div id="msg" class="status-msg"></div>
+    <div id="loginMsg" class="status-msg"></div>
+</div>
+
+<div id="adminSection" class="card-admin hidden">
+    <h2><i class="fas fa-paw"></i> Gerenciar Acesso</h2>
+    <form id="adminForm">
+        <div class="form-group">
+            <label>Novo E-mail</label>
+            <input type="email" id="adminEmail" placeholder="novo@email.com" required>
+        </div>
+        <div class="form-group">
+            <label>Nova Senha</label>
+            <input type="password" id="adminPass" placeholder="Mínimo 6 caracteres" required>
+            <i class="fa-solid fa-eye toggle-password" onclick="toggleView('adminPass', this)"></i>
+        </div>
+        <button type="submit" class="btn-submit">SALVAR / ATUALIZAR</button>
+        <button type="button" class="btn-submit btn-secondary" onclick="showSection('loginSection')">VOLTAR AO LOGIN</button>
+    </form>
+    <div id="adminMsg" class="status-msg"></div>
 </div>
 
 <script>
-    const emailInput = document.getElementById('email');
-    const passInput = document.getElementById('password');
-    const eyeIcon = document.getElementById('eye');
-    const form = document.getElementById('adminForm');
-    const msg = document.getElementById('msg');
+    // --- FUNÇÕES DE NAVEGAÇÃO ---
+    function showSection(id) {
+        document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('adminSection').classList.add('hidden');
+        document.getElementById(id).classList.remove('hidden');
+    }
 
-    // 1. LÓGICA DO OLHINHO
-    eyeIcon.addEventListener('click', () => {
-        const isPassword = passInput.type === 'password';
-        passInput.type = isPassword ? 'text' : 'password';
-        
-        // Troca o ícone
-        eyeIcon.classList.toggle('fa-eye');
-        eyeIcon.classList.toggle('fa-eye-slash');
-    });
+    function toggleView(inputId, icon) {
+        const input = document.getElementById(inputId);
+        const isPass = input.type === 'password';
+        input.type = isPass ? 'text' : 'password';
+        icon.classList.toggle('fa-eye');
+        icon.classList.toggle('fa-eye-slash');
+    }
 
-    // 2. CARREGAR DADOS AUTOMATICAMENTE (Persistência no navegador)
-    window.addEventListener('DOMContentLoaded', () => {
+    // --- LÓGICA DE LOGIN ---
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const pass = document.getElementById('loginPass').value;
+        const msg = document.getElementById('loginMsg');
+
+        // Busca o que está salvo
         const savedEmail = localStorage.getItem('pet_admin_email');
         const savedPass = localStorage.getItem('pet_admin_pass');
 
-        if (savedEmail && savedPass) {
-            emailInput.value = savedEmail;
-            passInput.value = savedPass;
-            console.log("Dados carregados do cache local.");
+        if (email === savedEmail && pass === savedPass) {
+            msg.style.color = "var(--accent)";
+            msg.innerText = "Login realizado! Redirecionando...";
+            // Aqui você redirecionaria para a sua Dashboard real
+            setTimeout(() => alert("Bem-vindo ao Painel Farmacura!"), 1000);
+        } else {
+            msg.style.color = "var(--danger)";
+            msg.innerText = "E-mail ou senha incorretos!";
         }
     });
 
-    // 3. SALVAR / ATUALIZAR CADASTRO
-    form.addEventListener('submit', (e) => {
+    // --- LÓGICA DE CADASTRO/ATUALIZAÇÃO ---
+    document.getElementById('adminForm').addEventListener('submit', (e) => {
         e.preventDefault();
+        const email = document.getElementById('adminEmail').value;
+        const pass = document.getElementById('adminPass').value;
+        const msg = document.getElementById('adminMsg');
 
-        // Salva no LocalStorage do navegador
-        localStorage.setItem('pet_admin_email', emailInput.value);
-        localStorage.setItem('pet_admin_pass', passInput.value);
+        // Salva os dados para serem usados no login depois
+        localStorage.setItem('pet_admin_email', email);
+        localStorage.setItem('pet_admin_pass', pass);
 
-        // Feedback visual
-        msg.style.display = 'block';
-        msg.style.color = 'var(--accent)';
-        msg.innerText = "Cadastro atualizado com sucesso!";
-
-        setTimeout(() => { msg.style.display = 'none'; }, 3000);
+        msg.style.color = "var(--accent)";
+        msg.innerText = "Dados atualizados! Use-os para logar agora.";
+        
+        setTimeout(() => showSection('loginSection'), 2000);
     });
+
+    // Ao carregar, verifica se já existe cadastro. Se não, manda para o cadastro.
+    window.onload = () => {
+        if (!localStorage.getItem('pet_admin_email')) {
+            showSection('adminSection');
+        }
+    };
 </script>
 
 </body>
