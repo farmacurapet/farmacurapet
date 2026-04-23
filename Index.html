@@ -1,75 +1,159 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FarmacuraPet - Solidariedade Animal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <title>Farmácia Pet Solidária</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f8f7;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #2ecc71;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+
+    main {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    form {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    input, textarea, button {
+      width: 100%;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #2ecc71;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #27ae60;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .delete {
+      background: #e74c3c;
+      margin-top: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      font-size: 14px;
+      color: #777;
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
 
-    <nav class="bg-white shadow-md p-4 sticky top-0 z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-green-600 flex items-center">
-                <i class="fas fa-paw mr-2"></i>FarmacuraPet
-            </h1>
-            <div class="space-x-4">
-                <a href="#sobre" class="hover:text-green-600">Sobre</a>
-                <a href="#doar" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Doar Agora</a>
-            </div>
-        </div>
-    </nav>
+<body>
 
-    <header class="bg-green-600 text-white py-20 px-4 text-center">
-        <h2 class="text-4xl md:text-6xl font-extrabold mb-4">Remédio parado não cura, doe!</h2>
-        <p class="text-xl mb-8 opacity-90">Conectando doadores de medicamentos veterinários a quem mais precisa.</p>
-        <div class="flex justify-center gap-4">
-            <a href="#doar" class="bg-white text-green-600 px-8 py-3 rounded-full font-bold shadow-lg hover:scale-105 transition">Começar</a>
-            <a href="https://github.com/" class="border-2 border-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-green-600 transition">Ver no GitHub</a>
-        </div>
-    </header>
+<header>
+  <h1>🐾 Farmácia Pet Solidária</h1>
+  <p>Doe medicamentos e ajude animais!</p>
+</header>
 
-    <section id="sobre" class="container mx-auto py-16 px-4">
-        <div class="grid md:grid-cols-3 gap-8 text-center">
-            <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                <i class="fas fa-pills text-4xl text-green-500 mb-4"></i>
-                <h3 class="text-xl font-bold mb-2">Doe Sobras</h3>
-                <p class="text-gray-600">Aquele remédio que sobrou do tratamento do seu pet pode salvar outra vida.</p>
-            </div>
-            <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                <i class="fas fa-hand-holding-heart text-4xl text-green-500 mb-4"></i>
-                <h3 class="text-xl font-bold mb-2">Ajuda Direta</h3>
-                <p class="text-gray-600">Conectamos você diretamente com protetores e ONGs de Pernambuco.</p>
-            </div>
-            <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                <i class="fas fa-recycle text-4xl text-green-500 mb-4"></i>
-                <h3 class="text-xl font-bold mb-2">Sustentabilidade</h3>
-                <p class="text-gray-600">Evite o descarte incorreto de medicamentos no meio ambiente.</p>
-            </div>
-        </div>
-    </section>
+<main>
 
-    <section id="doar" class="bg-gray-100 py-16 px-4">
-        <div class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-lg">
-            <h3 class="text-2xl font-bold mb-6 text-center text-green-700">Cadastrar Medicamento</h3>
-            <form action="#" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium mb-1">Nome do Medicamento</label>
-                    <input type="text" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none" placeholder="Ex: Cefalexina">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium mb-1">Data de Validade</label>
-                    <input type="month" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
-                </div>
-                <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition">Publicar Doação</button>
-            </form>
-        </div>
-    </section>
+  <form id="form">
+    <h2>Cadastrar medicamento</h2>
+    <input type="text" id="nome" placeholder="Nome do medicamento" required>
+    <input type="text" id="validade" placeholder="Validade (ex: 12/2026)" required>
+    <textarea id="descricao" placeholder="Descrição"></textarea>
+    <input type="text" id="contato" placeholder="Contato" required>
+    <button type="submit">Cadastrar</button>
+  </form>
 
-    <footer class="py-8 text-center text-gray-500 border-t">
-        <p>© 2026 FarmacuraPet - Desenvolvido para o Projetão.</p>
-    </footer>
+  <h2>Medicamentos disponíveis</h2>
+  <div id="lista"></div>
+
+</main>
+
+<footer>
+  ⚠️ Consulte sempre um veterinário antes de usar qualquer medicamento
+</footer>
+
+<script>
+  const form = document.getElementById('form');
+  const lista = document.getElementById('lista');
+
+  let medicamentos = JSON.parse(localStorage.getItem('medicamentos')) || [];
+
+  function salvar() {
+    localStorage.setItem('medicamentos', JSON.stringify(medicamentos));
+  }
+
+  function renderizar() {
+    lista.innerHTML = "";
+
+    medicamentos.forEach((med, index) => {
+      const div = document.createElement('div');
+      div.className = 'card';
+
+      div.innerHTML = `
+        <strong>${med.nome}</strong><br>
+        Validade: ${med.validade}<br>
+        ${med.descricao}<br>
+        Contato: ${med.contato}
+        <button class="delete" onclick="remover(${index})">Excluir</button>
+      `;
+
+      lista.appendChild(div);
+    });
+  }
+
+  function remover(index) {
+    medicamentos.splice(index, 1);
+    salvar();
+    renderizar();
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const novo = {
+      nome: document.getElementById('nome').value,
+      validade: document.getElementById('validade').value,
+      descricao: document.getElementById('descricao').value,
+      contato: document.getElementById('contato').value
+    };
+
+    medicamentos.push(novo);
+    salvar();
+    renderizar();
+
+    form.reset();
+  });
+
+  renderizar();
+</script>
 
 </body>
-  </html>
+</html>
