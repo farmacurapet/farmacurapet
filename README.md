@@ -1,32 +1,53 @@
-# FarmacuraPet 🐾
-> **Conectando doadores de medicamentos veterinários a quem mais precisa.**
+# 🐾 Farmácia Pet Solidária
 
-O **FarmacuraPet** é uma plataforma de economia circular e solidariedade animal. O projeto facilita a doação de sobras de medicamentos veterinários (dentro do prazo de validade), ajudando protetores independentes e tutores de baixa renda a darem continuidade aos tratamentos de seus pets.
+Uma plataforma online para doação e reaproveitamento de medicamentos veterinários.
+
+## 💡 Sobre o projeto
+
+A **Farmácia Pet Solidária** tem como objetivo conectar pessoas que possuem medicamentos pet não utilizados com ONGs, protetores independentes e tutores que precisam.
+
+Assim, evitamos desperdício e ajudamos animais a receberem tratamento adequado.
+
+## 🚀 Funcionalidades
+
+- Cadastro de medicamentos para doação
+- Listagem de medicamentos disponíveis
+- Contato entre doadores e interessados
+- Informações sobre validade e uso seguro
+
+## 🛠️ Tecnologias utilizadas
+
+- HTML
+- CSS
+- JavaScript
+- GitHub Pages
+
+## 📦 Como usar
+
+1. Acesse o site
+2. Navegue pelos medicamentos disponíveis
+3. Entre em contato com o doador
+4. Combine a entrega
+
+## ⚠️ Aviso importante
+
+- Não nos responsabilizamos pelo uso incorreto dos medicamentos
+- Sempre consulte um médico veterinário antes de utilizar qualquer medicamento
+- Verifique validade e condições do produto
+
+## ❤️ Contribuição
+
+Contribuições são bem-vindas!
+
+1. Faça um fork do projeto
+2. Crie uma branch (`git checkout -b minha-feature`)
+3. Commit suas alterações
+4. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT.
 
 ---
 
-## 📍 Contexto do Projeto
-Desenvolvido em Pernambuco para o programa **Projetão**, com foco inicial nas regiões de **Recife e Cabo de Santo Agostinho**. O projeto atua diretamente no bem-estar animal e na sustentabilidade, evitando o descarte incorreto de fármacos no meio ambiente.
-
-## 🛠️ Tecnologias e Ferramentas
-Para garantir que o projeto seja acessível e funcional, utilizamos:
-* **Linguagem:** Python 3.11
-* **Framework Mobile:** Kivy (Desenvolvimento Mobile-First)
-* **Banco de Dados:** SQLite (Persistência de dados local)
-* **Front-end Web:** HTML5 & Tailwind CSS
-* **IDE de Desenvolvimento:** Pydroid 3 (Android)
-
-## 🚀 Funcionalidades (Status: Quest 3)
-- [x] **Cadastro de Doações:** Interface simples para inserir nome do remédio e validade.
-- [x] **Persistência de Dados:** Uso de banco de dados SQLite para salvar informações offline.
-- [x] **Interface Responsiva:** Design adaptado para telas de smartphones.
-- [ ] **Filtro de Validade:** Lógica para destacar medicamentos próximos do vencimento (Em desenvolvimento).
-- [ ] **Geolocalização:** Identificação de pontos de coleta em Gaibu e Recife (Planejado).
-
-## 📂 Estrutura do Repositório
-```text
-├── src/                # Código fonte em Python (Kivy)
-├── web/                # Landing Page do projeto (HTML/CSS)
-├── database/           # Esquema do banco de dados SQLite
-├── README.md           # Documentação principal
-└── .gitignore          # Arquivos ignorados pelo Git
+Feito com ❤️ para ajudar animais 🐶🐱
